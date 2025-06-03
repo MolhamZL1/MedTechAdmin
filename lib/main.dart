@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 
 void main() {
+  setupSingltonGetIt();
   runApp(const MedTech());
 }
 
