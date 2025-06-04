@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:med_tech_admin/SplashScreen.dart';
-import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
+
+import 'features/auth/presentation/views/widgets/sign_in_view_body.dart';
 
 void main() {
   runApp(const MedTech());
@@ -37,7 +37,7 @@ class MedTech extends StatelessWidget {
           ),
         ),
       ),
-      home: const SplashScreen(),
+      home: const SignInView(),
       locale: const Locale('ar', 'SA'),
     );
   }
