@@ -8,7 +8,8 @@ class SignInView extends StatefulWidget {
   State<SignInView> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<SignInView> with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<SignInView>
+    with SingleTickerProviderStateMixin {
   bool _obscureText = true;
 
   @override
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
       _obscureText = !_obscureText;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,10 +26,7 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            Theme.of(context).colorScheme.secondary,
-            Colors.white,
-          ],
+          colors: [Theme.of(context).colorScheme.secondary, Colors.white],
         ),
       ),
       child: Scaffold(
@@ -98,42 +97,46 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
                                 shadows: [
                                   Shadow(
                                     blurRadius: 10,
-                                    color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary.withOpacity(0.4),
                                     offset: const Offset(2, 2),
                                   ),
                                 ],
                               ),
                             ),
                             Text(
-                                ' لبيع وتاجير وصيانة ',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  color: Color(0xFF022015),
-                                  fontWeight: FontWeight.bold,
-                                  shadows: [
-                                    Shadow(
-                                      blurRadius: 10,
-                                      color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
-                                      offset: const Offset(2, 2),
-                                    ),
-                                  ],
-                                ),
+                              ' لبيع وتاجير وصيانة ',
+                              style: TextStyle(
+                                fontSize: 32,
+                                color: Color(0xFF022015),
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary.withOpacity(0.4),
+                                    offset: const Offset(2, 2),
+                                  ),
+                                ],
                               ),
+                            ),
                             Text(
-                                ' الاجهزة الطبية  ',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                  shadows: [
-                                    Shadow(
-                                      blurRadius: 10,
-                                      color: Colors.black.withOpacity(0.4),
-                                      offset: const Offset(2, 2),
-                                    ),
-                                  ],
-                                ),
+                              ' الاجهزة الطبية  ',
+                              style: TextStyle(
+                                fontSize: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.4),
+                                    offset: const Offset(2, 2),
+                                  ),
+                                ],
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -143,7 +146,10 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
 
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 40,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -175,7 +181,9 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscureText ? Icons.visibility_off : Icons.visibility,
+                                _obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               onPressed: _togglePasswordVisibility,
@@ -188,16 +196,19 @@ class _LoginScreenState extends State<SignInView> with SingleTickerProviderState
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                             child: Text(
                               'تسجيل الدخول',
-                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
                             ),
                           ),
                         ),
