@@ -6,7 +6,7 @@ class ApiService implements DatabaseService {
 
   ApiService({required this.dio});
   @override
-  Future<void> addData({
+  Future<dynamic> addData({
     required String endpoint,
     required Map<String, dynamic> data,
     String? rowid,

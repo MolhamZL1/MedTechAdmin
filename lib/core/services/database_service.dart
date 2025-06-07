@@ -1,5 +1,5 @@
 abstract class DatabaseService {
-  Future<void> addData({
+  Future<dynamic> addData({
     required String endpoint,
     required Map<String, dynamic> data,
     String? rowid,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
-
+  static const routeName = '/sign-in';
   @override
   State<SignInView> createState() => _LoginScreenState();
 }
