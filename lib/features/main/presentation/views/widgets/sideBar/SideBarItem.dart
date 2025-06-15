@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/utils/app_colors.dart';
 
 class SideBarItem extends StatelessWidget {
   const SideBarItem({
@@ -48,7 +49,10 @@ class _SideBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: Colors.black54),
-      title: title == null ? null : Text(title!),
+      title:
+          title == null
+              ? null
+              : Text(title!, style: Theme.of(context).textTheme.bodyLarge),
       onTap: onTap,
     );
   }
@@ -67,24 +71,25 @@ class _SideBarItemSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Colors.blueAccent.withOpacity(.1),
+      color: AppColors.primary.withOpacity(.1),
       child: IntrinsicHeight(
         child: Row(
           children: [
             Expanded(
               child: ListTile(
-                leading: Icon(icon, color: Colors.blue),
+                leading: Icon(icon, color: AppColors.primary),
                 title:
                     title == null
                         ? null
                         : Text(
                           title!,
-                          style: const TextStyle(color: Colors.blue),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: AppColors.primary),
                         ),
                 onTap: onTap,
               ),
             ),
-            Container(width: 3, color: Colors.blue),
+            Container(width: 3, color: AppColors.primary),
           ],
         ),
       ),

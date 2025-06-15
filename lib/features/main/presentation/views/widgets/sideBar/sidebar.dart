@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/features/main/presentation/views/widgets/CustomIconButton.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/SideBarItem.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/SideBarLogoSection.dart';
 
@@ -80,7 +81,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
       animation: _widthAnimation,
       builder:
           (context, child) => Material(
-            elevation: 4,
+            elevation: 8,
             child: Container(
               width: _widthAnimation.value,
               color: Colors.white,
@@ -92,22 +93,15 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         if (_widthAnimation.value > 160) SideBarLogoSection(),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(8),
-                            splashColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
-                            onTap: onToggle,
-                            child: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: Icon(isOpen ? Icons.close : Icons.menu),
-                            ),
-                          ),
+                        CustomIconButton(
+                          icon: isOpen ? Icons.close : Icons.menu,
+                          onTap: onToggle,
                         ),
                       ],
                     ),
                   ),
+                  Divider(height: 0, thickness: .3, color: Colors.grey),
+                  SizedBox(height: 30),
                   Expanded(
                     child: ListView.builder(
                       itemCount: items.length,

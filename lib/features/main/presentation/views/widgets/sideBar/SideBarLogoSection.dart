@@ -5,9 +5,6 @@ class SideBarLogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      "MediCare",
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
+    return Text("MediCare", style: Theme.of(context).textTheme.headlineMedium);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/features/dashboard/presentation/views/dashboard_view.dart';
+import 'package:med_tech_admin/features/main/presentation/views/widgets/CustomIconButton.dart';
+import 'package:med_tech_admin/features/main/presentation/views/widgets/Header.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/sidebar.dart';
 import 'package:med_tech_admin/features/products/presentation/views/products_view.dart';
 
@@ -25,7 +27,19 @@ class _MainViewBodyState extends State<MainViewBody> {
     return Row(
       children: [
         Sidebar(selectedIndex: selectedIndex, onItemSelected: onItemSelected),
-        Expanded(child: pages[selectedIndex]),
+        Expanded(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: Header()),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  child: pages[selectedIndex],
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
