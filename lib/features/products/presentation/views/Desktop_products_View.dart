@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/functions/Container_decoration.dart';
+import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
+
+import 'widgets/HeaderProductsView.dart';
 
 class DesktopProductsView extends StatelessWidget {
   const DesktopProductsView({super.key});
@@ -8,41 +12,43 @@ class DesktopProductsView extends StatelessWidget {
     return Column(
       children: [
         HeaderProductsView(),
+        SizedBox(height: 24),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(children: [Expanded(child: TextField())]),
-        ),
-      ],
-    );
-  }
-}
-
-class HeaderProductsView extends StatelessWidget {
-  const HeaderProductsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text("Products", style: Theme.of(context).textTheme.headlineLarge),
-      subtitle: Text(
-        "Manage your medical equipment inventory",
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      trailing: ElevatedButton.icon(
-        onPressed: () {},
-        icon: const Icon(Icons.add, size: 20),
-        label: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-          child: Text(
-            "Add Product",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(color: Colors.white),
+          decoration: containerDecoration(),
+          padding: EdgeInsets.all(24),
+          child: Row(
+            children: [
+              Flexible(
+                child: TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search_outlined),
+                    hintText: "Search Products...",
+                  ),
+                ),
+              ),
+              Spacer(),
+              CategoryDropdown(
+                categories: const [
+                  "All Categories",
+                  "Diagnostic",
+                  "Life Support",
+                  "Emergency",
+                  "Monitoring",
+                ],
+                selected: "All Categories",
+                onChanged: (value) {},
+              ),
+            ],
           ),
         ),
-      ),
+        SizedBox(height: 24),
+        // GridView.builder(
+        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //     crossAxisCount: 3,
+        //   ),
+        //   itemBuilder: (context, index) => Placeholder(),
+        // ),
+      ],
     );
   }
 }
