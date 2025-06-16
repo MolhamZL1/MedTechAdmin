@@ -9,6 +9,13 @@ class DesktopProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const categories = [
+      "All Categories",
+      "Diagnostic",
+      "Life Support",
+      "Emergency",
+      "Monitoring",
+    ];
     return Column(
       children: [
         HeaderProductsView(),
@@ -28,14 +35,8 @@ class DesktopProductsView extends StatelessWidget {
               ),
               Spacer(),
               CategoryDropdown(
-                categories: const [
-                  "All Categories",
-                  "Diagnostic",
-                  "Life Support",
-                  "Emergency",
-                  "Monitoring",
-                ],
-                selected: "All Categories",
+                categories: categories,
+                selected: categories[0],
                 onChanged: (value) {},
               ),
             ],

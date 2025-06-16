@@ -17,11 +17,11 @@ class AuthRepoImp implements AuthRepo {
     required String password,
   }) async {
     try {
-      Map<String, dynamic> data = await databaseService.addData(
-        endpoint: BackendEndpoints.signIn,
-        data: {"email": email, "password": password},
-      );
-      return right(data["token"]);
+      // Map<String, dynamic> data = await databaseService.addData(
+      //   endpoint: BackendEndpoints.signIn,
+      //   data: {"email": email, "password": password},
+      // );
+      return right(UserEntity(name: "name", email: email, uid: "uid"));
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));

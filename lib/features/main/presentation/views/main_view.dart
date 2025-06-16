@@ -4,6 +4,7 @@ import 'package:med_tech_admin/features/main/presentation/views/widgets/main_vie
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
+  static const String routeName = '/main';
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +12,8 @@ class MainView extends StatelessWidget {
   }
 }
 
+//I will delete this later
+//Leave it Do not touch it
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 

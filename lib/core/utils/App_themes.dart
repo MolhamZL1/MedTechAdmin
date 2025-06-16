@@ -21,6 +21,10 @@ class AppTheme {
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
+      prefixIconColor: Colors.grey,
+      suffixIconColor: Colors.grey,
+      hintStyle: const TextStyle(color: Colors.grey),
+      labelStyle: const TextStyle(color: Colors.grey),
       filled: true,
       fillColor: Colors.white,
       hoverColor: Colors.transparent,
@@ -37,8 +41,14 @@ class AppTheme {
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: AppColors.primary),
       ),
-      prefixIconColor: Colors.grey,
-      hintStyle: const TextStyle(color: Colors.grey),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: AppColors.error),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: AppColors.primary),
+      ),
     ),
     textTheme: const TextTheme(
       headlineLarge: TextStyle(

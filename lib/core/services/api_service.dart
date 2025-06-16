@@ -2,9 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:med_tech_admin/core/services/database_service.dart';
 
 class ApiService implements DatabaseService {
-  final Dio dio;
+  final Dio dio = Dio();
 
-  ApiService({required this.dio});
   @override
   Future<dynamic> addData({
     required String endpoint,

@@ -81,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  easy_sidemenu:
-    dependency: "direct main"
-    description:
-      name: easy_sidemenu
-      sha256: "91f9d8d4466d11de0397a22568ab4e15335635fe86836ef14dbc5dd571fb6963"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.1"
   equatable:
     dependency: transitive
     description:
