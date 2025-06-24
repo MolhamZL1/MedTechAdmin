@@ -9,7 +9,6 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.white,
     colorScheme: ColorScheme.light(
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
       error: AppColors.error,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -54,15 +53,15 @@ class AppTheme {
       headlineLarge: TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: Color(0xff0c1a47),
       ),
       headlineMedium: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: Colors.black,
+        color: Color(0xff0c1a47),
       ),
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.black87),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.black87),
+      bodyLarge: TextStyle(fontSize: 16, color: Color(0xff0c1a47)),
+      bodyMedium: TextStyle(fontSize: 14, color: Color(0xff0c1a47)),
     ),
   );
 
@@ -72,7 +71,7 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.black,
     colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
+
       error: AppColors.error,
     ),
     textTheme: const TextTheme(

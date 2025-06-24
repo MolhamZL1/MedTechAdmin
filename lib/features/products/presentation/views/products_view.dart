@@ -9,10 +9,6 @@ class ProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveLayout(
-      desktopLayout: (context) => DesktopProductsView(),
-      mobileLayout: (context) => MobileProductsView(),
-      tabletLayout: (context) => TabletProductsView(),
-    );
+    return DesktopProductsView();
   }
 }

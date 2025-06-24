@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_tech_admin/core/services/get_it_service.dart';
+import 'package:med_tech_admin/core/widgets/AdaptiveLayout.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
 import 'package:med_tech_admin/features/auth/presentation/cubits/cubit/auth_cubit.dart';
 
 import 'widgets/SigninviewBody.dart';
+import 'widgets/signInViewBodyMobile.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -14,7 +16,13 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(getIt.get<AuthRepo>()),
-      child: Scaffold(body: SigninviewBody()),
+      child: Scaffold(
+        body: AdaptiveLayout(
+          mobileLayout: (context) => SigninviewBodyMobile(),
+          desktopLayout: (context) => SigninviewBody(),
+          tabletLayout: (context) => SigninviewBodyMobile(),
+        ),
+      ),
     );
   }
 }

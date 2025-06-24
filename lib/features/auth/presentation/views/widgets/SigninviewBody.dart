@@ -11,29 +11,47 @@ class SigninviewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(image: backgroundImage()),
+      // decoration: BoxDecoration(image: backgroundImage()),
       child: Center(
         child: Stack(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 1,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width < 900
-                            ? MediaQuery.of(context).size.width * .8
-                            : MediaQuery.of(context).size.width * .4,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(image: backgroundImage()),
                   ),
-                  height: MediaQuery.of(context).size.height * .6,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-                  decoration: containerDecoration(),
-                  child: SignInContainerBody(),
                 ),
-              ),
+                Expanded(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 1,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth:
+                              MediaQuery.of(context).size.width < 900
+                                  ? MediaQuery.of(context).size.width * .8
+                                  : MediaQuery.of(context).size.width * .4,
+                        ),
+                        height: MediaQuery.of(context).size.height * .6,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 48,
+                        ),
+                        decoration: containerDecoration(),
+                        child: SignInContainerBody(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Positioned(right: 5, top: 70, left: 5, child: AppLogoCircled()),
+            Positioned(
+              right: MediaQuery.of(context).size.width * .202,
+              top: 70,
+              child: AppLogoCircled(),
+            ),
           ],
         ),
       ),

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/functions/Container_decoration.dart';
 import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
+import 'package:med_tech_admin/core/widgets/responsive.dart';
+import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
+import '../../domain/entities/InfoCardEntity.dart';
 import 'widgets/HeaderProductsView.dart';
+import 'widgets/InfoCardList.dart';
+import 'widgets/ProductsGridView.dart';
 
 class DesktopProductsView extends StatelessWidget {
   const DesktopProductsView({super.key});
@@ -16,40 +21,67 @@ class DesktopProductsView extends StatelessWidget {
       "Emergency",
       "Monitoring",
     ];
+
     return Column(
       children: [
         HeaderProductsView(),
         SizedBox(height: 24),
+        InfoCardList(entities: entities),
+        SizedBox(height: 24),
         Container(
           decoration: containerDecoration(),
           padding: EdgeInsets.all(24),
-          child: Row(
-            children: [
-              Flexible(
-                child: TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search_outlined),
-                    hintText: "Search Products...",
-                  ),
-                ),
-              ),
-              Spacer(),
-              CategoryDropdown(
-                categories: categories,
-                selected: categories[0],
-                onChanged: (value) {},
-              ),
-            ],
-          ),
+          child: SearchSectionProductView(categories: categories),
         ),
         SizedBox(height: 24),
-        // GridView.builder(
-        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 3,
-        //   ),
-        //   itemBuilder: (context, index) => Placeholder(),
-        // ),
+        ProductsGridView(products: products),
       ],
     );
+  }
+}
+
+class SearchSectionProductView extends StatelessWidget {
+  const SearchSectionProductView({super.key, required this.categories});
+
+  final List<String> categories;
+
+  @override
+  Widget build(BuildContext context) {
+    return Responsive.isDesktop(context)
+        ? Row(
+          children: [
+            Flexible(
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search_outlined),
+                  hintText: "Search Products...",
+                ),
+              ),
+            ),
+            Spacer(),
+            CategoryDropdown(
+              categories: categories,
+              selected: categories[0],
+              onChanged: (value) {},
+            ),
+          ],
+        )
+        : Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search_outlined),
+                hintText: "Search Products...",
+              ),
+            ),
+            SizedBox(height: 16), // مسافة بسيطة بين الحقل والقائمة
+            CategoryDropdown(
+              categories: categories,
+              selected: categories[0],
+              onChanged: (value) {},
+            ),
+          ],
+        );
   }
 }

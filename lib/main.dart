@@ -6,6 +6,7 @@ import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/utils/App_themes.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
+import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
 void main() {
   Bloc.observer = CustomBlocObserver();
@@ -26,8 +27,11 @@ class MedTech extends StatelessWidget {
       onGenerateRoute: (settings) => onGenerateRoute(settings),
       //  initialRoute: SignInView.routeName,
       debugShowCheckedModeBanner: false,
-
-      home: const SignInView(),
+      home: SelectableRegion(
+        focusNode: FocusNode(),
+        selectionControls: materialTextSelectionControls,
+        child: const MainView(),
+      ),
     );
   }
 }
