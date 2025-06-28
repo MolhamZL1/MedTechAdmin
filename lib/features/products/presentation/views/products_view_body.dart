@@ -9,8 +9,8 @@ import 'widgets/HeaderProductsView.dart';
 import 'widgets/InfoCardList.dart';
 import 'widgets/ProductsGridView.dart';
 
-class DesktopProductsView extends StatelessWidget {
-  const DesktopProductsView({super.key});
+class ProductsViewBody extends StatelessWidget {
+  const ProductsViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +47,25 @@ class SearchSectionProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Responsive.isDesktop(context)
-        ? Row(
+    return Responsive.isMobile(context)
+        ? Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search_outlined),
+                hintText: "Search Products...",
+              ),
+            ),
+            SizedBox(height: 16), // مسافة بسيطة بين الحقل والقائمة
+            CategoryDropdown(
+              categories: categories,
+              selected: categories[0],
+              onChanged: (value) {},
+            ),
+          ],
+        )
+        : Row(
           children: [
             Flexible(
               child: TextField(
@@ -59,23 +76,6 @@ class SearchSectionProductView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            CategoryDropdown(
-              categories: categories,
-              selected: categories[0],
-              onChanged: (value) {},
-            ),
-          ],
-        )
-        : Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search_outlined),
-                hintText: "Search Products...",
-              ),
-            ),
-            SizedBox(height: 16), // مسافة بسيطة بين الحقل والقائمة
             CategoryDropdown(
               categories: categories,
               selected: categories[0],

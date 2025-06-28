@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/widgets/responsive.dart';
 
 import '../../../domain/entities/product_entity.dart';
-import 'ProductCard.dart';
+import 'product_card/ProductCard.dart';
 
 class ProductsGridView extends StatelessWidget {
   const ProductsGridView({super.key, required this.products});

@@ -5,6 +5,8 @@ import 'package:med_tech_admin/features/main/presentation/views/widgets/Header.d
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/sidebar.dart';
 import 'package:med_tech_admin/features/products/presentation/views/products_view.dart';
 
+import '../../../data/pages.dart';
+
 class MainViewBody extends StatefulWidget {
   const MainViewBody({super.key});
 
@@ -14,7 +16,6 @@ class MainViewBody extends StatefulWidget {
 
 class _MainViewBodyState extends State<MainViewBody> {
   int selectedIndex = 0;
-  List pages = [DashboardView(), ProductsView()];
 
   void onItemSelected(int index) {
     setState(() {
