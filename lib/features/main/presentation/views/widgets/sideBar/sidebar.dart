@@ -92,7 +92,8 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (_widthAnimation.value > 160) SideBarLogoSection(),
+                        if (_widthAnimation.value > 160)
+                          SideBarLogoSection(),
                         CustomIconButton(
                           icon: isOpen ? Icons.close : Icons.menu,
                           onTap: onToggle,

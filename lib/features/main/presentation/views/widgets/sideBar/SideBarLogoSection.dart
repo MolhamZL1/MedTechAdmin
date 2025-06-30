@@ -5,6 +5,11 @@ class SideBarLogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("MediCare", style: Theme.of(context).textTheme.headlineMedium);
+    return Image.asset(
+      'assets/images/logo.png',
+      width: 100,
+      height: 150,
+      fit: BoxFit.cover,
+    );
   }
 }

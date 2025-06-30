@@ -6,6 +6,7 @@ import 'CustomInfoCard.dart';
 
 class InfoCardList extends StatelessWidget {
   const InfoCardList({super.key, required this.entities});
+
   final List<InfoCardEntity> entities;
   @override
   Widget build(BuildContext context) {

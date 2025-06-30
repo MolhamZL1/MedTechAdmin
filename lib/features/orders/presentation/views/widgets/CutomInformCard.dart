@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/functions/Container_decoration.dart';
 
-class CustomInfoCard extends StatefulWidget {
-  const CustomInfoCard({
+class CustomInformCard extends StatefulWidget {
+  const CustomInformCard({
     super.key,
     required this.text,
     required this.count,
@@ -16,10 +16,10 @@ class CustomInfoCard extends StatefulWidget {
   final Color color;
 
   @override
-  State<CustomInfoCard> createState() => _CustomInfoCardState();
+  State<CustomInformCard> createState() => _CustomInformCardState();
 }
 
-class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProviderStateMixin {
+class _CustomInformCardState extends State<CustomInformCard>with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -52,29 +52,29 @@ class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProvide
       onEnter: (_) => _onHover(true),
       onExit: (_) => _onHover(false),
       child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child){
-          return Transform.translate(
-            offset: Offset(0, -_animation.value),
-            child: Container(
-              decoration: containerDecoration(),
-              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(widget.text),
+          animation: _animation,
+          builder: (context, child){
+            return Transform.translate(
+              offset: Offset(0, -_animation.value),
+              child: Container(
+                decoration: containerDecoration(),
+                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(widget.text),
+                  ),
+                  subtitle: Text(
+                    widget.count.toString(),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineMedium!.copyWith(color: widget.color),
+                  ),
+                  trailing: widget.icon,
                 ),
-                subtitle: Text(
-                  widget.count.toString(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineMedium!.copyWith(color: widget.color),
-                ),
-                trailing: widget.icon,
               ),
-            ),
-          );
-      }
+            );
+          }
       ),
     );
   }

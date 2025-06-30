@@ -23,7 +23,7 @@ class MedTech extends StatelessWidget {
       title: "BitarMed",
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       onGenerateRoute: (settings) => onGenerateRoute(settings),
       //  initialRoute: SignInView.routeName,
       debugShowCheckedModeBanner: false,
