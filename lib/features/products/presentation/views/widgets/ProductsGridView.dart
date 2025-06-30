@@ -25,18 +25,7 @@ class ProductsGridView extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: products.length,
       itemBuilder: (context, index) {
-        return ProductCard(
-          productEntity: ProductEntity(
-            id: products[index].id.toString(),
-            imageUrl: products[index].imageUrl,
-            name: products[index].name,
-            category: products[index].category,
-            salePrice: products[index].salePrice,
-            rentalPrice: products[index].rentalPrice,
-            stock: products[index].stock,
-            status: products[index].status,
-          ),
-        );
+        return ProductCard(productEntity: products[index]);
       },
     );
   }

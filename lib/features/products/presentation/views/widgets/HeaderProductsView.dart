@@ -21,14 +21,11 @@ class HeaderProductsView extends StatelessWidget {
       trailing: ElevatedButton.icon(
         onPressed: () {},
         icon: const Icon(Icons.add, size: 20),
-        label: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-          child: Text(
-            "Add Product",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(color: Colors.white),
-          ),
+        label: Text(
+          "Add Product",
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium!.copyWith(color: Colors.white),
         ),
       ),
     );
