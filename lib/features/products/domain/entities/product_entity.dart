@@ -28,7 +28,7 @@ List<ProductEntity> products = [
   ProductEntity(
     id: "1",
     imageUrl:
-        "https://th.bing.com/th/id/OIP.qNHes07V8JNysd6QVFeT3AHaE8?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+        "assets/images/5.jpg",
     name: "Product 1",
     category: "Category 1",
     salePrice: 100,
@@ -49,7 +49,7 @@ List<ProductEntity> products = [
   ProductEntity(
     id: "2",
     imageUrl:
-        "https://th.bing.com/th/id/OIP.qNHes07V8JNysd6QVFeT3AHaE8?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+        "assets/images/1.jpg",
     name: "Product 2",
     category: "Category 1",
     salePrice: 150,
@@ -70,7 +70,7 @@ List<ProductEntity> products = [
   ProductEntity(
     id: "3",
     imageUrl:
-        "https://th.bing.com/th/id/OIP.qNHes07V8JNysd6QVFeT3AHaE8?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+        "assets/images/2.jpg",
     name: "Product 3",
     category: "Category 1",
     salePrice: 50,
@@ -91,7 +91,7 @@ List<ProductEntity> products = [
   ProductEntity(
     id: "4",
     imageUrl:
-        "https://th.bing.com/th/id/OIP.qNHes07V8JNysd6QVFeT3AHaE8?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+        "assets/images/3.jpg",
     name: "Product 4",
     category: "Category 2",
     salePrice: 200,
