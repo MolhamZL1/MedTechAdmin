@@ -29,4 +29,14 @@ class ApiService implements DatabaseService {
       return await dio.get(endpoint);
     }
   }
+
+  @override
+  Future deleteData({required String endpoint, required String rowid}) async {
+    return await dio.delete(endpoint + rowid);
+  }
+
+  @override
+  Future updateData({required String endpoint, required String rowid}) async {
+    return await dio.put(endpoint + rowid);
+  }
 }

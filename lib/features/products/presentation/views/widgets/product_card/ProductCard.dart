@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
     final bool lowStock = productEntity.stock <= 1;
 
     return Container(
-      decoration: containerDecoration(),
+      decoration: containerDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

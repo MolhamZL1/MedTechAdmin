@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/functions/get_container_color.dart';
 
 import '../utils/app_colors.dart';
 
@@ -49,9 +50,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
                   value: category,
                   child: Text(
                     category,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyMedium!,
                   ),
                 );
               }).toList(),
@@ -74,7 +73,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
         color: isOpen ? AppColors.primary : Colors.grey.shade400,
       ),
       borderRadius: BorderRadius.circular(8),
-      color: Colors.white,
+      color: getContainerColor(context),
     );
   }
 }

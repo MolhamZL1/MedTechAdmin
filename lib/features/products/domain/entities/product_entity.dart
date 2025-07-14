@@ -7,6 +7,8 @@ class ProductEntity {
   final String category;
   final num salePrice;
   final num rentalPrice;
+  final String description;
+
   final int stock;
   final String status;
   final List<VedioEntity> vedioEntities;
@@ -21,6 +23,7 @@ class ProductEntity {
     required this.stock,
     required this.status,
     required this.vedioEntities,
+    required this.description,
   });
 }
 
@@ -35,6 +38,7 @@ List<ProductEntity> products = [
     rentalPrice: 20,
     stock: 10,
     status: "In Stock",
+    description: "This is product 1",
     vedioEntities: [
       VedioEntity(
         id: "5",
@@ -56,6 +60,7 @@ List<ProductEntity> products = [
     rentalPrice: 30,
     stock: 10,
     status: "In Stock",
+    description: "This is product 2",
     vedioEntities: [
       VedioEntity(
         id: "6",
@@ -77,6 +82,7 @@ List<ProductEntity> products = [
     rentalPrice: 10,
     stock: 5,
     status: "Low Stock",
+    description: "This is product 3",
     vedioEntities: [
       VedioEntity(
         id: "7",
@@ -98,6 +104,7 @@ List<ProductEntity> products = [
     rentalPrice: 40,
     stock: 0,
     status: "Out of Stock",
+    description: "This is product 4",
     vedioEntities: [
       VedioEntity(
         id: "8",

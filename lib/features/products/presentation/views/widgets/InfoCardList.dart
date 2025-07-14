@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/widgets/responsive.dart';
 
-import '../../../domain/entities/InfoCardEntity.dart';
+import '../../../../../core/entities/InfoCardEntity.dart';
 import 'CustomInfoCard.dart';
 
 class InfoCardList extends StatelessWidget {

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
-import '../../../../products/domain/entities/InfoCardEntity.dart';
-import '../../../../products/presentation/views/widgets/ProductsGridView.dart';
-import '../../../domain/entities/InformCardList.dart';
+import '../../../../../core/entities/InfoCardEntity.dart';
 import 'HeaderOrdersView.dart';
 import 'InformCardList.dart';
-
 
 class OrderViewBody extends StatelessWidget {
   const OrderViewBody({super.key});
@@ -16,13 +12,11 @@ class OrderViewBody extends StatelessWidget {
       children: [
         HeaderOrdersView(),
         SizedBox(height: 24),
-        InformCardList(entities: entitiess),
+        InformCardList(entities: orderslistinfo),
         SizedBox(height: 24),
 
         SizedBox(height: 24),
-
       ],
     );
   }
 }
-

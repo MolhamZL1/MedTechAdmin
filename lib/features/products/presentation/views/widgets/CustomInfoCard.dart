@@ -13,13 +13,14 @@ class CustomInfoCard extends StatefulWidget {
   final String text;
   final num count;
   final Widget icon;
-  final Color color;
+  final Color? color;
 
   @override
   State<CustomInfoCard> createState() => _CustomInfoCardState();
 }
 
-class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProviderStateMixin {
+class _CustomInfoCardState extends State<CustomInfoCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -46,6 +47,7 @@ class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProvide
       _controller.reverse();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -53,11 +55,11 @@ class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProvide
       onExit: (_) => _onHover(false),
       child: AnimatedBuilder(
         animation: _animation,
-        builder: (context, child){
+        builder: (context, child) {
           return Transform.translate(
             offset: Offset(0, -_animation.value),
             child: Container(
-              decoration: containerDecoration(),
+              decoration: containerDecoration(context),
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
               child: ListTile(
                 title: Padding(
@@ -74,7 +76,7 @@ class _CustomInfoCardState extends State<CustomInfoCard>with SingleTickerProvide
               ),
             ),
           );
-      }
+        },
       ),
     );
   }

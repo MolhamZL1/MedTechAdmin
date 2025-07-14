@@ -4,7 +4,7 @@ import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
 import 'package:med_tech_admin/core/widgets/responsive.dart';
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
-import '../../domain/entities/InfoCardEntity.dart';
+import '../../../../core/entities/InfoCardEntity.dart';
 import 'widgets/HeaderProductsView.dart';
 import 'widgets/InfoCardList.dart';
 import 'widgets/ProductsGridView.dart';
@@ -26,10 +26,10 @@ class ProductsViewBody extends StatelessWidget {
       children: [
         HeaderProductsView(),
         SizedBox(height: 24),
-        InfoCardList(entities: entities),
+        InfoCardList(entities: productinfolist),
         SizedBox(height: 24),
         Container(
-          decoration: containerDecoration(),
+          decoration: containerDecoration(context),
           padding: EdgeInsets.all(24),
           child: SearchSectionProductView(categories: categories),
         ),

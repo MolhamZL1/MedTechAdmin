@@ -39,7 +39,7 @@ class SigninviewBody extends StatelessWidget {
                           horizontal: 24,
                           vertical: 48,
                         ),
-                        decoration: containerDecoration(),
+                        decoration: containerDecoration(context),
                         child: SignInContainerBody(),
                       ),
                     ),
