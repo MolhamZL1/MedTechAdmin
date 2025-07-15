@@ -29,7 +29,7 @@ class SigninviewBodyMobile extends StatelessWidget {
                     ),
                     height: MediaQuery.of(context).size.height * .6,
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 48),
-                    decoration: containerDecoration(),
+                    decoration: containerDecoration(context),
                     child: SignInContainerBody(),
                   ),
                 ),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/functions/get_container_color.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/CustomIconButton.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/SideBarItem.dart';
 import 'package:med_tech_admin/features/main/presentation/views/widgets/sideBar/SideBarLogoSection.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
+import '../../../../data/pages.dart';
 
 class Sidebar extends StatefulWidget {
   final int selectedIndex;
@@ -30,17 +34,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
       }
     });
   }
-
-  List<Map> items = [
-    {'icon': Icons.dashboard_outlined, 'title': 'Dashboard'},
-    {'icon': Icons.shopping_bag_outlined, 'title': 'Products'},
-    {'icon': Icons.receipt_long_outlined, 'title': 'Orders      '},
-    {'icon': Icons.event_repeat_outlined, 'title': 'Rentals'},
-    {'icon': Icons.build_circle_outlined, 'title': 'Maintenance'},
-    {'icon': Icons.people_alt_outlined, 'title': 'Users'},
-    {'icon': Icons.attach_money_outlined, 'title': 'Financial'},
-    {'icon': Icons.settings_outlined, 'title': 'Settings'},
-  ];
 
   @override
   void initState() {
@@ -84,7 +77,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
             elevation: 8,
             child: Container(
               width: _widthAnimation.value,
-              color: Colors.white,
+              color: getContainerColor(context),
               child: Column(
                 children: [
                   Padding(
@@ -92,8 +85,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (_widthAnimation.value > 160)
-                          SideBarLogoSection(),
+                        if (_widthAnimation.value > 160) SideBarLogoSection(),
                         CustomIconButton(
                           icon: isOpen ? Icons.close : Icons.menu,
                           onTap: onToggle,

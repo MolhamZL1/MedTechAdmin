@@ -48,7 +48,7 @@ class _SideBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Colors.black54),
+      leading: Icon(icon),
       title:
           title == null
               ? null
