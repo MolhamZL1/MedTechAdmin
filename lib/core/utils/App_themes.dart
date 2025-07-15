@@ -72,7 +72,10 @@ class AppTheme {
     ),
   );
   static final darkTheme = ThemeData(
-    //dialogTheme: DialogTheme(backgroundColor: AppColors.cardColorDark),
+     dialogTheme: DialogThemeData(
+    backgroundColor: AppColors.cardColorDark,
+  ),
+
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
     cardColor: const Color(0xFF1e293b),
