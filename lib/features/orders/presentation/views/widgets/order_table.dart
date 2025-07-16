@@ -4,8 +4,8 @@ import '../../../domain/entities/InfomOrder.dart';
 import '../../../domain/entities/PopupType.dart';
 import '../../../domain/entities/listInformOrder.dart';
 import '../../../domain/entities/order_constant.dart';
-import 'GenericPopup.dart';
 import 'OrdersTable.dart';
+import 'generic_popup/GenericPopup.dart';
 
 
 
