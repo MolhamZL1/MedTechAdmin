@@ -6,12 +6,14 @@ import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/utils/App_themes.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
-import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
+import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme_cubit.dart';
 
 void main() {
   Bloc.observer = CustomBlocObserver();
   setupSingltonGetIt();
-  runApp(const MedTech());
+  runApp(
+    BlocProvider(create: (context) => ThemeCubit(), child: const MedTech()),
+  );
 }
 
 class MedTech extends StatelessWidget {
@@ -19,19 +21,23 @@ class MedTech extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "BitarMed",
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
-      onGenerateRoute: (settings) => onGenerateRoute(settings),
-      //  initialRoute: SignInView.routeName,
-      debugShowCheckedModeBanner: false,
-      home: SelectableRegion(
-        focusNode: FocusNode(),
-        selectionControls: materialTextSelectionControls,
-        child: const MainView(),
-      ),
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, thememode) {
+        return MaterialApp(
+          title: "BitarMed",
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: thememode,
+          onGenerateRoute: (settings) => onGenerateRoute(settings),
+          //  initialRoute: SignInView.routeName,
+          debugShowCheckedModeBanner: false,
+          home: SelectableRegion(
+            focusNode: FocusNode(),
+            selectionControls: materialTextSelectionControls,
+            child: const SignInView(),
+          ),
+        );
+      },
     );
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_tech_admin/core/functions/custom_validator.dart';
 import 'package:med_tech_admin/core/utils/app_colors.dart';
-import 'package:med_tech_admin/features/auth/presentation/cubits/cubit/auth_cubit.dart';
+import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit.dart';
+import '../forget_password_view.dart';
 import 'CustomPasswordTextField.dart';
 import 'SignInBlocConsumer.dart';
 
@@ -51,6 +52,19 @@ class _SignInContainerBodyState extends State<SignInContainerBody> {
               password = newValue!;
             },
           ),
+          SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, ForgetPasswordView.routeName);
+                },
+                child: Text("Forget Password?"),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
           SignInBlocConsumer(
             onPressed: () {
               if (formKey.currentState!.validate()) {

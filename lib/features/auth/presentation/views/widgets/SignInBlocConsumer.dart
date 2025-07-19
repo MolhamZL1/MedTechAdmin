@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_tech_admin/core/widgets/show_err_dialog.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
 
-import '../../../../../core/functions/error_dialog.dart';
 import '../../../../../core/widgets/CustomCircleLoading.dart';
-import '../../cubits/cubit/auth_cubit.dart';
+import '../../cubits/auth/auth_cubit.dart';
 
 class SignInBlocConsumer extends StatelessWidget {
   const SignInBlocConsumer({super.key, required this.onPressed});
@@ -14,7 +14,11 @@ class SignInBlocConsumer extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          showWebErrorToast(context, state.errMessage);
+          showerrorDialog(
+            context: context,
+            title: "!Oops",
+            description: state.errMessage,
+          );
         } else if (state is AuthSuccess) {
           Navigator.pushReplacementNamed(context, MainView.routeName);
         }
