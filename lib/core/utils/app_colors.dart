@@ -7,4 +7,5 @@ abstract class AppColors {
   static const Color error = Color(0xffd84b39);
   static const cardColorlight = Colors.white;
   static const cardColorDark = Color(0xFF1e293b);
+  static const textColor=Color(0xff0c1a47);
 }

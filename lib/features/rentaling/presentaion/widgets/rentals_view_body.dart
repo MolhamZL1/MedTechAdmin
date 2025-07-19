@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:med_tech_admin/features/orders/domain/order_data.dart';
 import '../../../../../core/entities/InfoCardEntity.dart';
-import '../../../../rentaling/data/sample_data.dart';
-import '../../../../rentaling/domain/table_data.dart';
-import '../../../../rentaling/presentaion/widgets/dynamic_table.dart';
-import 'HeaderOrdersView.dart';
-import 'InformCardList.dart';
-import 'OrdersTable.dart';
-import 'order_table.dart';
+import '../../../orders/presentation/views/widgets/InformCardList.dart';
+import '../../data/sample_data.dart';
+import '../../domain/table_data.dart';
+import 'dynamic_table.dart';
+import 'HeaderRentalView.dart';
 
-class OrderViewBody extends StatefulWidget {
-  const OrderViewBody({super.key});
+
+class RentalViewBody extends StatefulWidget {
+  const RentalViewBody({super.key});
 
   @override
-  State<OrderViewBody> createState() => _OrderViewBodyState();
+  State<RentalViewBody> createState() => _RentalViewBodyState();
 }
 
-class _OrderViewBodyState extends State<OrderViewBody> {
+class _RentalViewBodyState extends State<RentalViewBody> {
   late TableData tableData;
-
   @override
   void initState() {
     super.initState();
-    tableData = SampleDataa.getOrderTableData();
   }
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    tableData = SampleData.getRentalTableData(context);
+  }
   void _handleRowTap(int index) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -37,7 +36,6 @@ class _OrderViewBodyState extends State<OrderViewBody> {
   void _handleSort(String columnKey) {
     print('Sorting by: $columnKey');
   }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -46,9 +44,9 @@ class _OrderViewBodyState extends State<OrderViewBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderOrdersView(),
+            HeaderRentalsView(),
             SizedBox(height: 24),
-            InformCardList(entities: orderslistinfo),
+            InformCardList(entities: Rentalslistinfo),
             SizedBox(height: 24),
             DynamicTable(
               tableData: tableData,
@@ -56,7 +54,6 @@ class _OrderViewBodyState extends State<OrderViewBody> {
               onSort: _handleSort,
               enableSorting: true,
             ),
-            SizedBox(height: 24),
           ],
         ),
       ),

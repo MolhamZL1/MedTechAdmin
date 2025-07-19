@@ -81,3 +81,29 @@ List<InfoCardEntity> orderslistinfo = [
     icon: Icon(Icons.attach_money_sharp, size: 35, color: AppColors.error),
   ),
 ];
+List<InfoCardEntity> Rentalslistinfo = [
+  InfoCardEntity(
+    // color: Colors.black87,
+    text: "Active Rentals",
+    count: 5,
+    icon: Icon(Icons.notifications_active, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.warning,
+    text: "Expiring Soon",
+    count: 3,
+    icon: Icon(Icons.timelapse_outlined, size: 35, color: AppColors.warning),
+  ),
+  InfoCardEntity(
+    color: AppColors.success,
+    text: "Overdue",
+    count: 1,
+    icon: Icon(Icons.error, color: AppColors.success, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.error,
+    text: "Total Revenue",
+    count: 411,
+    icon: Icon(Icons.attach_money_sharp, size: 35, color: AppColors.error),
+  ),
+];
