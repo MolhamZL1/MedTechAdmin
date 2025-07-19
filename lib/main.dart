@@ -34,7 +34,7 @@ class MedTech extends StatelessWidget {
           home: SelectableRegion(
             focusNode: FocusNode(),
             selectionControls: materialTextSelectionControls,
-            child: const SignInView(),
+            child: const MainView(),
           ),
         );
       },
