@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/widgets/AdaptiveLayout.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
-import 'package:med_tech_admin/features/auth/presentation/cubits/cubit/auth_cubit.dart';
+import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit.dart';
 
 import 'widgets/SigninviewBody.dart';
 import 'widgets/signInViewBodyMobile.dart';

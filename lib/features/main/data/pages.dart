@@ -6,7 +6,7 @@ import '../../dashboard/presentation/views/dashboard_view.dart';
 import '../../products/presentation/views/products_view.dart';
 import '../../rentaling/rental_view.dart';
 
-List pages = [DashboardView(), ProductsView(), OrdersView(),RentalView() ,SettingsView()];
+List pages = [DashboardView(), ProductsView(), OrdersView(), RentalView(),SettingsView()];
 
 List<Map> items = [
   {'icon': Icons.dashboard_outlined, 'title': 'Dashboard'},

@@ -6,6 +6,8 @@ import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
 
+import '../models/user_model.dart';
+
 class AuthRepoImp implements AuthRepo {
   final DatabaseService databaseService;
 
@@ -17,11 +19,12 @@ class AuthRepoImp implements AuthRepo {
     required String password,
   }) async {
     try {
-      // Map<String, dynamic> data = await databaseService.addData(
-      //   endpoint: BackendEndpoints.signIn,
-      //   data: {"email": email, "password": password},
-      // );
-      return right(UserEntity(name: "name", email: email, uid: "uid"));
+      Response response = await databaseService.addData(
+        endpoint: BackendEndpoints.signIn,
+        data: {"email": email, "password": password},
+      );
+
+      return right(UserModel.fromJson(response.data).toEntity());
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
@@ -39,9 +42,64 @@ class AuthRepoImp implements AuthRepo {
   @override
   Future<Either<Failure, void>> signOut() async {
     try {
-      Map<String, dynamic> data = await databaseService.addData(
+      await databaseService.addData(
         endpoint: BackendEndpoints.signIn,
         data: {},
+      );
+      return right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> forgetPassword({required String email}) async {
+    try {
+      await databaseService.addData(
+        endpoint: BackendEndpoints.forgetPassword,
+        data: {"email": email},
+      );
+      return right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resetpassword({
+    required String email,
+    required String code,
+    required String newpassword,
+  }) async {
+    try {
+      await databaseService.addData(
+        endpoint: BackendEndpoints.resetPassword,
+        data: {"email": email, "code": code, "newPassword": newpassword},
+      );
+      return right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      await databaseService.addData(
+        endpoint: BackendEndpoints.changePassword,
+        data: {"currentPassword": currentPassword, "newPassword": newPassword},
       );
       return right(null);
     } catch (e) {

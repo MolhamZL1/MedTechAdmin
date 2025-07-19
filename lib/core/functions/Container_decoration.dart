@@ -7,12 +7,12 @@ containerDecoration(context) => BoxDecoration(
   // border: Border.all(width: 1, color: Colors.grey),
   boxShadow: [
     BoxShadow(
-      offset: Offset(0, 2),
-      blurRadius: 4,
+      offset: Offset(0, 4),
+      blurRadius: 8,
       color:
           Theme.of(context).brightness == Brightness.dark
               ? Colors.black.withOpacity(0.5)
-              : Colors.grey.shade200,
+              : Colors.grey.shade300,
     ),
   ],
 );
