@@ -21,7 +21,7 @@ class AuthRepoImp implements AuthRepo {
     try {
       Response response = await databaseService.addData(
         endpoint: BackendEndpoints.signIn,
-        data: {"email": email, "password": password},
+        data: {"identifier": email, "password": password},
       );
 
       return right(UserModel.fromJson(response.data).toEntity());
