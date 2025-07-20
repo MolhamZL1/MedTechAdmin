@@ -21,6 +21,17 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.black,
+
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: Colors.grey, width: .5),
+        ),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       prefixIconColor: Colors.grey,
       suffixIconColor: Colors.grey,
@@ -36,7 +47,7 @@ class AppTheme {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.grey, width: .1),
+        borderSide: BorderSide(color: Colors.black, width: .2),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -72,9 +83,7 @@ class AppTheme {
     ),
   );
   static final darkTheme = ThemeData(
-     dialogTheme: DialogThemeData(
-    backgroundColor: AppColors.cardColorDark,
-  ),
+    dialogTheme: DialogThemeData(backgroundColor: AppColors.cardColorDark),
 
     fontFamily: 'Poppins',
     brightness: Brightness.dark,

@@ -1,19 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/services/local_storage_service.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  static const _key = 'theme_mode';
-
   ThemeCubit() : super(ThemeMode.system) {
     _loadTheme();
   }
-  Future<void> _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    final mode = prefs.getString(_key);
+
+  void _loadTheme() async {
+    final mode = await LocalStorageService.getItem(LocalStorageKeys.themeMode);
+    if (mode == null) {
+      emit(ThemeMode.light);
+      return;
+    }
+
     switch (mode) {
       case 'light':
         emit(ThemeMode.light);
@@ -29,17 +32,18 @@ class ThemeCubit extends Cubit<ThemeMode> {
     }
   }
 
-  Future<void> setTheme(ThemeMode mode) async {
-    final prefs = await SharedPreferences.getInstance();
+  void setTheme(ThemeMode mode) async {
+    if (state == mode) return;
+
     switch (mode) {
       case ThemeMode.light:
-        await prefs.setString(_key, 'light');
+        await LocalStorageService.setItem(LocalStorageKeys.themeMode, 'light');
         break;
       case ThemeMode.dark:
-        await prefs.setString(_key, 'dark');
+        await LocalStorageService.setItem(LocalStorageKeys.themeMode, 'dark');
         break;
       case ThemeMode.system:
-        await prefs.setString(_key, 'system');
+        await LocalStorageService.setItem(LocalStorageKeys.themeMode, 'system');
         break;
     }
     emit(mode);

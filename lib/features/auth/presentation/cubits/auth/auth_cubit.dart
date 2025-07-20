@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:med_tech_admin/core/services/local_storage_service.dart';
 import 'package:med_tech_admin/features/auth/data/models/user_model.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
@@ -15,7 +18,10 @@ class AuthCubit extends Cubit<AuthState> {
       password: password,
     );
     result.fold((err) => emit(AuthFailure(errMessage: err.errMessage)), (user) {
-      UserPrefs.saveUser(user);
+      LocalStorageService.setItem(
+        LocalStorageKeys.user,
+        jsonEncode(UserModel.fromEntity(user).toJson()),
+      );
       emit(AuthSuccess(userEntity: user));
     });
   }
