@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:med_tech_admin/core/services/database_service.dart';
+
+import 'database_service.dart';
 
 class ApiService implements DatabaseService {
   final Dio dio;
@@ -37,7 +38,14 @@ class ApiService implements DatabaseService {
   }
 
   @override
-  Future updateData({required String endpoint, required String rowid}) async {
-    return await dio.put(endpoint + rowid);
+  Future updateData({
+    required String endpoint,
+    required String rowid,
+    Map<String, dynamic>? data,
+  }) async {
+    if (data == null) {
+      return await dio.put(endpoint + rowid);
+    }
+    return await dio.put(endpoint + rowid, data: data);
   }
 }

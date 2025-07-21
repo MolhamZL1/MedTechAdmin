@@ -7,7 +7,7 @@ import '../presentation/views/apperance_Settings_view.dart';
 
 List settingsPages = [
   ProfileSettingsView(),
-  SecuritySettingsView(),
+  Securitysettingsview(),
   AppearanceSettingsView(),
   LanguageSettingsView(),
 ];

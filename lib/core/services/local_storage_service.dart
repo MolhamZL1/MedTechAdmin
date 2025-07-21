@@ -2,7 +2,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalStorageKeys {
   static const String user = 'user';
+  static const String token = 'token';
   static const String themeMode = 'theme_mode';
+  static const String sideBarState = 'sideBarState';
 }
 
 class LocalStorageService {

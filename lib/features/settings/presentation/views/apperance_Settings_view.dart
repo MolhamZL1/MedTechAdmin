@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/functions/Container_decoration.dart';
+import 'widgets/DisplaySettings.dart';
 import 'widgets/ThemePreferences.dart';
 
 class AppearanceSettingsView extends StatelessWidget {
@@ -26,10 +27,7 @@ class AppearanceSettingsView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 32),
-        Container(
-          padding: EdgeInsets.all(32),
-          decoration: containerDecoration(context),
-        ),
+        DisplaySettings(),
       ],
     );
   }

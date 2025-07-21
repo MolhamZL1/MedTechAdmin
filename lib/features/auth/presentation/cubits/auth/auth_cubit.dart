@@ -17,11 +17,14 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       password: password,
     );
-    result.fold((err) => emit(AuthFailure(errMessage: err.errMessage)), (user) {
-      LocalStorageService.setItem(
+    result.fold((err) => emit(AuthFailure(errMessage: err.errMessage)), (
+      user,
+    ) async {
+      await LocalStorageService.setItem(
         LocalStorageKeys.user,
         jsonEncode(UserModel.fromEntity(user).toJson()),
       );
+      await LocalStorageService.setItem(LocalStorageKeys.token, user.token);
       emit(AuthSuccess(userEntity: user));
     });
   }

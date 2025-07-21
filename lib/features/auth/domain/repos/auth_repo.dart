@@ -16,10 +16,6 @@ abstract class AuthRepo {
     required String newpassword,
   });
   ////
-  Future<Either<Failure, dynamic>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  });
 
   Future<Either<Failure, void>> signOut();
   Future<Either<Failure, UserEntity>> signinUsingGoogle();

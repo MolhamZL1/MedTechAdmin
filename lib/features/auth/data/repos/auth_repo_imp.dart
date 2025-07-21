@@ -90,23 +90,4 @@ class AuthRepoImp implements AuthRepo {
       return left(ServerFailure(errMessage: e.toString()));
     }
   }
-
-  @override
-  Future<Either<Failure, dynamic>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
-    try {
-      await databaseService.addData(
-        endpoint: BackendEndpoints.changePassword,
-        data: {"currentPassword": currentPassword, "newPassword": newPassword},
-      );
-      return right(null);
-    } catch (e) {
-      if (e is DioException) {
-        return left(ServerFailure.fromDioError(e));
-      }
-      return left(ServerFailure(errMessage: e.toString()));
-    }
-  }
 }
