@@ -32,13 +32,28 @@ class SettingsRepoImp extends SettingsRepo {
   }
 
   @override
-  Future<Either<Failure, dynamic>> uploadPhoto({
+  Future<Either<Failure, String>> uploadPhoto({
     required Uint8List photo,
   }) async {
     try {
-      await databaseService.addData(
+      final data = await databaseService.updateData(
         endpoint: BackendEndpoints.uploadProfilePhoto,
         data: {"photo": photo},
+      );
+      return right(data["url"]);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deletePhoto() async {
+    try {
+      await databaseService.deleteData(
+        endpoint: BackendEndpoints.deleteProfilePhoto,
       );
       return right(null);
     } catch (e) {

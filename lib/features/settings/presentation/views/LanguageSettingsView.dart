@@ -9,6 +9,8 @@ class LanguageSettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
+
       padding: EdgeInsets.all(32),
       decoration: containerDecoration(context),
       child: Column(

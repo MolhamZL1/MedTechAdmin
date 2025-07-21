@@ -28,12 +28,14 @@ class _SecuritySettingsViewBodyState extends State<SecuritySettingsViewBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(32),
       decoration: containerDecoration(context),
       child: Form(
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
             Text(
               "Change Password",

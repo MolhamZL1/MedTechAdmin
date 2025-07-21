@@ -1,9 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_tech_admin/core/functions/error_dialog.dart';
 import 'package:med_tech_admin/core/functions/pick_image_from_device.dart';
+import 'package:med_tech_admin/core/widgets/CustomCircleLoading.dart';
+import 'package:med_tech_admin/core/widgets/showsuccessDialog.dart';
+import 'package:med_tech_admin/features/settings/presentation/cubits/upload_photo/upload_photo_cubit.dart';
 
 import '../../../../../core/functions/Container_decoration.dart';
+import '../../../../../core/widgets/show_err_dialog.dart';
 
 class ProfilePictureSettings extends StatefulWidget {
   const ProfilePictureSettings({super.key});
@@ -54,15 +60,49 @@ class _ProfilePictureSettingsState extends State<ProfilePictureSettings> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Upload Photo"),
-                      ),
-                      SizedBox(width: 16),
-                      TextButton(onPressed: () {}, child: Text("Remove")),
-                    ],
+                  BlocConsumer<UploadPhotoCubit, UploadPhotoState>(
+                    listener: (context, state) {
+                      if (state is UploadPhotoSuccess) {
+                        showsuccessDialog(
+                          context: context,
+                          title: "Success",
+                          description: "Photo uploaded successfully",
+                        );
+                      }
+                      if (state is UploadPhotoError) {
+                        showerrorDialog(
+                          context: context,
+                          title: "Error",
+                          description: state.errMessage,
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is UploadPhotoLoading) {
+                        return CustomCircleLoading();
+                      }
+                      return Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              if (image != null) {
+                                context.read<UploadPhotoCubit>().uploadPhoto(
+                                  photo: image!,
+                                );
+                              } else {
+                                showWebErrorToast(
+                                  context,
+                                  "Please select an image",
+                                );
+                              }
+                            },
+                            child: Text("Upload Photo"),
+                          ),
+                          SizedBox(width: 16),
+                          TextButton(onPressed: () {}, child: Text("Remove")),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),

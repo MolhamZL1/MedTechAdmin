@@ -10,5 +10,7 @@ abstract class SettingsRepo {
     required String newPassword,
   });
 
-  Future<Either<Failure, dynamic>> uploadPhoto({required Uint8List photo});
+  Future<Either<Failure, String>> uploadPhoto({required Uint8List photo});
+
+  Future<Either<Failure, void>> deletePhoto();
 }

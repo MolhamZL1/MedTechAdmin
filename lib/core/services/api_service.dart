@@ -33,19 +33,19 @@ class ApiService implements DatabaseService {
   }
 
   @override
-  Future deleteData({required String endpoint, required String rowid}) async {
+  Future deleteData({required String endpoint, String? rowid}) async {
+    if (rowid == null) {
+      return await dio.delete(endpoint);
+    }
     return await dio.delete(endpoint + rowid);
   }
 
   @override
   Future updateData({
     required String endpoint,
-    required String rowid,
+    String? rowid,
     Map<String, dynamic>? data,
   }) async {
-    if (data == null) {
-      return await dio.put(endpoint + rowid);
-    }
-    return await dio.put(endpoint + rowid, data: data);
+    return await dio.put(endpoint + (rowid ?? ""), data: data);
   }
 }
