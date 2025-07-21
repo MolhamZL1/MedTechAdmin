@@ -29,6 +29,6 @@ class UserModel {
     );
   }
 
-  toJson() => {"username": name, "email": email, "role": role, "token": token};
+  toJson() => {"username": name, "email": email, "role": role};
   toEntity() => UserEntity(name: name, email: email, role: role, token: token);
 }
