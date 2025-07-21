@@ -19,7 +19,7 @@ void setupSingltonGetIt() async {
       dio: Dio(
         BaseOptions(
           baseUrl: BackendEndpoints.url,
-          headers: {"Authorization": "Bearer $token"},
+          headers: token != null ? {"Authorization": "Bearer $token"} : null,
         ),
       ),
     ),
