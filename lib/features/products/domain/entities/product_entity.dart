@@ -2,42 +2,56 @@ import 'package:med_tech_admin/features/products/domain/entities/vedio_entity.da
 
 class ProductEntity {
   final String id;
-  final String imageUrl;
-  final String name;
+
+  final String nameEn;
+  final String nameAr;
   final String category;
+  final String company;
+  final String description;
+  final num rentStock;
+  final num saleStock;
   final num salePrice;
   final num rentalPrice;
-  final String description;
-
-  final int stock;
-  final String status;
+  final bool availableForRent;
+  final bool availableForSale;
+  final String qrCode;
+  final List<String> imagesUrl;
   final List<VedioEntity> vedioEntities;
 
   ProductEntity({
     required this.id,
-    required this.imageUrl,
-    required this.name,
+    required this.nameEn,
+    required this.nameAr,
     required this.category,
+    required this.company,
+    required this.description,
+    required this.rentStock,
+    required this.saleStock,
     required this.salePrice,
     required this.rentalPrice,
-    required this.stock,
-    required this.status,
+    required this.availableForRent,
+    required this.availableForSale,
+    required this.qrCode,
+    required this.imagesUrl,
     required this.vedioEntities,
-    required this.description,
   });
 }
 
 List<ProductEntity> products = [
   ProductEntity(
     id: "1",
-    imageUrl:
-        "assets/images/5.jpg",
-    name: "Product 1",
+    company: "Company 1",
+    imagesUrl: ["assets/images/5.jpg"],
+    nameEn: "Product 1",
+    nameAr: " ",
     category: "Category 1",
     salePrice: 100,
     rentalPrice: 20,
-    stock: 10,
-    status: "In Stock",
+    rentStock: 10,
+    saleStock: 10,
+    availableForRent: true,
+    availableForSale: true,
+    qrCode: "123456",
     description: "This is product 1",
     vedioEntities: [
       VedioEntity(
@@ -52,14 +66,18 @@ List<ProductEntity> products = [
   ),
   ProductEntity(
     id: "2",
-    imageUrl:
-        "assets/images/1.jpg",
-    name: "Product 2",
+    company: "Company 2",
+    imagesUrl: ["assets/images/1.jpg"],
+    nameEn: "Product 2",
+    nameAr: " ",
     category: "Category 1",
     salePrice: 150,
     rentalPrice: 30,
-    stock: 10,
-    status: "In Stock",
+    rentStock: 10,
+    saleStock: 10,
+    availableForRent: true,
+    availableForSale: true,
+    qrCode: "123456",
     description: "This is product 2",
     vedioEntities: [
       VedioEntity(
@@ -74,14 +92,18 @@ List<ProductEntity> products = [
   ),
   ProductEntity(
     id: "3",
-    imageUrl:
-        "assets/images/2.jpg",
-    name: "Product 3",
+    company: "Company 3",
+    imagesUrl: ["assets/images/2.jpg"],
+    nameEn: "Product 3",
+    nameAr: " ",
     category: "Category 1",
     salePrice: 50,
     rentalPrice: 10,
-    stock: 5,
-    status: "Low Stock",
+    rentStock: 5,
+    saleStock: 5,
+    availableForRent: true,
+    availableForSale: true,
+    qrCode: "123456",
     description: "This is product 3",
     vedioEntities: [
       VedioEntity(
@@ -96,14 +118,18 @@ List<ProductEntity> products = [
   ),
   ProductEntity(
     id: "4",
-    imageUrl:
-        "assets/images/3.jpg",
-    name: "Product 4",
+    company: "Company 4",
+    imagesUrl: ["assets/images/3.jpg"],
+    nameEn: "Product 4",
+    nameAr: " ",
     category: "Category 2",
     salePrice: 200,
     rentalPrice: 40,
-    stock: 0,
-    status: "Out of Stock",
+    rentStock: 0,
+    saleStock: 0,
+    availableForRent: false,
+    availableForSale: false,
+    qrCode: "123456",
     description: "This is product 4",
     vedioEntities: [
       VedioEntity(

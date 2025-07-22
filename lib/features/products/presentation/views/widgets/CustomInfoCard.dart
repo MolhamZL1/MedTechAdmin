@@ -11,7 +11,7 @@ class CustomInfoCard extends StatefulWidget {
     required this.color,
   });
   final String text;
-  final num count;
+  final String count;
   final Widget icon;
   final Color? color;
 

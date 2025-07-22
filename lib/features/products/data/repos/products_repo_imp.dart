@@ -13,13 +13,13 @@ class ProductsRepoImp implements ProductsRepo {
 
   ProductsRepoImp({required this.databaseService});
   @override
-  Future<Either<Failure, String>> addProduct(ProductModel product) async {
+  Future<Either<Failure, void>> addProduct(ProductModel product) async {
     try {
-      dynamic data = await databaseService.addData(
-        endpoint: BackendEndpoints.products,
+      await databaseService.addData(
+        endpoint: BackendEndpoints.addProduct,
         data: product.toJson(),
       );
-      return right("right");
+      return right(null);
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
@@ -29,13 +29,13 @@ class ProductsRepoImp implements ProductsRepo {
   }
 
   @override
-  Future<Either<Failure, String>> deleteProduct(String id) async {
+  Future<Either<Failure, void>> deleteProduct(String id) async {
     try {
-      dynamic data = await databaseService.deleteData(
-        endpoint: BackendEndpoints.products,
+      await databaseService.deleteData(
+        endpoint: BackendEndpoints.deleteProduct,
         rowid: id,
       );
-      return right("right");
+      return right(null);
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
@@ -45,23 +45,38 @@ class ProductsRepoImp implements ProductsRepo {
   }
 
   @override
-  Future<Either<Failure, String>> getCategories() {
-    // TODO: implement getCategories
-    throw UnimplementedError();
+  Future<Either<Failure, List<ProductEntity>>> getProducts() async {
+    try {
+      var data = await databaseService.getData(
+        endpoint: BackendEndpoints.getProducts,
+      );
+      return right(
+        data.map((e) => ProductModel.fromJson(e).toEntity()).toList(),
+      );
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProducts() {
-    // TODO: implement getProducts
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, String>> updateProduct(
+  Future<Either<Failure, void>> updateProduct(
     String id,
     ProductModel product,
-  ) {
-    // TODO: implement updateProduct
-    throw UnimplementedError();
+  ) async {
+    try {
+      await databaseService.updateData(
+        endpoint: BackendEndpoints.updateProduct,
+        rowid: id,
+      );
+      return right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
   }
 }

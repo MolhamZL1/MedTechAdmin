@@ -19,7 +19,7 @@ class DetailsSectionProductCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          productEntity.name,
+          productEntity.nameEn,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
 
@@ -74,7 +74,7 @@ class ProductDetailsText extends StatelessWidget {
           children: [
             Text("Stock:", style: TextStyle(color: Colors.grey[700])),
             Text(
-              "${productEntity.stock} units",
+              "${productEntity.saleStock} units",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: lowStock ? Colors.red : Colors.green,

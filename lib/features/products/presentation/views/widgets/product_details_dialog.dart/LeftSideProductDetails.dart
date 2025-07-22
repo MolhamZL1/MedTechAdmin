@@ -19,21 +19,21 @@ class LeftSideProductDetails extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: CustomImageNetwork(imageUrl: product.imageUrl),
+              child: CustomImageNetwork(imageUrl: product.imagesUrl[0]),
             ),
-            Positioned(
-              top: 10,
-              right: 10,
-              child: FlowedProductsDetails(
-                text: product.status,
-                color:
-                    product.status == "In Stock"
-                        ? AppColors.success
-                        : product.status == "Low Stock"
-                        ? AppColors.warning
-                        : AppColors.error,
-              ),
-            ),
+            // Positioned(
+            //   top: 10,
+            //   right: 10,
+            //   child: FlowedProductsDetails(
+            //     text: product.status,
+            //     color:
+            //         product.status == "In Stock"
+            //             ? AppColors.success
+            //             : product.status == "Low Stock"
+            //             ? AppColors.warning
+            //             : AppColors.error,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 24),
