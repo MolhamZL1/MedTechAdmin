@@ -39,49 +39,78 @@ class DesktopDashboardView extends StatelessWidget {
   }
 }
 
-class ActionCard extends StatelessWidget {
+class ActionCard extends StatefulWidget {
   const ActionCard({super.key});
 
   @override
+  State<ActionCard> createState() => _ActionCardState();
+}
+
+class _ActionCardState extends State<ActionCard> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      borderType: BorderType.RRect,
-      radius: Radius.circular(8),
-      color: Colors.grey.shade400,
-      dashPattern: [4, 4],
-      padding: EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Container(
+      decoration: BoxDecoration(
+        color:
+            _isHovered
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(16),
+          color: _isHovered ? AppColors.primary : Colors.grey.shade400,
+          dashPattern: const [5, 4],
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.add, color: Colors.white),
+              Row(
+                children: [
+                  AnimatedScale(
+                    scale: _isHovered ? 1.2 : 1.0,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: const Icon(Icons.add, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Icon(
+                    FontAwesomeIcons.cube,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
+                ],
               ),
-              SizedBox(width: 16),
-              Icon(FontAwesomeIcons.cube, color: AppColors.primary, size: 20),
+              const SizedBox(height: 16),
+              Text(
+                "Add new Product",
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Add medical equipment to inventory",
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
+              ),
             ],
           ),
-          SizedBox(height: 16),
-          Text(
-            "Add new Product",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Add medical equipment to inventory",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
-          ),
-        ],
+        ),
       ),
     );
   }

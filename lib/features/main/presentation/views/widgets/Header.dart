@@ -133,6 +133,7 @@ class ProfileMenu extends StatelessWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Ahmed Al-Mansouri",
