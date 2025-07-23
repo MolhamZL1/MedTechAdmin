@@ -4,12 +4,15 @@ import '../../domain/entities/product_entity.dart';
 import '../../domain/entities/vedio_entity.dart';
 
 class ProductModel {
-  final String id;
+  final num id;
   final String nameEn;
   final String nameAr;
-  final String category;
-  final String company;
-  final String description;
+  final String categoryEn;
+  final String categoryAr;
+  final String companyEn;
+  final String companyAr;
+  final String descriptionEn;
+  final String descriptionAr;
   final num rentStock;
   final num saleStock;
   final num salePrice;
@@ -18,15 +21,19 @@ class ProductModel {
   final bool availableForSale;
   final String qrCode;
   final List<String> imagesUrl;
-  final List<VedioModel> vediomodels;
+  final num rate;
+  final List<String> videos;
 
   ProductModel({
     required this.id,
     required this.nameEn,
     required this.nameAr,
-    required this.category,
-    required this.company,
-    required this.description,
+    required this.categoryEn,
+    required this.categoryAr,
+    required this.companyEn,
+    required this.companyAr,
+    required this.descriptionEn,
+    required this.descriptionAr,
     required this.rentStock,
     required this.saleStock,
     required this.salePrice,
@@ -35,16 +42,20 @@ class ProductModel {
     required this.availableForSale,
     required this.qrCode,
     required this.imagesUrl,
-    required this.vediomodels,
+    required this.rate,
+    required this.videos,
   });
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     id: json["id"],
     nameEn: json["nameEn"],
     nameAr: json["nameAr"],
-    company: json["company"],
-    category: json["category"],
-    description: json["description"],
-    //  rate: json["rate"],
+    categoryEn: json["categoryEn"],
+    categoryAr: json["categoryAr"],
+    companyEn: json["companyEn"],
+    companyAr: json["companyAr"],
+    descriptionEn: json["descriptionEn"],
+    descriptionAr: json["descriptionAr"],
+    rate: json["rate"],
     rentalPrice: json["rentPrice"],
     salePrice: json["sellPrice"],
     availableForRent: json["availableForRent"],
@@ -54,19 +65,20 @@ class ProductModel {
     qrCode: json["qrCode"],
 
     imagesUrl: List<String>.from(json["images"].map((x) => x)),
-    vediomodels: List<VedioModel>.from(
-      json["videos"].map((x) => VedioModel.fromJson(x)),
-    ),
+    videos: List<String>.from(json["videos"].map((x) => x)),
   );
 
   factory ProductModel.fromEntity(ProductEntity entity) => ProductModel(
     id: entity.id,
     nameEn: entity.nameEn,
     nameAr: entity.nameAr,
-    company: entity.company,
-    category: entity.category,
-    description: entity.description,
-    //  rate: json["rate"],
+    categoryEn: entity.categoryEn,
+    categoryAr: entity.categoryAr,
+    companyEn: entity.companyEn,
+    companyAr: entity.companyAr,
+    descriptionEn: entity.descriptionEn,
+    descriptionAr: entity.descriptionAr,
+    rate: entity.rate,
     rentalPrice: entity.rentalPrice,
     salePrice: entity.salePrice,
     availableForRent: entity.availableForRent,
@@ -75,18 +87,20 @@ class ProductModel {
     saleStock: entity.saleStock,
     qrCode: entity.qrCode,
     imagesUrl: entity.imagesUrl,
-    vediomodels: List<VedioModel>.from(
-      entity.vedioEntities.map((x) => VedioModel.fromEntity(x)),
-    ),
+    videos: List<String>.from(entity.vedioUrls.map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "nameEn": nameEn,
     "nameAr": nameAr,
-    "company": company,
-    "category": category,
-    "description": description,
+    "categoryEn": categoryEn,
+    "categoryAr": categoryAr,
+    "companyEn": companyEn,
+    "companyAr": companyAr,
+    "descriptionEn": descriptionEn,
+    "descriptionAr": descriptionAr,
+    "rate": rate,
     "rentPrice": rentalPrice,
     "sellPrice": salePrice,
     "availableForRent": availableForRent,
@@ -95,16 +109,19 @@ class ProductModel {
     "saleStock": saleStock,
     "qrCode": qrCode,
     "images": List<dynamic>.from(imagesUrl.map((x) => x)),
-    "videos": List<dynamic>.from(vediomodels.map((x) => x.tojson())),
+    "videos": List<dynamic>.from(videos.map((x) => x)),
   };
   toEntity() => ProductEntity(
     id: id,
     nameEn: nameEn,
     nameAr: nameAr,
-    company: company,
-    category: category,
-    description: description,
-    //  rate: json["rate"],
+    categoryEn: categoryEn,
+    categoryAr: categoryAr,
+    companyEn: companyEn,
+    companyAr: companyAr,
+    descriptionEn: descriptionEn,
+    descriptionAr: descriptionAr,
+    rate: rate,
     rentalPrice: rentalPrice,
     salePrice: salePrice,
     availableForRent: availableForRent,
@@ -113,6 +130,6 @@ class ProductModel {
     saleStock: saleStock,
     qrCode: qrCode,
     imagesUrl: imagesUrl,
-    vedioEntities: List<VedioEntity>.from(vediomodels.map((x) => x.toEntity())),
+    vedioUrls: videos,
   );
 }

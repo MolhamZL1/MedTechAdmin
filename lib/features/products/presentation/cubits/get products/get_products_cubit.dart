@@ -7,7 +7,9 @@ import '../../../domain/entities/product_entity.dart';
 part 'get_products_state.dart';
 
 class GetProductsCubit extends Cubit<GetProductsState> {
-  GetProductsCubit(this.productsRepo) : super(GetProductsInitial());
+  GetProductsCubit(this.productsRepo) : super(GetProductsInitial()) {
+    getProducts();
+  }
   final ProductsRepo productsRepo;
 
   Future<void> getProducts() async {

@@ -52,14 +52,14 @@ class RightSideProductDetails extends StatelessWidget {
             ),
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: productEntity.vedioEntities.length,
-          itemBuilder:
-              (context, index) =>
-                  VedioItem(vedioEntity: productEntity.vedioEntities[index]),
-        ),
+        // ListView.builder(
+        //   shrinkWrap: true,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemCount: productEntity.vedioUrls.length,
+        //   itemBuilder:
+        //       (context, index) =>
+        //           VedioItem(vedioEntity: productEntity.vedioUrls[index]),
+        // ),
       ],
     );
   }

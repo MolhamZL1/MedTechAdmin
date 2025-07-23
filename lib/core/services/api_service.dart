@@ -26,9 +26,11 @@ class ApiService implements DatabaseService {
     Map<String, dynamic>? quary,
   }) async {
     if (rowid != null) {
-      return await dio.get(endpoint + rowid);
+      Response response = await dio.get(endpoint + rowid);
+      return response.data;
     } else {
-      return await dio.get(endpoint);
+      Response response = await dio.get(endpoint);
+      return response.data;
     }
   }
 

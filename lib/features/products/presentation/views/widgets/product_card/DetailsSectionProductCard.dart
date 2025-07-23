@@ -23,7 +23,10 @@ class DetailsSectionProductCard extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
 
-        Text(productEntity.category, style: TextStyle(color: Colors.grey[600])),
+        Text(
+          productEntity.categoryEn,
+          style: TextStyle(color: Colors.grey[600]),
+        ),
         const SizedBox(height: 12),
         ProductDetailsText(productEntity: productEntity, lowStock: lowStock),
         const SizedBox(height: 12),

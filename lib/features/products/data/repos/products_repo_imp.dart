@@ -50,9 +50,10 @@ class ProductsRepoImp implements ProductsRepo {
       var data = await databaseService.getData(
         endpoint: BackendEndpoints.getProducts,
       );
-      return right(
-        data.map((e) => ProductModel.fromJson(e).toEntity()).toList(),
+      List<ProductEntity> products = List<ProductEntity>.from(
+        data.map((e) => ProductModel.fromJson(e).toEntity()),
       );
+      return right(products);
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));

@@ -14,7 +14,7 @@ abstract class BackendEndpoints {
   static const String createUserByAdmin = "admin/create-user";
 
   static const String addProduct = "products/add-product";
-  static const String updateProduct = "products/edit-product";
-  static const String deleteProduct = "products/delete-product";
+  static const String updateProduct = "products/edit-product/";
+  static const String deleteProduct = "products/delete-product/";
   static const String getProducts = "products/get-products";
 }
