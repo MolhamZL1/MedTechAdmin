@@ -20,17 +20,20 @@ class ApiService implements DatabaseService {
   }
 
   @override
-  Future getData({
+  Future<dynamic> getData({
     required String endpoint,
     String? rowid,
     Map<String, dynamic>? quary,
   }) async {
+    Response response;
     if (rowid != null) {
-      return await dio.get(endpoint + rowid);
+      response = await dio.get(endpoint + rowid, queryParameters: quary);
     } else {
-      return await dio.get(endpoint);
+      response = await dio.get(endpoint, queryParameters: quary);
     }
+    return response.data;
   }
+
 
   @override
   Future deleteData({required String endpoint, String? rowid}) async {

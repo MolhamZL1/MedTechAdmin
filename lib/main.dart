@@ -11,9 +11,9 @@ import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme
 
 import 'features/auth/domain/entities/user_entity.dart';
 
-void main() {
+void main() async {
   Bloc.observer = CustomBlocObserver();
-  setupSingltonGetIt();
+ await setupSingltonGetIt();
   runApp(
     BlocProvider(create: (context) => ThemeCubit(), child: const MedTech()),
   );
@@ -28,6 +28,7 @@ class MedTech extends StatelessWidget {
       builder: (context, thememode) {
         return MaterialApp(
           title: "BitarMed",
+
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: thememode,

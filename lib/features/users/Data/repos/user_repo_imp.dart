@@ -6,13 +6,20 @@ import 'package:med_tech_admin/features/auth/data/models/user_model.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 
 import '../../../../core/utils/backend_endpoints.dart';
+import '../../domain/entities/entity.dart';
+import '../../domain/entities/user-entity.dart';
 import '../../domain/repos/user_repo.dart';
+import '../models/model.dart';
+import '../models/user_model.dart';
 
 class UserRepoImp extends UserRepo {
   final DatabaseService databaseService;
 
   UserRepoImp({required this.databaseService});
   @override
+  @override
+
+
   Future<Either<Failure, void>> banUser(String id) async {
     try {
       await databaseService.updateData(
@@ -45,11 +52,11 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, void>> createUserByAdmin(UserEntity user) async {
+  Future<Either<Failure, void>> createUserByAdmin(UserssEntity user) async {
     try {
       await databaseService.addData(
         endpoint: BackendEndpoints.createUserByAdmin,
-        data: UserModel.fromEntity(user).toJson(),
+        data: UserssModel.fromEntity(user).toJson(),
       );
       return Right(null);
     } catch (e) {
@@ -77,12 +84,24 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, List<UserEntity>>> getUsers() async {
+  Future<Either<Failure, List<UsersEntity>>> getUsers() async {
     try {
-      final users = await databaseService.getData(
+      final response = await databaseService.getData(
         endpoint: BackendEndpoints.getUsers,
       );
-      return Right(users.map((e) => UserModel.fromJson(e).toEntity()).toList());
+
+      print("Response from API: $response");
+
+      if (response is! List) {
+        return Left(ServerFailure(
+            errMessage: "Expected list of users but got ${response.runtimeType}"));
+      }
+
+      final users = response
+          .map((e) => UsersModel.fromJson(e as Map<String, dynamic>).toEntity())
+          .toList();
+
+      return Right(users);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
@@ -90,4 +109,8 @@ class UserRepoImp extends UserRepo {
       return Left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+
+
+
 }
