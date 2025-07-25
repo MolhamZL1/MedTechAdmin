@@ -5,12 +5,8 @@ import '../../../../core/errors/failures.dart';
 import '../../data/models/product_model.dart';
 
 abstract class ProductsRepo {
-  Future<Either<Failure, String>> addProduct(ProductModel product);
-  Future<Either<Failure, String>> updateProduct(
-    String id,
-    ProductModel product,
-  );
-  Future<Either<Failure, String>> deleteProduct(String id);
+  Future<Either<Failure, void>> addProduct(ProductModel product);
+  Future<Either<Failure, void>> updateProduct(String id, ProductModel product);
+  Future<Either<Failure, void>> deleteProduct(String id);
   Future<Either<Failure, List<ProductEntity>>> getProducts();
-  Future<Either<Failure, String>> getCategories();
 }

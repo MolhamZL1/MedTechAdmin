@@ -14,7 +14,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool lowStock = productEntity.stock <= 1;
+    final bool lowStock = productEntity.saleStock <= 1;
 
     return Container(
       decoration: containerDecoration(context),
@@ -29,22 +29,24 @@ class ProductCard extends StatelessWidget {
                 ),
                 child: SizedBox(
                   height: 200,
-                  child: CustomImageNetwork(imageUrl: productEntity.imageUrl),
+                  child: CustomImageNetwork(
+                    imageUrl: productEntity.imagesUrl[0],
+                  ),
                 ),
               ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: FlowedProductsDetails(
-                  text: productEntity.status,
-                  color:
-                      productEntity.status == "In Stock"
-                          ? AppColors.success
-                          : productEntity.status == "Low Stock"
-                          ? AppColors.warning
-                          : AppColors.error,
-                ),
-              ),
+              // Positioned(
+              //   top: 10,
+              //   right: 10,
+              //   child: FlowedProductsDetails(
+              //     text: productEntity.status,
+              //     color:
+              //         productEntity.status == "In Stock"
+              //             ? AppColors.success
+              //             : productEntity.status == "Low Stock"
+              //             ? AppColors.warning
+              //             : AppColors.error,
+              //   ),
+              // ),
             ],
           ),
           Padding(

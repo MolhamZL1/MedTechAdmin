@@ -1,5 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:med_tech_admin/core/widgets/show_question_dialog.dart';
+import 'package:med_tech_admin/features/products/presentation/cubits/delete%20product/delete_product_cubit.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../domain/entities/product_entity.dart';
@@ -36,7 +40,18 @@ class ButtonsProductCardSection extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showQuestionDialog(
+              context: context,
+              title: "Delete Product",
+              description: "Are you sure you want to delete this product?",
+              btnOkOnPress: () {
+                context.read<DeleteProductCubit>().deleteProduct(
+                  productEntity.id.toString(),
+                );
+              },
+            );
+          },
           icon: const Icon(Icons.delete, size: 20, color: AppColors.error),
         ),
       ],

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
+import 'package:med_tech_admin/features/products/data/repos/products_repo_imp.dart';
+import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
 import 'package:med_tech_admin/features/settings/data/repos/settings_repo_imp.dart';
 import 'package:med_tech_admin/features/settings/domain/rpeos/settings_repo.dart';
 import 'package:med_tech_admin/features/users/Data/repos/user_repo_imp.dart';
@@ -35,7 +37,13 @@ Future<void> setupSingltonGetIt() async {
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
+<<<<<<< HEAD
 
+=======
+  getIt.registerSingleton<ProductsRepo>(
+    ProductsRepoImp(databaseService: getIt.get<DatabaseService>()),
+  );
+>>>>>>> 443888e30eec1f4b4f1221675ee71b9da4b6e45d
   getIt.registerSingleton<SettingsRepo>(
     SettingsRepoImp(databaseService: getIt.get<DatabaseService>()),
   );

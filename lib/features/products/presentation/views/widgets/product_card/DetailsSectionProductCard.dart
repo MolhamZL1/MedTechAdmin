@@ -19,11 +19,14 @@ class DetailsSectionProductCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          productEntity.name,
+          productEntity.nameEn,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
 
-        Text(productEntity.category, style: TextStyle(color: Colors.grey[600])),
+        Text(
+          productEntity.categoryEn,
+          style: TextStyle(color: Colors.grey[600]),
+        ),
         const SizedBox(height: 12),
         ProductDetailsText(productEntity: productEntity, lowStock: lowStock),
         const SizedBox(height: 12),
@@ -74,7 +77,7 @@ class ProductDetailsText extends StatelessWidget {
           children: [
             Text("Stock:", style: TextStyle(color: Colors.grey[700])),
             Text(
-              "${productEntity.stock} units",
+              "${productEntity.saleStock} units",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: lowStock ? Colors.red : Colors.green,

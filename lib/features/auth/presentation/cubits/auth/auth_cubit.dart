@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/services/local_storage_service.dart';
 import 'package:med_tech_admin/features/auth/data/models/user_model.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
+
+import '../../views/sign_in_view.dart';
 
 part 'auth_state.dart';
 
@@ -27,5 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
       await LocalStorageService.setItem(LocalStorageKeys.token, user.token);
       emit(AuthSuccess(userEntity: user));
     });
+  }
+
+  void signout() async {
+    await LocalStorageService.clear();
+    emit(AuthInitial());
   }
 }

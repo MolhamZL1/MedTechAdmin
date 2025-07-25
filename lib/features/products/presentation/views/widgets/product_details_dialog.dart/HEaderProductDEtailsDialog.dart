@@ -15,7 +15,7 @@ class HEaderProductDEtailsDialog extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
-            product.name,
+            product.nameEn,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
