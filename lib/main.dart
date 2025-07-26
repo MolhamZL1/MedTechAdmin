@@ -5,17 +5,26 @@ import 'package:med_tech_admin/core/functions/on_generate_route.dart';
 import 'package:med_tech_admin/core/services/custom_bloc_observer.dart';
 import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/utils/App_themes.dart';
+import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
 import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme_cubit.dart';
 
 import 'features/auth/domain/entities/user_entity.dart';
+import 'features/auth/domain/repos/auth_repo.dart';
 
-void main() {
+void main() async {
   Bloc.observer = CustomBlocObserver();
   setupSingltonGetIt();
+  await getIt<UserService>().loadUser();
   runApp(
-    BlocProvider(create: (context) => ThemeCubit(), child: const MedTech()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => AuthCubit(getIt.get<AuthRepo>())),
+      ],
+      child: const MedTech(),
+    ),
   );
 }
 
@@ -45,29 +54,13 @@ class MedTech extends StatelessWidget {
   }
 }
 
-class StartScreen extends StatefulWidget {
+class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
   @override
-  State<StartScreen> createState() => _StartScreenState();
-}
-
-class _StartScreenState extends State<StartScreen> {
-  UserEntity? user;
-
-  @override
-  void initState() {
-    super.initState();
-    getuser();
-  }
-
-  getuser() async {
-    user = await getLocalUser();
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return user?.token != null ? const MainView() : const SignInView();
+    return getIt<UserService>().user?.token != null
+        ? const MainView()
+        : const SignInView();
   }
 }

@@ -14,14 +14,20 @@ import 'database_service.dart';
 
 final getIt = GetIt.instance;
 void setupSingltonGetIt() async {
-  String? token = await getLocalUser().then((value) => value?.token.toString());
+  getIt.registerLazySingleton<UserService>(() => UserService());
 
   getIt.registerSingleton<DatabaseService>(
     ApiService(
       dio: Dio(
         BaseOptions(
           baseUrl: BackendEndpoints.url,
-          headers: token != null ? {"Authorization": "Bearer $token"} : null,
+          headers:
+              getIt<UserService>().user?.token != null
+                  ? {
+                    "Authorization":
+                        "Bearer ${getIt<UserService>().user?.token}",
+                  }
+                  : null,
         ),
       ),
     ),

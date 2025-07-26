@@ -32,8 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  void signout() async {
+  Future<void> signout() async {
     await LocalStorageService.clear();
-    emit(AuthInitial());
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/functions/Container_decoration.dart';
 import '../../../../../core/functions/getLocalUser.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../../auth/domain/entities/user_entity.dart';
 
 class PersonalInfoSettings extends StatefulWidget {
@@ -31,7 +32,7 @@ class _PersonalInfoSettingsState extends State<PersonalInfoSettings> {
   }
 
   getuser() async {
-    user = await getLocalUser();
+    user = getIt<UserService>().user;
     nameController.text = user?.name ?? '';
     phoneController.text = user?.name ?? '';
     emailController.text = user?.email ?? '';

@@ -14,14 +14,11 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(getIt.get<AuthRepo>()),
-      child: Scaffold(
-        body: AdaptiveLayout(
-          mobileLayout: (context) => SigninviewBodyMobile(),
-          desktopLayout: (context) => SigninviewBody(),
-          tabletLayout: (context) => SigninviewBodyMobile(),
-        ),
+    return Scaffold(
+      body: AdaptiveLayout(
+        mobileLayout: (context) => SigninviewBodyMobile(),
+        desktopLayout: (context) => SigninviewBody(),
+        tabletLayout: (context) => SigninviewBodyMobile(),
       ),
     );
   }
