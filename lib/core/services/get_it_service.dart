@@ -37,13 +37,10 @@ Future<void> setupSingltonGetIt() async {
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
-<<<<<<< HEAD
 
-=======
   getIt.registerSingleton<ProductsRepo>(
     ProductsRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
->>>>>>> 443888e30eec1f4b4f1221675ee71b9da4b6e45d
   getIt.registerSingleton<SettingsRepo>(
     SettingsRepoImp(databaseService: getIt.get<DatabaseService>()),
   );

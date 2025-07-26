@@ -89,7 +89,6 @@ class UserRepoImp extends UserRepo {
       final response = await databaseService.getData(
         endpoint: BackendEndpoints.getUsers,
       );
-<<<<<<< HEAD
 
       print("Response from API: $response");
 
@@ -103,9 +102,7 @@ class UserRepoImp extends UserRepo {
           .toList();
 
       return Right(users);
-=======
-      return Right(users.map((e) => UserModel.fromJson(e).toEntity()));
->>>>>>> 443888e30eec1f4b4f1221675ee71b9da4b6e45d
+
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));

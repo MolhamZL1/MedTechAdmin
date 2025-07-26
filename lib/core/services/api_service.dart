@@ -27,18 +27,17 @@ class ApiService implements DatabaseService {
   }) async {
     Response response;
     if (rowid != null) {
-<<<<<<< HEAD
       response = await dio.get(endpoint + rowid, queryParameters: quary);
-    } else {
-      response = await dio.get(endpoint, queryParameters: quary);
-=======
-      Response response = await dio.get(endpoint + rowid);
-      return response.data;
-    } else {
-      Response response = await dio.get(endpoint);
-      return response.data;
->>>>>>> 443888e30eec1f4b4f1221675ee71b9da4b6e45d
     }
+    else {
+      response = await dio.get(endpoint, queryParameters: quary);
+      // Response response = await dio.get(endpoint + rowid);
+      // return response.data;
+    }
+    // else {
+    //   Response response = await dio.get(endpoint);
+    //   return response.data;
+    // }
     return response.data;
   }
 
