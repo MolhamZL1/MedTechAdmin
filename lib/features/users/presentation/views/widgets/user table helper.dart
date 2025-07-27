@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
 import 'package:med_tech_admin/main.dart'; // مهم فقط لو بتستخدم navigatorKey في أماكن تانية
+import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../core/widgets/show_err_dialog.dart';
+import '../../../../../core/widgets/show_question_dialog.dart';
+import '../../../../../core/widgets/showsuccessDialog.dart';
 import '../../../../rentaling/domain/table_column.dart';
 import '../../../../rentaling/domain/table_data.dart';
 import '../../../../rentaling/presentaion/widgets/action_button.dart';
@@ -11,9 +15,11 @@ import '../../../../rentaling/utils/constants.dart';
 import '../../../Data/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubits/user_cubit.dart';
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class UserTableHelper {
-  static TableData fromUserList(List<UsersEntity> users, UserCubit cubit) {
+
+  static TableData fromUserList(List<GetUserEntity> users, UserCubit cubit,BuildContext context) {
     final columns = [
       TableColumn(
         key: 'user',
@@ -21,8 +27,8 @@ class UserTableHelper {
         type: ColumnType.custom,
         width: 300,
         customBuilder: (value) {
-          final entity = value as UsersEntity;
-          final user = UsersModel.fromEntity(entity);
+          final entity = value as GetUserEntity;
+          final user = GetUserModel.fromEntity(entity);
           return Row(
             children: [
               CircleAvatar(
@@ -49,8 +55,8 @@ class UserTableHelper {
         type: ColumnType.custom,
         width: 220,
         customBuilder: (value) {
-          final entity = value as UsersEntity;
-          final user = UsersModel.fromEntity(entity);
+          final entity = value as GetUserEntity;
+          final user = GetUserModel.fromEntity(entity);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -67,8 +73,8 @@ class UserTableHelper {
         type: ColumnType.custom,
         width: 180,
         customBuilder: (value) {
-          final entity = value as UsersEntity;
-          final user = UsersModel.fromEntity(entity);
+          final entity = value as GetUserEntity;
+          final user = GetUserModel.fromEntity(entity);
           final icon = _getRoleIcon(user.role);
           final color = _getRoleColor(user.role);
           return Row(
@@ -86,8 +92,8 @@ class UserTableHelper {
         type: ColumnType.custom,
         width: 160,
         customBuilder: (value) {
-          final entity = value as UsersEntity;
-          final user = UsersModel.fromEntity(entity);
+          final entity = value as GetUserEntity;
+          final user = GetUserModel.fromEntity(entity);
           return StatusBadge(
             status: user.isBanned ? StatusType.active : StatusType.active,
           );
@@ -99,46 +105,93 @@ class UserTableHelper {
         type: ColumnType.action,
         width: 250,
         customBuilder: (value) {
-          final entity = value as UsersEntity;
-          final user = UsersModel.fromEntity(entity);
+          final entity = value as GetUserEntity;
+          final user = GetUserModel.fromEntity(entity);
 
-          // استخدمنا cubit الممرر بدل navigatorKey.currentContext!
           return ActionButtonGroup(
             buttons: [
+              // 👁 زر الرؤية كما هو
               ActionButton(
                 icon: Icons.visibility,
                 onPressed: () => print('View ${user.username}'),
                 text: '',
               ),
-              user.isBanned
-                  ? ActionButton(
-                icon: Icons.lock_open,
-                color: Colors.green,
+
+              // 🔐 زر الحظر وفك الحظر مع ديالوغ التأكيد والنجاح/الفشل
+              ActionButton(
+                icon: user.isBanned ? Icons.lock_open : Icons.block,
+                color: user.isBanned ? Colors.green : Colors.orange,
                 onPressed: () {
-                  cubit.unbanUser(user.id.toString());
+                  showQuestionDialog(
+                    context: context, // ✅ استخدم السياق الطبيعي
+                    title: user.isBanned ? "Unban User" : "Ban User",
+                    description:
+                    "Are you sure you want to ${user.isBanned ? 'unban' : 'ban'} this user?",
+                    btnOkOnPress: () async {
+                      if (user.isBanned) {
+                        await cubit.unbanUser(user.id.toString());
+                      } else {
+                        await cubit.banUser(user.id.toString());
+                      }
+
+                      final currentState = cubit.state;
+                      if (currentState is UserFailure) {
+                        showerrorDialog(
+                          context: context,
+                          title: "Error",
+                          description: currentState.errMessage,
+                        );
+                      } else {
+                        showsuccessDialog(
+                          context: context,
+                          title: "Success",
+                          description:
+                          "User ${user.isBanned ? 'unbanned' : 'banned'} successfully.",
+                        );
+                      }
+                    },
+                  );
                 },
-                text: '',
-              )
-                  : ActionButton(
-                icon: Icons.block,
-                color: Colors.orange,
-                onPressed: () {
-                  cubit.banUser(user.id.toString());
-                },
+
                 text: '',
               ),
+
               ActionButton(
                 icon: Icons.delete,
                 color: Colors.red,
                 onPressed: () {
-                  cubit.deleteUser(user.id.toString());
+                  showQuestionDialog(
+                    context: context,
+                    title: "Delete User",
+                    description: "Are you sure you want to delete this user?",
+                    btnOkOnPress: () async {
+                      await cubit.deleteUser(user.id.toString());
+
+                      final currentState = cubit.state;
+                      if (currentState is UserFailure) {
+                        showerrorDialog(
+                          context: context,
+                          title: "Error",
+                          description: currentState.errMessage,
+                        );
+                      } else {
+                        showsuccessDialog(
+                          context: context,
+                          title: "Success",
+                          description: "User deleted successfully.",
+                        );
+                      }
+                    },
+                  );
                 },
                 text: '',
               ),
+
             ],
           );
         },
       ),
+
     ];
 
     final rows = users

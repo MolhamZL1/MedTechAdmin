@@ -25,7 +25,7 @@ class UserViewBody extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is UserSuccess) {
             final cubit = BlocProvider.of<UserCubit>(context);
-            final tableData = UserTableHelper.fromUserList(state.usersEntity, cubit);
+            final tableData = UserTableHelper.fromUserList(state.usersEntity, cubit,context);
 
             return SingleChildScrollView(
               child: Padding(

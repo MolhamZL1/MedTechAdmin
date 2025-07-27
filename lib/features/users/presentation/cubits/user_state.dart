@@ -13,6 +13,6 @@ final class UserFailure extends UserState {
 }
 
 final class UserSuccess extends UserState {
-  final List<UsersEntity> usersEntity;
+  final List<GetUserEntity> usersEntity;
   UserSuccess({required this.usersEntity});
 }

@@ -1,14 +1,14 @@
 import '../../domain/entities/entity.dart';
 import '../../domain/entities/user-entity.dart';
 
-class UserssModel {
+class CreateUserModel {
   final String id;
   final String email;
   final String username;
   final String role;
   final String password;
 
-  UserssModel({
+  CreateUserModel({
     required this.id,
     required this.email,
     required this.username,
@@ -16,8 +16,8 @@ class UserssModel {
     required this.password
   });
 
-  factory UserssModel.fromJson(Map<String, dynamic> json) {
-    return UserssModel(
+  factory CreateUserModel.fromJson(Map<String, dynamic> json) {
+    return CreateUserModel(
       id: json['id'],
       email: json['email'],
       username: json['username'],
@@ -37,8 +37,8 @@ class UserssModel {
     };
   }
 
-  UserssEntity toEntity() {
-    return UserssEntity(
+  CreateUserEntity toEntity() {
+    return CreateUserEntity(
       id: id,
       email: email,
       username: username,
@@ -48,8 +48,8 @@ class UserssModel {
     );
   }
 
-  factory UserssModel.fromEntity(UserssEntity entity) {
-    return UserssModel(
+  factory CreateUserModel.fromEntity(CreateUserEntity entity) {
+    return CreateUserModel(
       id: entity.id,
       email: entity.email,
       username: entity.username,

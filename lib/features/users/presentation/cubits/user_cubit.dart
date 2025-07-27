@@ -46,7 +46,7 @@ class UserCubit extends Cubit<UserState> {
           (_) => fetchUsers(),
     );
   }
-  Future<String?> createUser(UserssEntity users) async {
+  Future<String?> createUser(CreateUserEntity users) async {
     emit(UserLoading());
     final result = await userRepo.createUserByAdmin(users);
     return result.fold(
@@ -60,4 +60,5 @@ class UserCubit extends Cubit<UserState> {
       },
     );
   }
+
 }

@@ -1,11 +1,11 @@
-class UserssEntity {
+class CreateUserEntity {
   final String id;
   final String email;
   final String username;
   final String role;
   final String password;
 
-  const UserssEntity({
+  const CreateUserEntity({
     required this.id,
     required this.email,
     required this.username,
@@ -13,14 +13,14 @@ class UserssEntity {
     required this.password,
   });
 
-  UserssEntity copyWith({
+  CreateUserEntity copyWith({
     String? id,
     String? email,
     String? username,
     String? role,
    String ? password
   }) {
-    return UserssEntity(
+    return CreateUserEntity(
       id: id ?? this.id,
       email: email ?? this.email,
       username: username ?? this.username,

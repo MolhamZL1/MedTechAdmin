@@ -1,6 +1,6 @@
 import '../../domain/entities/user-entity.dart';
 
-class UsersModel {
+class GetUserModel {
   final int id;
   final String email;
   final String username;
@@ -8,7 +8,7 @@ class UsersModel {
   final bool isBanned;
   final DateTime createdAt;
 
-  UsersModel({
+  GetUserModel({
     required this.id,
     required this.email,
     required this.username,
@@ -17,8 +17,8 @@ class UsersModel {
     required this.createdAt,
   });
 
-  factory UsersModel.fromJson(Map<String, dynamic> json) {
-    return UsersModel(
+  factory GetUserModel.fromJson(Map<String, dynamic> json) {
+    return GetUserModel(
       id: json['id'],
       email: json['email'],
       username: json['username'],
@@ -39,8 +39,8 @@ class UsersModel {
     };
   }
 
-  UsersEntity toEntity() {
-    return UsersEntity(
+  GetUserEntity toEntity() {
+    return GetUserEntity(
       id: id,
       email: email,
       username: username,
@@ -50,8 +50,8 @@ class UsersModel {
     );
   }
 
-  factory UsersModel.fromEntity(UsersEntity entity) {
-    return UsersModel(
+  factory GetUserModel.fromEntity(GetUserEntity entity) {
+    return GetUserModel(
       id: entity.id,
       email: entity.email,
       username: entity.username,

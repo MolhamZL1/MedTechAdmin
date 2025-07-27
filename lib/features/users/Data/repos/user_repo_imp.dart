@@ -52,11 +52,11 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, void>> createUserByAdmin(UserssEntity user) async {
+  Future<Either<Failure, void>> createUserByAdmin(CreateUserEntity user) async {
     try {
       await databaseService.addData(
         endpoint: BackendEndpoints.createUserByAdmin,
-        data: UserssModel.fromEntity(user).toJson(),
+        data: CreateUserModel.fromEntity(user).toJson(),
       );
       return Right(null);
     } catch (e) {
@@ -84,7 +84,7 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, List<UsersEntity>>> getUsers() async {
+  Future<Either<Failure, List<GetUserEntity>>> getUsers() async {
     try {
       final response = await databaseService.getData(
         endpoint: BackendEndpoints.getUsers,
@@ -98,7 +98,7 @@ class UserRepoImp extends UserRepo {
       }
 
       final users = response
-          .map((e) => UsersModel.fromJson(e as Map<String, dynamic>).toEntity())
+          .map((e) => GetUserModel.fromJson(e as Map<String, dynamic>).toEntity())
           .toList();
 
       return Right(users);

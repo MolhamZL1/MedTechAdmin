@@ -1,4 +1,4 @@
-class UsersEntity {
+class GetUserEntity {
   final int id;
   final String email;
   final String username;
@@ -6,7 +6,7 @@ class UsersEntity {
   final bool isBanned;
   final DateTime createdAt;
 
-  const UsersEntity({
+  const GetUserEntity({
     required this.id,
     required this.email,
     required this.username,
@@ -15,7 +15,7 @@ class UsersEntity {
     required this.createdAt,
   });
 
-  UsersEntity copyWith({
+  GetUserEntity copyWith({
     int? id,
     String? email,
     String? username,
@@ -23,7 +23,7 @@ class UsersEntity {
     bool? isBanned,
     DateTime? createdAt,
   }) {
-    return UsersEntity(
+    return GetUserEntity(
       id: id ?? this.id,
       email: email ?? this.email,
       username: username ?? this.username,
