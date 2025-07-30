@@ -26,10 +26,13 @@ class ApiService implements DatabaseService {
     Map<String, dynamic>? quary,
   }) async {
     if (rowid != null) {
-      Response response = await dio.get(endpoint + rowid);
+      Response response = await dio.get(
+        endpoint + rowid,
+        queryParameters: quary,
+      );
       return response.data;
     } else {
-      Response response = await dio.get(endpoint);
+      Response response = await dio.get(endpoint, queryParameters: quary);
       return response.data;
     }
   }

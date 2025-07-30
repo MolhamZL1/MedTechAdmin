@@ -6,7 +6,11 @@ import 'package:med_tech_admin/features/auth/data/models/user_model.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 
 import '../../../../core/utils/backend_endpoints.dart';
+import '../../domain/entities/entity.dart';
+import '../../domain/entities/user-entity.dart';
 import '../../domain/repos/user_repo.dart';
+import '../models/model.dart';
+import '../models/user_model.dart';
 
 class UserRepoImp extends UserRepo {
   final DatabaseService databaseService;
@@ -45,11 +49,11 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, void>> createUserByAdmin(UserEntity user) async {
+  Future<Either<Failure, void>> createUserByAdmin(CreateUserEntity user) async {
     try {
       await databaseService.addData(
         endpoint: BackendEndpoints.createUserByAdmin,
-        data: UserModel.fromEntity(user).toJson(),
+        data: CreateUserModel.fromEntity(user).toJson(),
       );
       return Right(null);
     } catch (e) {
@@ -77,12 +81,21 @@ class UserRepoImp extends UserRepo {
   }
 
   @override
-  Future<Either<Failure, List<UserEntity>>> getUsers() async {
+  Future<Either<Failure, List<GetUserEntity>>> getUsers() async {
     try {
-      final users = await databaseService.getData(
+      final response = await databaseService.getData(
         endpoint: BackendEndpoints.getUsers,
       );
-      return Right(users.map((e) => UserModel.fromJson(e).toEntity()));
+
+      final users =
+          response
+              .map(
+                (e) =>
+                    GetUserModel.fromJson(e as Map<String, dynamic>).toEntity(),
+              )
+              .toList();
+
+      return Right(users);
     } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
