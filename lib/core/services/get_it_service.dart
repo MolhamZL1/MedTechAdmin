@@ -5,9 +5,11 @@ import 'package:med_tech_admin/features/products/data/repos/products_repo_imp.da
 import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
 import 'package:med_tech_admin/features/settings/data/repos/settings_repo_imp.dart';
 import 'package:med_tech_admin/features/settings/domain/rpeos/settings_repo.dart';
+import 'package:med_tech_admin/features/users/domain/repos/user_repo.dart';
 
 import '../../features/auth/data/repos/auth_repo_imp.dart';
 import '../../features/auth/domain/repos/auth_repo.dart';
+import '../../features/users/data/repos/user_repo_imp.dart';
 import '../functions/getLocalUser.dart';
 import 'api_service.dart';
 import 'database_service.dart';
@@ -21,13 +23,10 @@ void setupSingltonGetIt() async {
       dio: Dio(
         BaseOptions(
           baseUrl: BackendEndpoints.url,
-          headers:
-              getIt<UserService>().user?.token != null
-                  ? {
-                    "Authorization":
-                        "Bearer ${getIt<UserService>().user?.token}",
-                  }
-                  : null,
+          headers: {
+            if (getIt<UserService>().user?.token != null)
+              "Authorization": "Bearer ${getIt<UserService>().user?.token}",
+          },
         ),
       ),
     ),
@@ -39,6 +38,9 @@ void setupSingltonGetIt() async {
 
   getIt.registerSingleton<ProductsRepo>(
     ProductsRepoImp(databaseService: getIt.get<DatabaseService>()),
+  );
+  getIt.registerSingleton<UserRepo>(
+    UserRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
   getIt.registerSingleton<SettingsRepo>(
     SettingsRepoImp(databaseService: getIt.get<DatabaseService>()),

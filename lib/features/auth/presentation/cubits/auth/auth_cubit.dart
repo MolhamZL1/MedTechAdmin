@@ -27,7 +27,6 @@ class AuthCubit extends Cubit<AuthState> {
         LocalStorageKeys.user,
         jsonEncode(UserModel.fromEntity(user).toJson()),
       );
-      await LocalStorageService.setItem(LocalStorageKeys.token, user.token);
       emit(AuthSuccess(userEntity: user));
     });
   }

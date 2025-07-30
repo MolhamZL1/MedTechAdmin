@@ -10,12 +10,12 @@ import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dar
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
 import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme_cubit.dart';
 
-import 'features/auth/domain/entities/user_entity.dart';
 import 'features/auth/domain/repos/auth_repo.dart';
 
 void main() async {
   Bloc.observer = CustomBlocObserver();
   setupSingltonGetIt();
+
   await getIt<UserService>().loadUser();
   runApp(
     MultiBlocProvider(
@@ -59,7 +59,8 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return getIt<UserService>().user?.token != null
+    final user = getIt<UserService>().user;
+    return (user != null && user.token.isNotEmpty)
         ? const MainView()
         : const SignInView();
   }

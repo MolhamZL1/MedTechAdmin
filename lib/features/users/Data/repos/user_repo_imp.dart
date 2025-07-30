@@ -10,7 +10,7 @@ import '../../domain/entities/entity.dart';
 import '../../domain/entities/user-entity.dart';
 import '../../domain/repos/user_repo.dart';
 import '../models/model.dart';
-import '../models/user_model.dart';
+import '../models/get_user_model.dart';
 
 class UserRepoImp extends UserRepo {
   final DatabaseService databaseService;

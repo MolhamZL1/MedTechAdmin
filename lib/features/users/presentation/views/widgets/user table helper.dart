@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
-import 'package:med_tech_admin/main.dart'; // مهم فقط لو بتستخدم navigatorKey في أماكن تانية
-import 'package:flutter/material.dart';
 
-import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../core/widgets/show_err_dialog.dart';
 import '../../../../../core/widgets/show_question_dialog.dart';
 import '../../../../../core/widgets/showsuccessDialog.dart';
@@ -12,9 +9,8 @@ import '../../../../rentaling/domain/table_data.dart';
 import '../../../../rentaling/presentaion/widgets/action_button.dart';
 import '../../../../rentaling/presentaion/widgets/status_badge.dart';
 import '../../../../rentaling/utils/constants.dart';
-import '../../../Data/models/user_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../data/models/user_model.dart';
+
+import '../../../data/models/get_user_model.dart';
 import '../../cubits/user_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

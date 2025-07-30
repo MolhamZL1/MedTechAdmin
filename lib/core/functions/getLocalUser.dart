@@ -6,14 +6,15 @@ import '../../features/auth/data/models/user_model.dart';
 import '../services/local_storage_service.dart';
 
 class UserService {
-  static UserEntity? _cachedUser;
+  UserEntity? _cachedUser;
 
   Future<void> loadUser() async {
     final jsonString = await LocalStorageService.getItem(LocalStorageKeys.user);
-    _cachedUser =
-        jsonString == null
-            ? null
-            : UserModel.fromJson(jsonDecode(jsonString)).toEntity();
+    if (jsonString != null) {
+      _cachedUser = UserModel.fromJson(jsonDecode(jsonString)).toEntity();
+    } else {
+      _cachedUser = null;
+    }
   }
 
   UserEntity? get user => _cachedUser;

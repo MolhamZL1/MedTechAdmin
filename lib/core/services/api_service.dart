@@ -7,15 +7,17 @@ class ApiService implements DatabaseService {
 
   ApiService({required this.dio});
   @override
-  Future<Response> addData({
+  Future<dynamic> addData({
     required String endpoint,
     required Map<String, dynamic> data,
     String? rowid,
   }) async {
     if (rowid != null) {
-      return await dio.post(endpoint + rowid, data: data);
+      Response response = await dio.post(endpoint + rowid, data: data);
+      return response.data;
     } else {
-      return await dio.post(endpoint, data: data);
+      Response response = await dio.post(endpoint, data: data);
+      return response.data;
     }
   }
 

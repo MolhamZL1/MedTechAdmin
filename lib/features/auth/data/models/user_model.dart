@@ -21,9 +21,9 @@ class UserModel {
       name: json['username'],
       email: json['email'],
       role: json['role'],
-      phoneNumber: json['phoneNumber'],
-      photo: json['photo'],
-      token: json['token'],
+      // phoneNumber: json['phoneNumber'],
+      // photo: json['photo'],
+      token: json['token'] ?? "",
     );
   }
   factory UserModel.fromEntity(UserEntity userEntity) {
@@ -31,8 +31,8 @@ class UserModel {
       name: userEntity.name,
       email: userEntity.email,
       role: userEntity.role,
-      phoneNumber: userEntity.phoneNumber,
-      photo: userEntity.photo,
+      //phoneNumber: userEntity.phoneNumber,
+      // photo: userEntity.photo,
       token: userEntity.token,
     );
   }
@@ -41,15 +41,16 @@ class UserModel {
     "username": name,
     "email": email,
     "role": role,
-    "phoneNumber": phoneNumber,
-    "photo": photo,
+    "token": token,
+    // "phoneNumber": phoneNumber,
+    // "photo": photo,
   };
   toEntity() => UserEntity(
     name: name,
     email: email,
     role: role,
-    phoneNumber: phoneNumber,
-    photo: photo,
+    // phoneNumber: phoneNumber,
+    // photo: photo,
     token: token,
   );
 }
