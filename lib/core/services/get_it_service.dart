@@ -36,10 +36,7 @@ void setupSingltonGetIt() async {
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
-<<<<<<< HEAD
-=======
 
->>>>>>> 7e306bf3911d9c5747c315f57c49326c4d23a081
   getIt.registerSingleton<ProductsRepo>(
     ProductsRepoImp(databaseService: getIt.get<DatabaseService>()),
   );
