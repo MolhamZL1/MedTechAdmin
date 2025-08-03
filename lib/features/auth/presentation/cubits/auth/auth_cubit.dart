@@ -8,8 +8,6 @@ import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 import 'package:med_tech_admin/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
 
-import '../../views/sign_in_view.dart';
-
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {

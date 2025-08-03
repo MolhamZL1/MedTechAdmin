@@ -18,19 +18,7 @@ final getIt = GetIt.instance;
 void setupSingltonGetIt() async {
   getIt.registerLazySingleton<UserService>(() => UserService());
 
-  getIt.registerSingleton<DatabaseService>(
-    ApiService(
-      dio: Dio(
-        BaseOptions(
-          baseUrl: BackendEndpoints.url,
-          headers: {
-            if (getIt<UserService>().user?.token != null)
-              "Authorization": "Bearer ${getIt<UserService>().user?.token}",
-          },
-        ),
-      ),
-    ),
-  );
+  getIt.registerSingleton<DatabaseService>(ApiService());
 
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImp(databaseService: getIt.get<DatabaseService>()),

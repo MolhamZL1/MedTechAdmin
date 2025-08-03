@@ -83,11 +83,11 @@ class UserRepoImp extends UserRepo {
   @override
   Future<Either<Failure, List<GetUserEntity>>> getUsers() async {
     try {
-      final response = await databaseService.getData(
-        endpoint: BackendEndpoints.getUsers,
-      );
+      var response =
+          await databaseService.getData(endpoint: BackendEndpoints.getUsers)
+              as List<dynamic>;
 
-      final users =
+      List<GetUserEntity> users =
           response
               .map(
                 (e) =>

@@ -8,11 +8,11 @@ class ProductModel {
   final String nameEn;
   final String nameAr;
   final String categoryEn;
-  final String categoryAr;
+  final String? categoryAr;
   final String companyEn;
-  final String companyAr;
+  final String? companyAr;
   final String descriptionEn;
-  final String descriptionAr;
+  final String? descriptionAr;
   final num rentStock;
   final num saleStock;
   final num salePrice;
@@ -22,18 +22,18 @@ class ProductModel {
   final String qrCode;
   final List<String> imagesUrl;
   final num rate;
-  final List<String> videos;
+  final List<VedioModel> videos;
 
   ProductModel({
     required this.id,
     required this.nameEn,
     required this.nameAr,
     required this.categoryEn,
-    required this.categoryAr,
+    this.categoryAr,
     required this.companyEn,
-    required this.companyAr,
+    this.companyAr,
     required this.descriptionEn,
-    required this.descriptionAr,
+    this.descriptionAr,
     required this.rentStock,
     required this.saleStock,
     required this.salePrice,
@@ -49,13 +49,13 @@ class ProductModel {
     id: json["id"],
     nameEn: json["nameEn"],
     nameAr: json["nameAr"],
-    categoryEn: json["categoryEn"],
-    categoryAr: json["categoryAr"],
-    companyEn: json["companyEn"],
-    companyAr: json["companyAr"],
-    descriptionEn: json["descriptionEn"],
-    descriptionAr: json["descriptionAr"],
-    rate: json["rate"],
+    categoryEn: json["category"],
+    //categoryAr: json["categoryAr"],
+    companyEn: json["company"],
+    //companyAr: json["companyAr"],
+    descriptionEn: json["description"],
+    //descriptionAr: json["descriptionAr"],
+    rate: json["rate"] ?? "0",
     rentalPrice: json["rentPrice"],
     salePrice: json["sellPrice"],
     availableForRent: json["availableForRent"],
@@ -63,9 +63,10 @@ class ProductModel {
     rentStock: json["rentStock"],
     saleStock: json["saleStock"],
     qrCode: json["qrCode"],
-
     imagesUrl: List<String>.from(json["images"].map((x) => x)),
-    videos: List<String>.from(json["videos"].map((x) => x)),
+    videos: List<VedioModel>.from(
+      json["videos"].map((x) => VedioModel.fromJson(x)),
+    ),
   );
 
   factory ProductModel.fromEntity(ProductEntity entity) => ProductModel(
@@ -87,19 +88,21 @@ class ProductModel {
     saleStock: entity.saleStock,
     qrCode: entity.qrCode,
     imagesUrl: entity.imagesUrl,
-    videos: List<String>.from(entity.vedioUrls.map((x) => x)),
+    videos: List<VedioModel>.from(
+      entity.vedios.map((x) => VedioModel.fromEntity(x)),
+    ),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "nameEn": nameEn,
     "nameAr": nameAr,
-    "categoryEn": categoryEn,
-    "categoryAr": categoryAr,
-    "companyEn": companyEn,
-    "companyAr": companyAr,
-    "descriptionEn": descriptionEn,
-    "descriptionAr": descriptionAr,
+    "category": categoryEn,
+    //"categoryAr": categoryAr,
+    "company": companyEn,
+    //"companyAr": companyAr,
+    "description": descriptionEn,
+    //"descriptionAr": descriptionAr,
     "rate": rate,
     "rentPrice": rentalPrice,
     "sellPrice": salePrice,
@@ -130,6 +133,6 @@ class ProductModel {
     saleStock: saleStock,
     qrCode: qrCode,
     imagesUrl: imagesUrl,
-    vedioUrls: videos,
+    vedios: List<VedioEntity>.from(videos.map((x) => x.toEntity())),
   );
 }

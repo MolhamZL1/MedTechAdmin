@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'add_product_dialog/add_product_dialog.dart';
+
 class HeaderProductsView extends StatelessWidget {
   const HeaderProductsView({super.key});
 
@@ -19,7 +21,12 @@ class HeaderProductsView extends StatelessWidget {
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => const ProductAddDialog(),
+          );
+        },
         icon: const Icon(Icons.add, size: 20),
         label: Text(
           "Add Product",

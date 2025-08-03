@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:med_tech_admin/core/services/database_service.dart';
@@ -6,6 +9,8 @@ import 'package:med_tech_admin/features/products/data/models/product_model.dart'
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/errors/failures.dart';
+import '../../../../core/functions/getLocalUser.dart';
+import '../../../../core/services/get_it_service.dart';
 import '../../domain/repos/products_repo.dart';
 
 class ProductsRepoImp implements ProductsRepo {
@@ -47,12 +52,17 @@ class ProductsRepoImp implements ProductsRepo {
   @override
   Future<Either<Failure, List<ProductEntity>>> getProducts() async {
     try {
+      log(getIt<UserService>().user?.token ?? "no token".toString());
+      log("message");
       var data = await databaseService.getData(
         endpoint: BackendEndpoints.getProducts,
+        quary: {"withVideos": true},
       );
+
       List<ProductEntity> products = List<ProductEntity>.from(
-        data.map((e) => ProductModel.fromJson(e).toEntity()),
+        data["products"].map((e) => ProductModel.fromJson(e).toEntity()),
       );
+
       return right(products);
     } catch (e) {
       if (e is DioException) {

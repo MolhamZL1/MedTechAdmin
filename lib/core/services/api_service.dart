@@ -1,11 +1,21 @@
 import 'package:dio/dio.dart';
 
+import '../functions/getLocalUser.dart';
+import '../utils/backend_endpoints.dart';
 import 'database_service.dart';
+import 'get_it_service.dart';
 
 class ApiService implements DatabaseService {
-  final Dio dio;
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: BackendEndpoints.url,
+      headers: {
+        "Authorization":
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtb2xoYW1zYTQ5QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDEzOTg4MSwiZXhwIjoxNzU0NzQ0NjgxfQ.sHjBxFFdJDGGcKJHUwTTNKeSP4zT2l_S3QMRMsnmups",
+      },
+    ),
+  );
 
-  ApiService({required this.dio});
   @override
   Future<dynamic> addData({
     required String endpoint,
@@ -22,7 +32,7 @@ class ApiService implements DatabaseService {
   }
 
   @override
-  Future getData({
+  Future<dynamic> getData({
     required String endpoint,
     String? rowid,
     Map<String, dynamic>? quary,
