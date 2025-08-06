@@ -5,6 +5,7 @@ void showsuccessDialog({
   required BuildContext context,
   required String title,
   required String description,
+  void Function()? btnOkOnPress,
 }) {
   AwesomeDialog(
     context: context,
@@ -12,7 +13,7 @@ void showsuccessDialog({
     // animType: AnimType.rightSlide,
     title: title,
     desc: description,
-    btnOkOnPress: () {},
+    btnOkOnPress: btnOkOnPress,
     width: 600,
   ).show();
 }

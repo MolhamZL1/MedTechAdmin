@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:med_tech_admin/core/services/database_service.dart';
 import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
 import 'package:med_tech_admin/features/products/data/models/product_model.dart';
+import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/errors/failures.dart';
@@ -18,11 +19,11 @@ class ProductsRepoImp implements ProductsRepo {
 
   ProductsRepoImp({required this.databaseService});
   @override
-  Future<Either<Failure, void>> addProduct(ProductModel product) async {
+  Future<Either<Failure, void>> addProduct(ProductUploadModel product) async {
     try {
       await databaseService.addData(
         endpoint: BackendEndpoints.addProduct,
-        data: product.toJson(),
+        data: await product.toFormData(),
       );
       return right(null);
     } catch (e) {
@@ -52,8 +53,6 @@ class ProductsRepoImp implements ProductsRepo {
   @override
   Future<Either<Failure, List<ProductEntity>>> getProducts() async {
     try {
-      log(getIt<UserService>().user?.token ?? "no token".toString());
-      log("message");
       var data = await databaseService.getData(
         endpoint: BackendEndpoints.getProducts,
         quary: {"withVideos": true},

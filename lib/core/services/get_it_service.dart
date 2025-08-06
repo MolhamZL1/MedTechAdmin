@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
 import 'package:med_tech_admin/features/products/data/repos/products_repo_imp.dart';
 import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
 import 'package:med_tech_admin/features/settings/data/repos/settings_repo_imp.dart';

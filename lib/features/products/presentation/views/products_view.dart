@@ -8,6 +8,8 @@ import 'package:med_tech_admin/features/products/presentation/cubits/delete%20pr
 import 'package:med_tech_admin/features/products/presentation/cubits/get%20products/get_products_cubit.dart';
 import 'package:med_tech_admin/features/products/presentation/views/products_view_body.dart';
 
+import '../cubits/add product/add_product_cubit.dart';
+
 class ProductsView extends StatelessWidget {
   const ProductsView({super.key});
 

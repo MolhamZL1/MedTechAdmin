@@ -1,5 +1,6 @@
 import 'package:med_tech_admin/features/products/data/models/vedio_model.dart';
 
+import '../../../../core/utils/backend_endpoints.dart';
 import '../../domain/entities/product_entity.dart';
 import '../../domain/entities/vedio_entity.dart';
 
@@ -46,26 +47,29 @@ class ProductModel {
     required this.videos,
   });
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-    id: json["id"],
-    nameEn: json["nameEn"],
-    nameAr: json["nameAr"],
-    categoryEn: json["category"],
+    id: json["id"] ?? 0,
+    nameEn: json["nameEn"] ?? "",
+    nameAr: json["nameAr"] ?? "",
+    categoryEn: json["category"] ?? "",
     //categoryAr: json["categoryAr"],
-    companyEn: json["company"],
+    companyEn: json["company"] ?? "",
     //companyAr: json["companyAr"],
-    descriptionEn: json["description"],
+    descriptionEn: json["description"] ?? "",
     //descriptionAr: json["descriptionAr"],
-    rate: json["rate"] ?? "0",
-    rentalPrice: json["rentPrice"],
-    salePrice: json["sellPrice"],
-    availableForRent: json["availableForRent"],
-    availableForSale: json["availableForSale"],
-    rentStock: json["rentStock"],
-    saleStock: json["saleStock"],
-    qrCode: json["qrCode"],
-    imagesUrl: List<String>.from(json["images"].map((x) => x)),
+    rate: json["rate"] ?? 0,
+    rentalPrice: json["rentPrice"] ?? 0,
+    salePrice: json["sellPrice"] ?? 0,
+    availableForRent: json["availableForRent"] ?? false,
+    availableForSale: json["availableForSale"] ?? false,
+    rentStock: json["rentStock"] ?? 0,
+    saleStock: json["saleStock"] ?? 0,
+    qrCode: json["qrCode"] ?? "",
+    imagesUrl: List<String>.from(
+      (json["images"] as List<dynamic>?)?.cast<String>() ?? [],
+    ),
     videos: List<VedioModel>.from(
-      json["videos"].map((x) => VedioModel.fromJson(x)),
+      (json["videos"] as List<dynamic>?)?.map((x) => VedioModel.fromJson(x)) ??
+          [],
     ),
   );
 
@@ -94,7 +98,6 @@ class ProductModel {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "nameEn": nameEn,
     "nameAr": nameAr,
     "category": categoryEn,
@@ -102,8 +105,8 @@ class ProductModel {
     "company": companyEn,
     //"companyAr": companyAr,
     "description": descriptionEn,
+
     //"descriptionAr": descriptionAr,
-    "rate": rate,
     "rentPrice": rentalPrice,
     "sellPrice": salePrice,
     "availableForRent": availableForRent,
@@ -132,7 +135,7 @@ class ProductModel {
     rentStock: rentStock,
     saleStock: saleStock,
     qrCode: qrCode,
-    imagesUrl: imagesUrl,
+    imagesUrl: imagesUrl.map((url) => "${BackendEndpoints.url}$url").toList(),
     vedios: List<VedioEntity>.from(videos.map((x) => x.toEntity())),
   );
 }

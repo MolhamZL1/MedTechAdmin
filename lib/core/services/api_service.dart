@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 
-import '../functions/getLocalUser.dart';
 import '../utils/backend_endpoints.dart';
 import 'database_service.dart';
-import 'get_it_service.dart';
 
 class ApiService implements DatabaseService {
   final Dio dio = Dio(
@@ -19,7 +17,7 @@ class ApiService implements DatabaseService {
   @override
   Future<dynamic> addData({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required dynamic data,
     String? rowid,
   }) async {
     if (rowid != null) {
