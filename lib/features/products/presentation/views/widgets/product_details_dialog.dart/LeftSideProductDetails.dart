@@ -40,37 +40,60 @@ class LeftSideProductDetails extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Container(
-                decoration: infoContainerDcoration(),
-                child: ListTile(
-                  title: Text(
-                    "Sale Price",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                  subtitle: Text(
-                    r"$" + product.salePrice.toString(),
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
-              ),
+              child:
+                  product.availableForSale
+                      ? Container(
+                        decoration: infoContainerDcoration(),
+                        child: ListTile(
+                          title: Text(
+                            "Sale Price",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          subtitle: Text(
+                            r"$" + product.salePrice.toString(),
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ),
+                      )
+                      : Container(
+                        decoration: infoContainerDcoration(),
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            "Not for Sale",
+                            style: TextStyle(color: AppColors.warning),
+                          ),
+                        ),
+                      ),
             ),
             SizedBox(width: 16),
             Expanded(
-              child: Container(
-                decoration: infoContainerDcoration(),
-                child: ListTile(
-                  title: Text(
-                    "Rental/Day",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                  subtitle: Text(
-                    r"$" + product.salePrice.toString(),
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ),
+              child:
+                  product.availableForRent
+                      ? Container(
+                        decoration: infoContainerDcoration(),
+                        child: ListTile(
+                          title: Text(
+                            "Rental/Day",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          subtitle: Text(
+                            r"$" + product.salePrice.toString(),
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(color: AppColors.primary),
+                          ),
+                        ),
+                      )
+                      : Container(
+                        decoration: infoContainerDcoration(),
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            "Not for Rental",
+                            style: TextStyle(color: AppColors.warning),
+                          ),
+                        ),
+                      ),
             ),
           ],
         ),

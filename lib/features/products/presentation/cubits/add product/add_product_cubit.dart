@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
+import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
 import 'package:meta/meta.dart';
 
@@ -10,7 +13,7 @@ class AddProductCubit extends Cubit<AddProductState> {
   AddProductCubit(this.productsRepo) : super(AddProductInitial());
   final ProductsRepo productsRepo;
 
-  Future<void> addProduct(ProductModel product) async {
+  Future<void> addProduct(ProductUploadModel product) async {
     emit(AddProductLoading());
     final failureOrProducts = await productsRepo.addProduct(product);
     failureOrProducts.fold(

@@ -9,7 +9,7 @@
             "name": "med_tech_admin",
             "request": "launch",
             "type": "dart",
-              "args": ["--web-port=5050"]
+              "args": ["--web-port=5055"]
         },
         {
             "name": "med_tech_admin (profile mode)",

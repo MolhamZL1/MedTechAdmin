@@ -1,21 +1,31 @@
 import 'package:dio/dio.dart';
 
+import '../utils/backend_endpoints.dart';
 import 'database_service.dart';
 
 class ApiService implements DatabaseService {
-  final Dio dio;
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: BackendEndpoints.url,
+      headers: {
+        "Authorization":
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDU1OTQ3NSwiZXhwIjoxNzU1MTY0Mjc1fQ.yHnVViBxIrf4WDM5MjP5yhSXf5Pv5sIO9K7QHk74HKU",
+      },
+    ),
+  );
 
-  ApiService({required this.dio});
   @override
-  Future<Response> addData({
+  Future<dynamic> addData({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required dynamic data,
     String? rowid,
   }) async {
     if (rowid != null) {
-      return await dio.post(endpoint + rowid, data: data);
+      Response response = await dio.post(endpoint + rowid, data: data);
+      return response.data;
     } else {
-      return await dio.post(endpoint, data: data);
+      Response response = await dio.post(endpoint, data: data);
+      return response.data;
     }
   }
 
@@ -25,22 +35,17 @@ class ApiService implements DatabaseService {
     String? rowid,
     Map<String, dynamic>? quary,
   }) async {
-    Response response;
     if (rowid != null) {
-      response = await dio.get(endpoint + rowid, queryParameters: quary);
+      Response response = await dio.get(
+        endpoint + rowid,
+        queryParameters: quary,
+      );
+      return response.data;
+    } else {
+      Response response = await dio.get(endpoint, queryParameters: quary);
+      return response.data;
     }
-    else {
-      response = await dio.get(endpoint, queryParameters: quary);
-      // Response response = await dio.get(endpoint + rowid);
-      // return response.data;
-    }
-    // else {
-    //   Response response = await dio.get(endpoint);
-    //   return response.data;
-    // }
-    return response.data;
   }
-
 
   @override
   Future deleteData({required String endpoint, String? rowid}) async {

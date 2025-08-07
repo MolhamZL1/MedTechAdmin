@@ -19,13 +19,22 @@ class HEaderProductDEtailsDialog extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
-        subtitle: Row(
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.star, color: Colors.amber, size: 20),
-            const SizedBox(width: 4),
-            Text('4.8'),
-            const SizedBox(width: 4),
-            Text('(123 reviews)', style: TextStyle(color: Colors.grey)),
+            Text(
+              product.categoryEn,
+              style: const TextStyle(color: Colors.grey),
+            ),
+            Row(
+              children: [
+                const Icon(Icons.star, color: Colors.amber, size: 20),
+                const SizedBox(width: 4),
+                Text(product.rate.toString()),
+                const SizedBox(width: 4),
+                Text('(0 reviews)', style: TextStyle(color: Colors.grey)),
+              ],
+            ),
           ],
         ),
         trailing: IconButton(

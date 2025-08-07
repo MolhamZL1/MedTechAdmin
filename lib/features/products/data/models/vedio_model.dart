@@ -1,18 +1,17 @@
+import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
 import 'package:med_tech_admin/features/products/domain/entities/vedio_entity.dart';
 
 class VedioModel {
-  final String id;
+  final num id;
   final String name;
   final String url;
   final String description;
-  final String time;
 
   VedioModel({
     required this.id,
     required this.name,
     required this.url,
     required this.description,
-    required this.time,
   });
 
   factory VedioModel.fromJson(Map<String, dynamic> json) {
@@ -20,8 +19,7 @@ class VedioModel {
       id: json['id'],
       name: json['name'],
       url: json['url'],
-      description: json['description'],
-      time: json['time'],
+      description: json['bio'] ?? "",
     );
   }
   factory VedioModel.fromEntity(VedioEntity entity) => VedioModel(
@@ -29,21 +27,13 @@ class VedioModel {
     name: entity.name,
     url: entity.url,
     description: entity.description,
-    time: entity.time,
   );
-  tojson() => {
-    'id': id,
-    'name': name,
-    'url': url,
-    'description': description,
-    'time': time,
-  };
+  tojson() => {'id': id, 'name': name, 'url': url, 'bio': description};
 
   VedioEntity toEntity() => VedioEntity(
     id: id,
     name: name,
-    url: url,
+    url: "${BackendEndpoints.url}$url",
     description: description,
-    time: time,
   );
 }

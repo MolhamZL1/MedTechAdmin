@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:med_tech_admin/core/functions/get_vedio_duration.dart';
 
 import '../../../../domain/entities/vedio_entity.dart';
 import 'ShowVedioDialog.dart';
 
-class VedioItem extends StatelessWidget {
+class VedioItem extends StatefulWidget {
   const VedioItem({super.key, required this.vedioEntity});
   final VedioEntity vedioEntity;
+
+  @override
+  State<VedioItem> createState() => _VedioItemState();
+}
+
+class _VedioItemState extends State<VedioItem> {
+  Duration? duration;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDuration();
+  }
+
+  Future<void> _loadDuration() async {
+    final result = await getVideoDurationFromUrl(widget.vedioEntity.url);
+    if (mounted) {
+      setState(() {
+        duration = result;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +44,8 @@ class VedioItem extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => ShowVedioDialog(vedioEntity: vedioEntity),
+              builder:
+                  (context) => ShowVedioDialog(vedioEntity: widget.vedioEntity),
             );
           },
           child: Container(
@@ -36,14 +60,14 @@ class VedioItem extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(bottom: 4.0),
           child: Text(
-            vedioEntity.name,
+            widget.vedioEntity.name,
             style: Theme.of(
               context,
             ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         subtitle: Text(
-          vedioEntity.description,
+          widget.vedioEntity.description,
           style: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
@@ -54,7 +78,9 @@ class VedioItem extends StatelessWidget {
             Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
             SizedBox(width: 4),
             Text(
-              vedioEntity.time,
+              duration == null
+                  ? '--:--'
+                  : '${duration!.inMinutes}:${(duration!.inSeconds % 60).toString().padLeft(2, '0')}',
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),

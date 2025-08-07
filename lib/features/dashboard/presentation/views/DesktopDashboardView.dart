@@ -1,11 +1,17 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:med_tech_admin/core/functions/Container_decoration.dart';
+import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/utils/app_colors.dart';
 import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
+import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
+import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart';
+import 'package:med_tech_admin/features/products/presentation/views/widgets/add_product_dialog/add_product_dialog.dart';
 
 import '../../../../core/entities/InfoCardEntity.dart';
+import '../../../products/presentation/cubits/cubit/add_media_cubit.dart';
 import '../../../products/presentation/views/widgets/InfoCardList.dart';
 
 class DesktopDashboardView extends StatelessWidget {
@@ -30,7 +36,34 @@ class DesktopDashboardView extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               SizedBox(height: 24),
-              Row(children: [ActionCard()]),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                  create:
+                                      (context) => AddProductCubit(
+                                        getIt.get<ProductsRepo>(),
+                                      ),
+                                ),
+
+                                BlocProvider(
+                                  create: (context) => AddMediaCubit(),
+                                ),
+                              ],
+                              child: ProductAddDialog(),
+                            ),
+                      );
+                    },
+                    child: ActionCard(),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

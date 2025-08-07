@@ -30,7 +30,10 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   height: 200,
                   child: CustomImageNetwork(
-                    imageUrl: productEntity.imagesUrl[0],
+                    imageUrl:
+                        productEntity.imagesUrl.isEmpty
+                            ? ""
+                            : productEntity.imagesUrl[0],
                   ),
                 ),
               ),
