@@ -22,7 +22,7 @@ class UserViewBody extends StatelessWidget {
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center();
           } else if (state is UserSuccess) {
             final cubit = BlocProvider.of<UserCubit>(context);
             final tableData = UserTableHelper.fromUserList(state.usersEntity, cubit,context);

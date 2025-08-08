@@ -95,7 +95,7 @@ class UserTableHelper {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
           return StatusBadge(
-            status: user.isBanned ? StatusType.active : StatusType.active,
+            status: user.isBanned ? StatusType.suspended : StatusType.active,
           );
         },
       ),

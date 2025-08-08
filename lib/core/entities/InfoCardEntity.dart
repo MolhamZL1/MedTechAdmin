@@ -127,3 +127,29 @@ List<InfoCardEntity> Userslistinfo = [
     icon: Icon(Icons.people_alt_outlined, color: AppColors.primary, size: 35),
   ),
 ];
+List<InfoCardEntity> Maintenancelistinfo = [
+  InfoCardEntity(
+    // color: Colors.black87,
+    text: "Pending Requests",
+    count: "5",
+    icon: Icon(Icons.notifications_active, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.warning,
+    text: "In Progress",
+    count: "3",
+    icon: Icon(Icons.timelapse_outlined, size: 35, color: AppColors.warning),
+  ),
+  InfoCardEntity(
+    color: AppColors.success,
+    text: "Total Requests",
+    count: "1",
+    icon: Icon(Icons.error, color: AppColors.success, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.error,
+    text: "Total Cost",
+    count: "411",
+    icon: Icon(Icons.attach_money_sharp, size: 35, color: AppColors.error),
+  ),
+];
