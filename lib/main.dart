@@ -15,7 +15,6 @@ import 'features/auth/domain/repos/auth_repo.dart';
 void main() async {
   Bloc.observer = CustomBlocObserver();
   setupSingltonGetIt();
-
   await getIt<UserService>().loadUser();
   runApp(
     MultiBlocProvider(

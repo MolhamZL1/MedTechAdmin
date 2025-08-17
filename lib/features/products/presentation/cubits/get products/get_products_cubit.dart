@@ -11,6 +11,7 @@ class GetProductsCubit extends Cubit<GetProductsState> {
     getProducts();
   }
   final ProductsRepo productsRepo;
+  List<ProductEntity> products = [];
 
   Future<void> getProducts() async {
     emit(GetProductsLoading());
@@ -19,8 +20,9 @@ class GetProductsCubit extends Cubit<GetProductsState> {
       (failure) {
         emit(GetProductsError(failure.errMessage));
       },
-      (products) {
-        emit(GetProductsSuccess(products));
+      (p) {
+        products = p;
+        emit(GetProductsSuccess(p));
       },
     );
   }

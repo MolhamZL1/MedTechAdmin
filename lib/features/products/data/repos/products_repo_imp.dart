@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -10,8 +9,6 @@ import 'package:med_tech_admin/features/products/data/models/product_upload_mode
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../../../../core/functions/getLocalUser.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../../domain/repos/products_repo.dart';
 
 class ProductsRepoImp implements ProductsRepo {
@@ -43,6 +40,7 @@ class ProductsRepoImp implements ProductsRepo {
       );
       return right(null);
     } catch (e) {
+      log(e.toString());
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
       }

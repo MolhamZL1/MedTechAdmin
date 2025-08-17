@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/cubit/add_media_cubit.dart';
-import 'package:med_tech_admin/features/products/presentation/cubits/get%20products/get_products_cubit.dart';
 
 import '../../../../../../core/widgets/show_err_dialog.dart';
 import '../../../../../../core/widgets/showsuccessDialog.dart';

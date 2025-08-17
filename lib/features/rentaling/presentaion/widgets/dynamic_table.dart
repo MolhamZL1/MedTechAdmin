@@ -86,9 +86,10 @@ class _DynamicTableState extends State<DynamicTable> {
       decoration: BoxDecoration(
         color: AppConstants.cardBackground,
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-        border: widget.tableData.showBorder
-            ? Border.all(color: AppConstants.borderColor)
-            : null,
+        border:
+            widget.tableData.showBorder
+                ? Border.all(color: AppConstants.borderColor)
+                : null,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -116,7 +117,7 @@ class _DynamicTableState extends State<DynamicTable> {
         style: const TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
-       //   color: AppConstants.primaryText,
+          //   color: AppConstants.primaryText,
         ),
       ),
     );
@@ -133,7 +134,7 @@ class _DynamicTableState extends State<DynamicTable> {
 
   Widget _buildBody() {
     final maxHeight = widget.tableData.maxHeight;
-    
+
     Widget body = ListView.builder(
       shrinkWrap: maxHeight == null,
       itemCount: _sortedRows.length,
@@ -154,4 +155,3 @@ class _DynamicTableState extends State<DynamicTable> {
     return body;
   }
 }
-

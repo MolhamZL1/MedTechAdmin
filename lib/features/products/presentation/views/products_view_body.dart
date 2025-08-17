@@ -28,7 +28,7 @@ class ProductsViewBody extends StatelessWidget {
       children: [
         HeaderProductsView(),
         SizedBox(height: 24),
-        InfoCardList(entities: productinfolist),
+        InfoCardList(entities: productinfolist(context)),
         SizedBox(height: 24),
         Container(
           decoration: containerDecoration(context),

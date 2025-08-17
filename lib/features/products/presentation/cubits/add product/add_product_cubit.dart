@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:bloc/bloc.dart';
 import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
