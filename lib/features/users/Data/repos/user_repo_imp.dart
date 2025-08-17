@@ -12,13 +12,16 @@ import '../../domain/entities/entity.dart';
 import '../../domain/entities/user-entity.dart';
 import '../../domain/repos/user_repo.dart';
 import '../models/model.dart';
-import '../models/get_user_model.dart';
+import '../models/user_model.dart';
 
 class UserRepoImp extends UserRepo {
   final DatabaseService databaseService;
 
   UserRepoImp({required this.databaseService});
   @override
+  @override
+
+
   Future<Either<Failure, void>> banUser(String id) async {
     try {
       await databaseService.updateData(
@@ -85,19 +88,23 @@ class UserRepoImp extends UserRepo {
   @override
   Future<Either<Failure, List<GetUserEntity>>> getUsers() async {
     try {
-      var response =
-          await databaseService.getData(endpoint: BackendEndpoints.getUsers)
-              as List<dynamic>;
+      final response = await databaseService.getData(
+        endpoint: BackendEndpoints.getUsers,
+      );
 
-      List<GetUserEntity> users =
-          response
-              .map(
-                (e) =>
-                    GetUserModel.fromJson(e as Map<String, dynamic>).toEntity(),
-              )
-              .toList();
+      print("Response from API: $response");
+
+      if (response is! List) {
+        return Left(ServerFailure(
+            errMessage: "Expected list of users but got ${response.runtimeType}"));
+      }
+
+      final users = response
+          .map((e) => GetUserModel.fromJson(e as Map<String, dynamic>).toEntity())
+          .toList();
 
       return Right(users);
+
     } catch (e) {
       log(e.toString());
       if (e is DioException) {
@@ -106,4 +113,8 @@ class UserRepoImp extends UserRepo {
       return Left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+
+
+
 }

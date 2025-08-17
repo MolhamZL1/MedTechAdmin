@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import '../../../../core/functions/getLocalUser.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../domain/entities/entity.dart';
 import '../../domain/entities/user-entity.dart';
@@ -19,8 +15,8 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     final result = await userRepo.getUsers();
     result.fold(
-      (failure) => emit(UserFailure(errMessage: failure.errMessage)),
-      (users) => emit(UserSuccess(usersEntity: users)),
+          (failure) => emit(UserFailure(errMessage: failure.errMessage)),
+          (users) => emit(UserSuccess(usersEntity: users)),
     );
   }
 
@@ -28,8 +24,8 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     final result = await userRepo.deleteUser(id);
     result.fold(
-      (failure) => emit(UserFailure(errMessage: failure.errMessage)),
-      (_) => fetchUsers(),
+          (failure) => emit(UserFailure(errMessage: failure.errMessage)),
+          (_) => fetchUsers(),
     );
   }
 
@@ -37,8 +33,8 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     final result = await userRepo.banUser(id);
     result.fold(
-      (failure) => emit(UserFailure(errMessage: failure.errMessage)),
-      (_) => fetchUsers(),
+          (failure) => emit(UserFailure(errMessage: failure.errMessage)),
+          (_) => fetchUsers(),
     );
   }
 
@@ -46,23 +42,23 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     final result = await userRepo.unbanUser(id);
     result.fold(
-      (failure) => emit(UserFailure(errMessage: failure.errMessage)),
-      (_) => fetchUsers(),
+          (failure) => emit(UserFailure(errMessage: failure.errMessage)),
+          (_) => fetchUsers(),
     );
   }
-
   Future<String?> createUser(CreateUserEntity users) async {
     emit(UserLoading());
     final result = await userRepo.createUserByAdmin(users);
     return result.fold(
-      (failure) {
+          (failure) {
         emit(UserFailure(errMessage: failure.errMessage));
         return failure.errMessage;
       },
-      (_) {
-        fetchUsers();
+          (_)  {
+         fetchUsers();
         return "User created successfully";
       },
     );
   }
+
 }

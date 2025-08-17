@@ -24,9 +24,13 @@ class HeaderUsersView extends StatelessWidget {
         "Manage user accounts and permissions",
         style: Theme.of(context).textTheme.bodyMedium,
       ),
-      trailing: ElevatedButton(
+      trailing: ElevatedButton.icon(
         onPressed: () => _showAddUserDialog(context),
-        child: Text("Add new user"),
+        icon: const Icon(Icons.add, size: 20),
+        label: Text(
+          "Add User",
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+        ),
       ),
     );
   }
@@ -69,9 +73,7 @@ class HeaderUsersView extends StatelessWidget {
                       if (value == null || value.trim().isEmpty) {
                         return 'Email is required';
                       }
-                      if (!RegExp(
-                        r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
-                      ).hasMatch(value)) {
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$').hasMatch(value)) {
                         return 'Enter a valid email';
                       }
                       return null;
@@ -148,7 +150,6 @@ class HeaderUsersView extends StatelessWidget {
                     }
                   });
                 }
-                // إذا ما كان الفورم صحيح، Validator سيعرض الرسائل المناسبة تلقائياً
               },
             ),
           ],
@@ -156,4 +157,6 @@ class HeaderUsersView extends StatelessWidget {
       },
     );
   }
+
+
 }

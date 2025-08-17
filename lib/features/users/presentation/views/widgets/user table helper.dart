@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
+import 'package:med_tech_admin/main.dart'; // مهم فقط لو بتستخدم navigatorKey في أماكن تانية
+import 'package:flutter/material.dart';
 
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../core/widgets/show_err_dialog.dart';
 import '../../../../../core/widgets/show_question_dialog.dart';
 import '../../../../../core/widgets/showsuccessDialog.dart';
@@ -9,18 +12,14 @@ import '../../../../rentaling/domain/table_data.dart';
 import '../../../../rentaling/presentaion/widgets/action_button.dart';
 import '../../../../rentaling/presentaion/widgets/status_badge.dart';
 import '../../../../rentaling/utils/constants.dart';
-
-import '../../../data/models/get_user_model.dart';
+import '../../../Data/models/user_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubits/user_cubit.dart';
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class UserTableHelper {
-  static TableData fromUserList(
-    List<GetUserEntity> users,
-    UserCubit cubit,
-    BuildContext context,
-  ) {
+
+  static TableData fromUserList(List<GetUserEntity> users, UserCubit cubit,BuildContext context) {
     final columns = [
       TableColumn(
         key: 'user',
@@ -34,22 +33,18 @@ class UserTableHelper {
             children: [
               CircleAvatar(
                 backgroundColor: AppConstants.accentText,
-                child: Text(
-                  user.username.substring(0, 1).toUpperCase(),
-                  style: const TextStyle(color: Colors.white),
-                ),
+                child: Text(user.username.substring(0, 1).toUpperCase(),
+                    style: const TextStyle(color: Colors.white)),
               ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    user.username,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  Text(user.username,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                   Text('ID: ${user.id}', style: const TextStyle(fontSize: 12)),
                 ],
-              ),
+              )
             ],
           );
         },
@@ -66,10 +61,8 @@ class UserTableHelper {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(user.email),
-              Text(
-                _formatDate(user.createdAt),
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+              Text(_formatDate(user.createdAt),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey)),
             ],
           );
         },
@@ -102,7 +95,7 @@ class UserTableHelper {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
           return StatusBadge(
-            status: user.isBanned ? StatusType.active : StatusType.active,
+            status: user.isBanned ? StatusType.suspended : StatusType.active,
           );
         },
       ),
@@ -133,7 +126,7 @@ class UserTableHelper {
                     context: context, // ✅ استخدم السياق الطبيعي
                     title: user.isBanned ? "Unban User" : "Ban User",
                     description:
-                        "Are you sure you want to ${user.isBanned ? 'unban' : 'ban'} this user?",
+                    "Are you sure you want to ${user.isBanned ? 'unban' : 'ban'} this user?",
                     btnOkOnPress: () async {
                       if (user.isBanned) {
                         await cubit.unbanUser(user.id.toString());
@@ -153,7 +146,7 @@ class UserTableHelper {
                           context: context,
                           title: "Success",
                           description:
-                              "User ${user.isBanned ? 'unbanned' : 'banned'} successfully.",
+                          "User ${user.isBanned ? 'unbanned' : 'banned'} successfully.",
                         );
                       }
                     },
@@ -193,24 +186,23 @@ class UserTableHelper {
                 },
                 text: '',
               ),
+
             ],
           );
         },
       ),
+
     ];
 
-    final rows =
-        users
-            .map(
-              (user) => {
-                'user': user,
-                'contact': user,
-                'role': user,
-                'status': user,
-                'actions': user,
-              },
-            )
-            .toList();
+    final rows = users
+        .map((user) => {
+      'user': user,
+      'contact': user,
+      'role': user,
+      'status': user,
+      'actions': user,
+    })
+        .toList();
 
     return TableData(
       showBorder: true,

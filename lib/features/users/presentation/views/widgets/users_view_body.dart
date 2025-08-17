@@ -1,40 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_tech_admin/features/rentaling/presentaion/widgets/dynamic_table.dart';
-import 'package:med_tech_admin/features/users/presentation/cubits/user_cubit.dart';
-import 'package:med_tech_admin/core/services/get_it_service.dart';
-import 'package:med_tech_admin/features/users/domain/repos/user_repo.dart';
-import 'package:med_tech_admin/features/users/presentation/views/widgets/user%20table%20helper.dart';
-import 'HeaderUserView.dart';
+import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
+import 'package:med_tech_admin/features/users/presentation/views/widgets/HeaderUserView.dart';
 
-class UserViewBody extends StatefulWidget {
+import '../../../../../core/entities/InfoCardEntity.dart';
+import '../../../../../core/services/get_it_service.dart';
+import '../../../../orders/presentation/views/widgets/InformCardList.dart';
+import '../../../../rentaling/presentaion/widgets/dynamic_table.dart';
+import '../../../Data/models/user_model.dart';
+import '../../../domain/repos/user_repo.dart';
+import 'user table helper.dart';
+import '../../cubits/user_cubit.dart';
+
+class UserViewBody extends StatelessWidget {
   const UserViewBody({super.key});
 
   @override
-  State<UserViewBody> createState() => _UserViewBodyState();
-}
-
-class _UserViewBodyState extends State<UserViewBody> {
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => UserCubit(getIt<UserRepo>())..fetchUsers(),
+      create: (_) => UserCubit(getIt.get<UserRepo>())..fetchUsers(),
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center();
           } else if (state is UserSuccess) {
-            final cubit = context.read<UserCubit>();
-            final tableData = UserTableHelper.fromUserList(
-              state.usersEntity,
-              cubit,
-              context,
+            final cubit = BlocProvider.of<UserCubit>(context);
+            final tableData = UserTableHelper.fromUserList(state.usersEntity, cubit,context);
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    HeaderUsersView(),
+                    const SizedBox(height: 24),
+                    InformCardList(entities: Userslistinfo),
+                    const SizedBox(height: 24),
+                    DynamicTable(
+                      tableData: tableData,
+                      enableSorting: true,
+                    ),
+                  ],
+                ),
+              ),
             );
-            return DynamicTable(tableData: tableData);
           } else if (state is UserFailure) {
-            return const Center(child: Text('Failed to load users'));
+            return Center(child: Text('Error: ${state.errMessage}'));
           }
-          return const Center(child: Text('No data available'));
+          return const Center(child: Text('No data yet'));
         },
       ),
     );
