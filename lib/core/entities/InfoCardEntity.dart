@@ -153,3 +153,29 @@ List<InfoCardEntity> Maintenancelistinfo = [
     icon: Icon(Icons.attach_money_sharp, size: 35, color: AppColors.error),
   ),
 ];
+List<InfoCardEntity> Financiallistinfo = [
+  InfoCardEntity(
+    // color: Colors.black87,
+    text: "Total Revenue",
+    count: "425,670",
+    icon: Icon(Icons.attach_money, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.warning,
+    text: "Net Profit",
+    count: "300",
+    icon: Icon(Icons.attach_money_rounded, size: 35, color: AppColors.warning),
+  ),
+  InfoCardEntity(
+    color: AppColors.success,
+    text: "Total Expenses",
+    count: "170",
+    icon: Icon(Icons.trending_down, color: AppColors.success, size: 35),
+  ),
+  InfoCardEntity(
+    color: AppColors.error,
+    text: "Profit Margin",
+    count: "411",
+    icon: Icon(Icons.trending_down, size: 35, color: AppColors.error),
+  ),
+];

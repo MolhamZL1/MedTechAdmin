@@ -9,7 +9,7 @@ class ApiService implements DatabaseService {
       baseUrl: BackendEndpoints.url,
       headers: {
         "Authorization":
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDU1OTQ3NSwiZXhwIjoxNzU1MTY0Mjc1fQ.yHnVViBxIrf4WDM5MjP5yhSXf5Pv5sIO9K7QHk74HKU",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NTUzOTE4NSwiZXhwIjoxNzU2MTQzOTg1fQ.LcTN7OMF9lJS2yJf3BCZG-B6HsrZrEmfkOz2wx4QTIE",
       },
     ),
   );

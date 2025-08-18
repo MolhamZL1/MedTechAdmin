@@ -41,7 +41,7 @@ class HeaderUsersView extends StatelessWidget {
     final usernameController = TextEditingController();
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-    final roleController = TextEditingController();
+    String? selectedRole; // بدل TextEditingController
 
     showDialog(
       context: context,
@@ -95,14 +95,51 @@ class HeaderUsersView extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 5),
-                  TextFormField(
-                    controller: roleController,
+
+                  /// 🔽 Dropdown للـ Role
+                  DropdownButtonFormField<String>(
+                    value: selectedRole,
                     decoration: InputDecoration(labelText: 'Role'),
+                    items: const [
+                      DropdownMenuItem(
+                        value: "USER",
+                        child: Row(
+                          children: [
+                            Icon(Icons.person, color: Colors.blue),
+                            SizedBox(width: 8),
+                            Text("User"),
+                          ],
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "ACCOUNTANT",
+                        child: Row(
+                          children: [
+                            Icon(Icons.account_balance_wallet, color: Colors.green),
+                            SizedBox(width: 8),
+                            Text("Accountant"),
+                          ],
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "MAINTENANCE",
+                        child: Row(
+                          children: [
+                            Icon(Icons.build, color: Colors.orange),
+                            SizedBox(width: 8),
+                            Text("Maintenance"),
+                          ],
+                        ),
+                      ),
+                    ],
                     validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Role is required';
+                      if (value == null || value.isEmpty) {
+                        return "Role is required";
                       }
                       return null;
+                    },
+                    onChanged: (value) {
+                      selectedRole = value;
                     },
                   ),
                 ],
@@ -124,7 +161,7 @@ class HeaderUsersView extends StatelessWidget {
                     username: usernameController.text.trim(),
                     email: emailController.text.trim(),
                     password: passwordController.text.trim(),
-                    role: roleController.text.trim(),
+                    role: selectedRole ?? "",
                   );
 
                   final message = await cubit.createUser(user);
@@ -157,6 +194,4 @@ class HeaderUsersView extends StatelessWidget {
       },
     );
   }
-
-
 }
