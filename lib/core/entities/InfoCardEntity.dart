@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:med_tech_admin/features/products/presentation/cubits/get%20products/get_products_cubit.dart';
 
 import '../utils/app_colors.dart';
 
@@ -17,44 +19,58 @@ class InfoCardEntity {
   });
 }
 
-List<InfoCardEntity> productinfolist = [
-  InfoCardEntity(
-    // color: Colors.black87,
-    text: "Total Products",
-    count: "10",
-    icon: Icon(FontAwesomeIcons.cube, size: 35),
-  ),
-  InfoCardEntity(
-    color: AppColors.success,
-    text: "Available",
-    count: "5",
-    icon: CircleAvatar(
-      backgroundColor: AppColors.success.withOpacity(.2),
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Icon(FontAwesomeIcons.cube, color: AppColors.success, size: 25),
+List<InfoCardEntity> productinfolist(BuildContext context) {
+  return [
+    InfoCardEntity(
+      // color: Colors.black87,
+      text: "Total Products",
+      count:
+          context.watch<GetProductsCubit>().products.isEmpty
+              ? "...."
+              : context.watch<GetProductsCubit>().products.length.toString(),
+      icon: Icon(FontAwesomeIcons.cube, size: 35),
+    ),
+    InfoCardEntity(
+      color: AppColors.success,
+      text: "Available",
+      count: "5",
+      icon: CircleAvatar(
+        backgroundColor: AppColors.success.withOpacity(.2),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Icon(
+            FontAwesomeIcons.cube,
+            color: AppColors.success,
+            size: 25,
+          ),
+        ),
       ),
     ),
-  ),
-  InfoCardEntity(
-    color: AppColors.warning,
-    text: "Low Stock",
-    count: "1",
-    icon: Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 35),
-  ),
-  InfoCardEntity(
-    color: AppColors.error,
-    text: "Out of Stock",
-    count: "4",
-    icon: CircleAvatar(
-      backgroundColor: AppColors.error.withOpacity(.2),
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Icon(Icons.close, color: AppColors.error, size: 25),
+    InfoCardEntity(
+      color: AppColors.warning,
+      text: "Low Stock",
+      count: "1",
+      icon: Icon(
+        Icons.warning_amber_rounded,
+        color: AppColors.warning,
+        size: 35,
       ),
     ),
-  ),
-];
+    InfoCardEntity(
+      color: AppColors.error,
+      text: "Out of Stock",
+      count: "4",
+      icon: CircleAvatar(
+        backgroundColor: AppColors.error.withOpacity(.2),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Icon(Icons.close, color: AppColors.error, size: 25),
+        ),
+      ),
+    ),
+  ];
+}
+
 List<InfoCardEntity> orderslistinfo = [
   InfoCardEntity(
     // color: Colors.black87,

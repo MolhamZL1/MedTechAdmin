@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:med_tech_admin/core/errors/failures.dart';
@@ -104,6 +106,7 @@ class UserRepoImp extends UserRepo {
       return Right(users);
 
     } catch (e) {
+      log(e.toString());
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
       }
