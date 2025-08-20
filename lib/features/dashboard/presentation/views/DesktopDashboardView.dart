@@ -9,10 +9,15 @@ import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
 import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart';
 import 'package:med_tech_admin/features/products/presentation/views/widgets/add_product_dialog/add_product_dialog.dart';
+import 'package:med_tech_admin/features/users/presentation/views/widgets/HeaderUserView.dart';
 
 import '../../../../core/entities/InfoCardEntity.dart';
+import '../../../Financial/presentaion/views/widgets/revenue_breakdown_chart.dart';
+import '../../../Financial/presentaion/views/widgets/revenue_expenses_chart.dart';
 import '../../../products/presentation/cubits/cubit/add_media_cubit.dart';
 import '../../../products/presentation/views/widgets/InfoCardList.dart';
+import '../../../users/presentation/cubits/user_cubit.dart';
+import 'ActionCard.dart';
 
 class DesktopDashboardView extends StatelessWidget {
   const DesktopDashboardView({super.key});
@@ -25,129 +30,133 @@ class DesktopDashboardView extends StatelessWidget {
         SizedBox(height: 24),
         InfoCardList(entities: dashboardinfolist),
         SizedBox(height: 24),
-        Container(
-          decoration: containerDecoration(context),
-          padding: EdgeInsets.all(32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Quick Actions",
-                style: Theme.of(context).textTheme.headlineSmall,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 400,
+                margin: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const RevenueExpensesChart(),
               ),
-              SizedBox(height: 24),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder:
-                            (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider(
-                                  create:
-                                      (context) => AddProductCubit(
-                                        getIt.get<ProductsRepo>(),
-                                      ),
-                                ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child:Container(
+                  width: 600,
+                  decoration: containerDecoration(context),
+                  padding: EdgeInsets.all(32),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Quick Actions",
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
 
-                                BlocProvider(
-                                  create: (context) => AddMediaCubit(),
-                                ),
-                              ],
-                              child: ProductAddDialog(),
+                      SizedBox(height: 24),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider(
+                                        create:
+                                            (context) => AddProductCubit(
+                                          getIt.get<ProductsRepo>(),
+                                        ),
+                                      ),
+
+                                      BlocProvider(
+                                        create: (context) => AddMediaCubit(),
+                                      ),
+                                    ],
+                                    child: ProductAddDialog(),
+                                  ),
+                                );
+                              },
+                              child: ActionCard(
+                                leadingIcon: Icons.add,
+                                trailingIcon: Icons.medical_services,
+                                title: "Add new Product",
+                                subtitle: "Add medical equipment to inventory",
+                                color: AppColors.primary,
+                              ),
                             ),
-                      );
-                    },
-                    child: ActionCard(),
+                            SizedBox(width: 10,),
+                            ActionCard(
+                              leadingIcon: Icons.add,
+                              trailingIcon: Icons.medication_outlined,
+                              title: "Add new Rental",
+                              subtitle: "Add medical rental to inventory",
+                              color: AppColors.warning,
+                            ),
+                            SizedBox(width: 10,),
+                            GestureDetector(
+                              onTap: () => showAddUserDialog(context,cubit: BlocProvider.of<UserCubit>(context)),
+                              child: ActionCard(
+                                leadingIcon: Icons.add,
+                                trailingIcon: Icons.supervised_user_circle,
+                                title: "Add new User",
+                                subtitle: "Add user to company employment",
+                                color: AppColors.success,
+
+                              ),
+                            ),
+
+
+
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+
+        SizedBox(height: 24),
+
       ],
     );
   }
 }
 
-class ActionCard extends StatefulWidget {
-  const ActionCard({super.key});
-
-  @override
-  State<ActionCard> createState() => _ActionCardState();
-}
-
-class _ActionCardState extends State<ActionCard> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color:
-            _isHovered
-                ? AppColors.primary.withValues(alpha: 0.1)
-                : Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(16),
-          color: _isHovered ? AppColors.primary : Colors.grey.shade400,
-          dashPattern: const [5, 4],
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  AnimatedScale(
-                    scale: _isHovered ? 1.2 : 1.0,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      child: const Icon(Icons.add, color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Icon(
-                    FontAwesomeIcons.cube,
-                    color: AppColors.primary,
-                    size: 20,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Add new Product",
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Add medical equipment to inventory",
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 List<InfoCardEntity> dashboardinfolist = [
   InfoCardEntity(

@@ -110,20 +110,18 @@ class UserTableHelper {
 
           return ActionButtonGroup(
             buttons: [
-              // 👁 زر الرؤية كما هو
               ActionButton(
                 icon: Icons.visibility,
                 onPressed: () => print('View ${user.username}'),
                 text: '',
               ),
 
-              // 🔐 زر الحظر وفك الحظر مع ديالوغ التأكيد والنجاح/الفشل
               ActionButton(
                 icon: user.isBanned ? Icons.lock_open : Icons.block,
                 color: user.isBanned ? Colors.green : Colors.orange,
                 onPressed: () {
                   showQuestionDialog(
-                    context: context, // ✅ استخدم السياق الطبيعي
+                    context: context,
                     title: user.isBanned ? "Unban User" : "Ban User",
                     description:
                     "Are you sure you want to ${user.isBanned ? 'unban' : 'ban'} this user?",

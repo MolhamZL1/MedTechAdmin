@@ -9,6 +9,8 @@ import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
 import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme_cubit.dart';
+import 'package:med_tech_admin/features/users/domain/repos/user_repo.dart';
+import 'package:med_tech_admin/features/users/presentation/cubits/user_cubit.dart';
 
 import 'features/auth/domain/repos/auth_repo.dart';
 
@@ -21,6 +23,7 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthRepo>())),
+        BlocProvider(create: (context)=> UserCubit(getIt.get<UserRepo>()))
       ],
       child: const MedTech(),
     ),
