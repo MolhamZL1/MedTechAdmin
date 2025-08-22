@@ -11,10 +11,7 @@ import '../../rentaling/rental_view.dart';
 import '../../users/presentation/views/users_view.dart';
 
 List pages = [DashboardView(), ProductsView(), OrdersView(), RentalView(),MaintenanceView(),UsersView(),FinancialView(),
-  Container(
-      width: 400,
-      height: 400,
-      child: AiChatView())];
+  SettingsView()];
 
 List<Map> items = [
   {'icon': Icons.dashboard_outlined, 'title': 'Dashboard'},
