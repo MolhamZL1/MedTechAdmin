@@ -10,6 +10,10 @@ import 'package:med_tech_admin/features/products/domain/repos/products_repo.dart
 import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart';
 import 'package:med_tech_admin/features/products/presentation/views/widgets/add_product_dialog/add_product_dialog.dart';
 import 'package:med_tech_admin/features/users/presentation/views/widgets/HeaderUserView.dart';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart'; // للتحقق من kIsWeb
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/entities/InfoCardEntity.dart';
 import '../../../Financial/presentaion/views/widgets/revenue_breakdown_chart.dart';
@@ -18,6 +22,7 @@ import '../../../products/presentation/cubits/cubit/add_media_cubit.dart';
 import '../../../products/presentation/views/widgets/InfoCardList.dart';
 import '../../../users/presentation/cubits/user_cubit.dart';
 import 'ActionCard.dart';
+import 'offer.dart';
 
 class DesktopDashboardView extends StatelessWidget {
   const DesktopDashboardView({super.key});
@@ -25,6 +30,8 @@ class DesktopDashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
       children: [
         HeaderDashboardView(),
         SizedBox(height: 24),
@@ -39,7 +46,9 @@ class DesktopDashboardView extends StatelessWidget {
                 height: 400,
                 margin: const EdgeInsets.only(right: 16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.cardColorDark
+                      : AppColors.cardColorlight,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -56,9 +65,11 @@ class DesktopDashboardView extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                height: 300,
+                height: 400,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.cardColorDark
+                      : AppColors.cardColorlight,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -76,6 +87,38 @@ class DesktopDashboardView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Image.asset("assets/images/1.jpg",
+                              width: 100,
+                              height: 100,
+                            ),
+                            Image.asset("assets/images/logo.png",
+                              width: 100,
+                              height: 100,
+                            ),
+                            Image.asset("assets/images/3.jpg",
+                              width: 100,
+                              height: 100,
+                            ),
+                            Image.asset("assets/images/4.jpg",
+                              width: 100,
+                              height: 100,
+                            ),
+                            Image.asset("assets/images/5.jpg",
+                              width: 100,
+                              height: 100,
+                            ),
+                            Image.asset("assets/images/6.jpg",
+                              width: 100,
+                              height: 100,
+                            ),
+                            ]
+
+                        ),
+                      ),
                       Text(
                         "Quick Actions",
                         style: Theme.of(context).textTheme.headlineSmall,
@@ -136,11 +179,23 @@ class DesktopDashboardView extends StatelessWidget {
 
                               ),
                             ),
+                            SizedBox(width: 10,),
+                            GestureDetector(
+                              onTap: () => showAddOfferDialog(context),
+                              child: ActionCard(
+                                leadingIcon: Icons.add,
+                                trailingIcon: Icons.local_offer_sharp,
+                                title: "Add New Offer",
+                                subtitle: "Add a New Offer for Your Products",
+                                color: AppColors.error,
 
+                              ),
+                            ),
 
 
                           ],
                         ),
+
                       ),
                     ],
                   ),
@@ -151,6 +206,75 @@ class DesktopDashboardView extends StatelessWidget {
         ),
 
         SizedBox(height: 24),
+    Container(
+      margin: const EdgeInsets.only(right: 16),
+          width: 500,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? AppColors.cardColorDark
+          : AppColors.cardColorlight,
+      child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+      // Header
+      Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+       Text(
+      'Company Offers',
+      style: Theme.of(context).textTheme.headlineLarge,
+      ),
+      TextButton(
+      onPressed: () {},
+      child:  Text(
+      'View All Offers',
+      style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      ),
+      ],
+      ),
+      const SizedBox(height: 24),
+      Column(
+      children: [
+        OfferCard(
+          title: 'X-Ray Machine Digital',
+          description: 'High-resolution digital X-ray system',
+          price: '\$540,000',
+          growth: '+15%',
+          imagePath: 'assets/images/1.jpg',
+        ),
+        const SizedBox(height: 16),
+        OfferCard(
+          title: 'Ultrasound Scanner',
+          description: 'Advanced ultrasound imaging device',
+          price: '\$280,000',
+          growth: '+8%',
+          imagePath: 'assets/images/2.jpg',
+        ),
+        const SizedBox(height: 16),
+        OfferCard(
+          title: 'Patient Monitor',
+          description: 'Multi-parameter patient monitoring system',
+          price: '\$200,000',
+          growth: '+22%',
+          imagePath: 'assets/images/5.jpg',
+        ),
+        const SizedBox(height: 16),
+        OfferCard(
+          title: 'Ventilator ICU',
+          description: 'Intensive care ventilation system',
+          price: '\$150,000',
+          growth: '+5%',
+          imagePath: 'assets/images/4.jpg',
+        ),
+      ],
+            ),
+
+      // Offers List
+
+      ],
+      ),
+    ),
+
 
       ],
     );
@@ -231,4 +355,126 @@ class _HeaderDashboardViewState extends State<HeaderDashboardView> {
       ),
     );
   }
+}
+Future<void> showAddOfferDialog(BuildContext context) async {
+  final TextEditingController _offerController = TextEditingController();
+  Uint8List? _webImage; // لتخزين الصورة
+  final _formKey = GlobalKey<FormState>();
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title:  Text("Add New Offer",
+            style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            content: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        final pickedFile = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (pickedFile != null) {
+                          final bytes = await pickedFile.readAsBytes();
+                          setState(() {
+                            _webImage = bytes;
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 150,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(12),
+                          color:  Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.cardColorDark
+                              : AppColors.cardColorlight,
+                        ),
+                        child: _webImage == null
+                            ? const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add_a_photo, size: 40, color: Colors.blue),
+                              SizedBox(height: 8),
+                              Text("Upload Image",
+
+                              ),
+                            ],
+                          ),
+                        )
+                            : ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.memory(
+                            _webImage!,
+                            fit: BoxFit.cover,
+                            width: 300,  // حددنا عرض ثابت
+                            height: 500, // حددنا ارتفاع ثابت
+                          ),
+                        ),
+
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // حقل النص للعرض
+                    TextFormField(
+                      controller: _offerController,
+                      decoration: const InputDecoration(
+                        labelText: "Offer Text",
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Please enter the offer text";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (_webImage == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please upload an image"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+                      // ✅ معالجة البيانات هنا (النص + الصورة)
+                      print("Offer Text: ${_offerController.text}");
+                      print("Image Bytes Length: ${_webImage!.length}");
+                      Navigator.pop(context);
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add"),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
 }

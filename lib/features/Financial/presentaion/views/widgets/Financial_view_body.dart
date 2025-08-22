@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_tech_admin/core/utils/app_colors.dart';
 import 'package:med_tech_admin/features/Financial/presentaion/views/widgets/revenue_breakdown_chart.dart';
 import 'package:med_tech_admin/features/Financial/presentaion/views/widgets/revenue_expenses_chart.dart';
 import '../../../../../core/entities/InfoCardEntity.dart';
@@ -26,7 +27,9 @@ class FinancialViewBody extends StatelessWidget {
                     height: 400,
                     margin: const EdgeInsets.only(right: 16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.cardColorDark
+                          : AppColors.cardColorlight,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -45,7 +48,9 @@ class FinancialViewBody extends StatelessWidget {
                   child: Container(
                     height: 400,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.cardColorDark
+                          : AppColors.cardColorlight,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(

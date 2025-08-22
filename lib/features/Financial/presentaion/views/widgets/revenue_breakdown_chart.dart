@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/utils/app_colors.dart';
 import '../../../data/sample_data.dart';
 class RevenueBreakdownChart extends StatefulWidget {
   const RevenueBreakdownChart({super.key});
@@ -14,13 +15,9 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+           Text(
             'Revenue Breakdown',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF2D3748),
-            ),
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: 24),
           Expanded(
@@ -70,13 +67,7 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
                             children: [
                               Text(
                                 entry.key,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: isHovered
-                                      ? const Color(0xFF1A202C)
-                                      : const Color(0xFF2D3748),
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
                                 '${data['percentage']}%',
@@ -94,8 +85,12 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
                             fontSize: isHovered ? 17 : 16,
                             fontWeight: FontWeight.w600,
                             color: isHovered
-                                ? const Color(0xFF1A202C)
-                                : const Color(0xFF2D3748),
+                                ? Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.cardColorlight
+                                :Color(0xFF1A202C)
+                                : Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.cardColorlight
+                                : Color(0xFF2D3748),
                           ),
                           child: Text(
                             '\$${_formatNumber(data['amount'])}',

@@ -4,12 +4,17 @@ import 'package:med_tech_admin/features/settings/presentation/views/settings_vie
 
 import '../../Financial/presentaion/views/Financial_view.dart';
 import '../../Maintenance/presntation/views/maintenance_view.dart';
+import '../../ai chat/presentation/views/ai_chat_view.dart';
 import '../../dashboard/presentation/views/dashboard_view.dart';
 import '../../products/presentation/views/products_view.dart';
 import '../../rentaling/rental_view.dart';
 import '../../users/presentation/views/users_view.dart';
 
-List pages = [DashboardView(), ProductsView(), OrdersView(), RentalView(),MaintenanceView(),UsersView(),FinancialView(),SettingsView()];
+List pages = [DashboardView(), ProductsView(), OrdersView(), RentalView(),MaintenanceView(),UsersView(),FinancialView(),
+  Container(
+      width: 400,
+      height: 400,
+      child: AiChatView())];
 
 List<Map> items = [
   {'icon': Icons.dashboard_outlined, 'title': 'Dashboard'},

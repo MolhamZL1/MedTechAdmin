@@ -5,6 +5,8 @@ import 'package:med_tech_admin/core/functions/on_generate_route.dart';
 import 'package:med_tech_admin/core/services/custom_bloc_observer.dart';
 import 'package:med_tech_admin/core/services/get_it_service.dart';
 import 'package:med_tech_admin/core/utils/App_themes.dart';
+import 'package:med_tech_admin/features/ai%20chat/domain/repos/ai_chat_repo.dart';
+import 'package:med_tech_admin/features/ai%20chat/presentation/cubits/send%20ai%20message/send_ai_message_cubit.dart';
 import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
@@ -12,6 +14,7 @@ import 'package:med_tech_admin/features/settings/presentation/cubits/theme/theme
 import 'package:med_tech_admin/features/users/domain/repos/user_repo.dart';
 import 'package:med_tech_admin/features/users/presentation/cubits/user_cubit.dart';
 
+import 'features/ai chat/presentation/cubits/get ai messages cubit/get_ai_messages_cubit.dart';
 import 'features/auth/domain/repos/auth_repo.dart';
 
 void main() async {
@@ -23,7 +26,10 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthRepo>())),
-        BlocProvider(create: (context)=> UserCubit(getIt.get<UserRepo>()))
+        BlocProvider(create: (context)=> UserCubit(getIt.get<UserRepo>())),
+        BlocProvider(create: (context)=>SendAiMessageCubit(getIt.get<AiChatRepo>())),
+        BlocProvider(create: (context)=>GetAiMessagesCubit(getIt.get<AiChatRepo>())),
+
       ],
       child: const MedTech(),
     ),

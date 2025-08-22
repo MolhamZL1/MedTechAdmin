@@ -17,4 +17,8 @@ abstract class BackendEndpoints {
   static const String updateProduct = "api/products/edit-product/";
   static const String deleteProduct = "api/products/delete-product/";
   static const String getProducts = "api/products/get-products";
+  static const String getOrders="api/orders/get-orders";
+  static const String getAiMessages = "api/ai-chat/messages";
+  static const String sendAiMessage = "api/ai-chat/message";
+
 }

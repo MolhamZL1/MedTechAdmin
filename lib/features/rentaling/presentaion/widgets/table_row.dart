@@ -26,9 +26,10 @@ class DynamicTableRow extends StatelessWidget {
       child: Container(
         height: AppConstants.tableRowHeight,
         decoration: BoxDecoration(
-          color: index.isEven 
-              ? AppConstants.cardBackground 
-              : AppConstants.primaryBackground.withOpacity(0.3),
+          color:
+            Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
           border: const Border(
             bottom: BorderSide(
               color: AppConstants.borderColor,

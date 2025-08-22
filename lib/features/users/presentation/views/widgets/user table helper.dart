@@ -32,17 +32,21 @@ class UserTableHelper {
           return Row(
             children: [
               CircleAvatar(
-                backgroundColor: AppConstants.accentText,
-                child: Text(user.username.substring(0, 1).toUpperCase(),
-                    style: const TextStyle(color: Colors.white)),
+                backgroundColor: AppColors.primary,
+                child: Text(
+                    user.username.substring(0, 1).toUpperCase(),
+                    style: const TextStyle(color: Colors.white)
+
+                ),
               ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user.username,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text('ID: ${user.id}', style: const TextStyle(fontSize: 12)),
+                  Text(
+                      user.username,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ],
               )
             ],
@@ -95,7 +99,7 @@ class UserTableHelper {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
           return StatusBadge(
-            status: user.isBanned ? StatusType.suspended : StatusType.active,
+            status: user.isBanned ? StatusType.pending : StatusType.active,
           );
         },
       ),

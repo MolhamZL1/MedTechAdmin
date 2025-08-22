@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../../domain/table_column.dart';
 import '../../utils/constants.dart';
 
@@ -20,8 +21,10 @@ class TableHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: AppConstants.tableHeaderHeight,
-      decoration: const BoxDecoration(
-        color: AppConstants.primaryBackground,
+      decoration:  BoxDecoration(
+        color:  Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.primary.withValues(alpha: 0.05),
         border: Border(
           bottom: BorderSide(
             color: AppConstants.borderColor,
@@ -30,12 +33,12 @@ class TableHeader extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: columns.map((column) => _buildHeaderCell(column)).toList(),
+        children: columns.map((column) => _buildHeaderCell(context,column)).toList(),
       ),
     );
   }
 
-  Widget _buildHeaderCell(TableColumn column) {
+  Widget _buildHeaderCell(BuildContext context,TableColumn column) {
     return Expanded(
       flex: column.width?.toInt() ?? 1,
       child: Container(
@@ -48,11 +51,7 @@ class TableHeader extends StatelessWidget {
           children: [
             Text(
               column.title,
-              style: TextStyle(
-                fontSize: AppConstants.headerFontSize,
-                fontWeight: FontWeight.w600,
-                color: AppConstants.primaryText,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             if (column.sortable) ...[
               const SizedBox(width: 4.0),

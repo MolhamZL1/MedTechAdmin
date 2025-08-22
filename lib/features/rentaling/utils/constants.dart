@@ -39,7 +39,7 @@ enum StatusType {
   expiresSoon,
   overdue,
   completed,
-  suspended,
+  pending,
 }
 
 extension StatusTypeExtension on StatusType {
@@ -53,7 +53,7 @@ extension StatusTypeExtension on StatusType {
         return AppConstants.overdueColor;
       case StatusType.completed:
         return AppColors.primary;
-      case StatusType.suspended:
+      case StatusType.pending:
         return AppColors.error;
 
     }
@@ -68,7 +68,7 @@ extension StatusTypeExtension on StatusType {
         return Icons.error;
       case StatusType.completed:
         return Icons.task_alt;
-      case StatusType.suspended:
+      case StatusType.pending:
         return Icons.phonelink_erase_rounded;
     }
   }
@@ -83,8 +83,8 @@ extension StatusTypeExtension on StatusType {
         return 'Overdue';
       case StatusType.completed:
         return 'Completed';
-      case StatusType.suspended:
-        return 'suspended';
+      case StatusType.pending:
+        return 'Pending';
     }
   }
 }
