@@ -12,7 +12,7 @@ class CustomImageNetwork extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      width: double.infinity,
+      width: 300,
       fit: BoxFit.cover,
       placeholder: (context, url) => Center(child: CustomCircleLoading()),
       errorWidget:

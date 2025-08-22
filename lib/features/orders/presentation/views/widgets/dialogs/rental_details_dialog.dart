@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/widgets/CustomImageNetwork.dart';
 import '../../../../../rentaling/presentaion/widgets/status_badge.dart';
 import '../../../../../rentaling/utils/constants.dart';
 import '../../../../domain/entities/order_entity.dart';
@@ -193,6 +194,7 @@ class OrderDetailsDialog extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
+
               ...order.items.map((item) => _buildOrderItemRow(item)).toList(),
               const SizedBox(height: 12.0),
               const SizedBox(height: 12.0),
@@ -206,30 +208,40 @@ class OrderDetailsDialog extends StatelessWidget {
 
   Widget _buildOrderItemRow(OrderItemEntity item) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                item.product.nameEn,
-                style: const TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textColor,
+
+            Icon(Icons.production_quantity_limits_sharp),
+
+
+           SizedBox(width: 12.0),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.product.nameEn,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textColor,
+                  ),
                 ),
-              ),
-              Text(
-                'Quantity: ${item.quantity}',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: AppConstants.secondaryText,
+                Text(
+                  'Quantity: ${item.quantity}',
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: AppConstants.secondaryText,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+
+          // ✅ السعر
           Text(
             '\$${item.priceAtTimeOfTransaction}',
             style: const TextStyle(
@@ -242,6 +254,7 @@ class OrderDetailsDialog extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
     return Padding(
