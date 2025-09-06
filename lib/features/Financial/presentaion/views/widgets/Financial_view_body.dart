@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:med_tech_admin/core/utils/app_colors.dart';
-import 'package:med_tech_admin/features/Financial/presentaion/views/widgets/revenue_expenses_chart.dart';
-import 'package:med_tech_admin/features/Financial/presentaion/views/widgets/table.dart';
+
 import '../../../../../core/entities/InfoCardEntity.dart';
+import '../../../../../core/utils/app_colors.dart';
 import '../../../../orders/presentation/views/widgets/InformCardList.dart';
 import '../../../domain/entity/financial_entity.dart';
 import '../../cubits/cubit.dart';
 import '../../cubits/state.dart';
 import 'HeraderFinancialView.dart';
 import 'revenue_breakdown_chart.dart';
+import 'revenue_expenses_chart.dart';
+import 'table.dart';
+import 'package:intl/intl.dart';
 
 class FinancialViewBody extends StatefulWidget {
   const FinancialViewBody({super.key});
@@ -61,7 +62,9 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
       InfoCardEntity(
         color: AppColors.warning,
         text: "Total Transactions",
-        count: (transactions.paidOrders + transactions.completedMaintenance).toString(),
+        count:
+            (transactions.paidOrders + transactions.completedMaintenance)
+                .toString(),
         icon: Icon(Icons.receipt_long, size: 35, color: AppColors.warning),
       ),
     ];
@@ -81,11 +84,18 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
             const SizedBox(height: 24),
             BlocBuilder<EarningsReportCubit, EarningsReportState>(
               builder: (context, state) {
-                if (state is EarningsReportLoading || state is EarningsReportInitial) {
-                  return const SizedBox(height: 400, child: Center(child: CircularProgressIndicator()));
+                if (state is EarningsReportLoading ||
+                    state is EarningsReportInitial) {
+                  return const SizedBox(
+                    height: 400,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
                 }
                 if (state is EarningsReportFailure) {
-                  return SizedBox(height: 400, child: Center(child: Text('Error: ${state.errMessage}')));
+                  return SizedBox(
+                    height: 400,
+                    child: Center(child: Text('Error: ${state.errMessage}')),
+                  );
                 }
                 if (state is EarningsReportSuccess) {
                   final report = state.report;
@@ -98,74 +108,104 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 400),
                         transitionBuilder: (child, animation) {
-                          return FadeTransition(opacity: animation, child: child);
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
                         },
-                        child: _showChart
-                            ?
-                        Row(
-                          key: const ValueKey('charts'),
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
+                        child:
+                            _showChart
+                                ? Row(
+                                  key: const ValueKey('charts'),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 400,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).cardColor,
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Theme.of(
+                                                            context,
+                                                          ).brightness ==
+                                                          Brightness.dark
+                                                      ? AppColors.cardColorDark
+                                                      : Colors.grey.withOpacity(
+                                                        0.5,
+                                                      ),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(
+                                                0,
+                                                3,
+                                              ), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: FinancialReportChart(
+                                          report: report,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Container(
+                                        height: 400,
 
-                              child: Container(
-                                height: 400,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Theme.of(context).brightness == Brightness.dark
-                                          ? AppColors.cardColorDark
-                                          : Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 3), // changes position of shadow
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).cardColor,
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Theme.of(
+                                                            context,
+                                                          ).brightness ==
+                                                          Brightness.dark
+                                                      ? AppColors.cardColorDark
+                                                      : Colors.grey.withOpacity(
+                                                        0.5,
+                                                      ),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(
+                                                0,
+                                                3,
+                                              ), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: RevenueBreakdownChart(
+                                          report: report,
+                                        ),
+                                      ),
                                     ),
                                   ],
+                                )
+                                : Container(
+                                  key: const ValueKey('table'),
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: FinancialReportTable(report: report),
                                 ),
-                                child: FinancialReportChart(report: report),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Container(
-                                height: 400,
-
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Theme.of(context).brightness == Brightness.dark
-                                          ? AppColors.cardColorDark
-                                          : Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: RevenueBreakdownChart(report: report),
-                              ),
-                            ),
-                          ],
-                        )
-                            :
-                        Container(
-                          key: const ValueKey('table'),
-                          height: 400,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: FinancialReportTable(report: report),
-                        ),
                       ),
                     ],
                   );
                 }
-                return const SizedBox(height: 400, child: Center(child: Text('No data available.')));
+                return const SizedBox(
+                  height: 400,
+                  child: Center(child: Text('No data available.')),
+                );
               },
             ),
           ],
@@ -181,14 +221,21 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
         Expanded(
           child: TextFormField(
             readOnly: true,
-            controller: TextEditingController(text: _startDate == null ? '' : formatter.format(_startDate!)),
+            controller: TextEditingController(
+              text: _startDate == null ? '' : formatter.format(_startDate!),
+            ),
             decoration: InputDecoration(
               labelText: 'Start Date',
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () async {
-                  final date = await showDatePicker(context: context, initialDate: _startDate ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100));
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: _startDate ?? DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2100),
+                  );
                   if (date != null) setState(() => _startDate = date);
                 },
               ),
@@ -199,14 +246,21 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
         Expanded(
           child: TextFormField(
             readOnly: true,
-            controller: TextEditingController(text: _endDate == null ? '' : formatter.format(_endDate!)),
+            controller: TextEditingController(
+              text: _endDate == null ? '' : formatter.format(_endDate!),
+            ),
             decoration: InputDecoration(
               labelText: 'End Date',
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () async {
-                  final date = await showDatePicker(context: context, initialDate: _endDate ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100));
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: _endDate ?? DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2100),
+                  );
                   if (date != null) setState(() => _endDate = date);
                 },
               ),
@@ -218,7 +272,9 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
           onPressed: _fetchReport,
           icon: const Icon(Icons.search),
           label: const Text('Filter'),
-          style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          ),
         ),
         const Spacer(),
         ToggleButtons(
@@ -230,8 +286,14 @@ class _FinancialViewBodyState extends State<FinancialViewBody> {
           },
           borderRadius: BorderRadius.circular(8),
           children: const [
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Icon(Icons.bar_chart)),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Icon(Icons.table_chart)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.bar_chart),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.table_chart),
+            ),
           ],
         ),
       ],

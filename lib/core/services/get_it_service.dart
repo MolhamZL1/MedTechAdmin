@@ -22,6 +22,8 @@ import 'database_service.dart';
 
 final getIt = GetIt.instance;
 void setupSingltonGetIt() async {
+  getIt.registerLazySingleton<UserService>(() => UserService());
+
   getIt.registerSingleton<DatabaseService>(ApiService());
 
   getIt.registerSingleton<AuthRepo>(
