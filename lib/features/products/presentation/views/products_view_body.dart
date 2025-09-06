@@ -4,6 +4,7 @@ import 'package:med_tech_admin/core/functions/Container_decoration.dart';
 import 'package:med_tech_admin/core/widgets/CategoryDropdown.dart';
 import 'package:med_tech_admin/core/widgets/CustomCircleLoading.dart';
 import 'package:med_tech_admin/core/widgets/responsive.dart';
+import 'package:med_tech_admin/features/orders/presentation/views/widgets/InformCardList.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/get%20products/get_products_cubit.dart';
 
 import '../../../../core/entities/InfoCardEntity.dart';
@@ -28,7 +29,7 @@ class ProductsViewBody extends StatelessWidget {
       children: [
         HeaderProductsView(),
         SizedBox(height: 24),
-        InfoCardList(entities: productinfolist(context)),
+        InformCardList(entities: productinfolist(context)),
         SizedBox(height: 24),
         Container(
           decoration: containerDecoration(context),

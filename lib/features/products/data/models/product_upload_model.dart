@@ -17,9 +17,9 @@ class ProductUploadModel {
   final num rentalPrice;
   final bool availableForRent;
   final bool availableForSale;
+  final num costPrice;
   final List<Uint8List> images;
   final List<Uint8List> videos;
-
   ProductUploadModel({
     required this.nameEn,
     required this.nameAr,
@@ -33,6 +33,7 @@ class ProductUploadModel {
     required this.saleStock,
     required this.salePrice,
     required this.rentalPrice,
+    required this.costPrice,
     required this.availableForRent,
     required this.availableForSale,
     required this.images,
@@ -54,6 +55,7 @@ class ProductUploadModel {
       "availableForSale": availableForSale,
       "rentStock": rentStock,
       "saleStock": saleStock,
+      "costPrice":costPrice,
     });
 
     for (int i = 0; i < images.length; i++) {

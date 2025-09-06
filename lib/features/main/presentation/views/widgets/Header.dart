@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_tech_admin/core/functions/get_container_color.dart';
+import 'package:med_tech_admin/core/utils/const_variable.dart';
 import 'package:med_tech_admin/core/widgets/show_question_dialog.dart';
 import 'package:med_tech_admin/features/auth/presentation/cubits/auth/auth_cubit.dart';
 import 'package:med_tech_admin/features/auth/presentation/views/sign_in_view.dart';
@@ -90,13 +91,13 @@ class ProfileMenu extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Ahmed Al-Mansouri",
+                myName,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
-                "Company Manager",
+                myRlole,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.grey[600],
                   fontSize: 12,

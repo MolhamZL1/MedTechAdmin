@@ -1,6 +1,4 @@
-
 import '../../../domain/entities/order_entity.dart';
-
 
 sealed class OrderState {}
 
@@ -15,9 +13,12 @@ final class OrderFailure extends OrderState {
 
 final class OrderSuccess extends OrderState {
   final List<OrderEntity> ordersEntity;
-
-  // ✅ هذا بيخلي state.orders يشتغل بدون ما تغيّري الواجهة
   List<OrderEntity> get orders => ordersEntity;
-
   OrderSuccess({required this.ordersEntity});
+}
+
+/// ✅ حالة نجاح لتغيير الحالة
+final class OrderStatusChanged extends OrderState {
+  final String message;
+  OrderStatusChanged({required this.message});
 }

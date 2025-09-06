@@ -16,3 +16,7 @@ final class UserSuccess extends UserState {
   final List<GetUserEntity> usersEntity;
   UserSuccess({required this.usersEntity});
 }
+
+final class UserOrdersSuccess extends UserState {
+  final List<OrderEntity> ordersEntity;
+  UserOrdersSuccess({required this.ordersEntity});}

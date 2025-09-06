@@ -15,6 +15,7 @@ class ProductEntity {
   final num saleStock;
   final num salePrice;
   final num rentalPrice;
+  final num costPrice;
   final num rate;
   final bool availableForRent;
   final bool availableForSale;
@@ -37,6 +38,7 @@ class ProductEntity {
     required this.salePrice,
     required this.rentalPrice,
     required this.rate,
+    required this.costPrice,
     required this.availableForRent,
     required this.availableForSale,
     required this.qrCode,

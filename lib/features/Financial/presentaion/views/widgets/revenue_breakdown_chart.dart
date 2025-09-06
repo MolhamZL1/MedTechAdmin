@@ -1,31 +1,64 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/app_colors.dart';
-import '../../../data/sample_data.dart';
+import 'package:med_tech_admin/core/utils/app_colors.dart';
+import 'package:intl/intl.dart';
+
+import '../../../domain/entity/financial_entity.dart';
+
 class RevenueBreakdownChart extends StatefulWidget {
-  const RevenueBreakdownChart({super.key});
+  final EarningsReportEntity report;
+
+  const RevenueBreakdownChart({
+    super.key,
+    required this.report,
+  });
+
   @override
   State<RevenueBreakdownChart> createState() => _RevenueBreakdownChartState();
 }
+
 class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
   String? hoveredItem;
+
   @override
   Widget build(BuildContext context) {
+    final breakdown = widget.report.revenueBreakdown;
+    final totalRevenue = widget.report.summary.grossRevenue;
+    final safeTotalRevenue = totalRevenue == 0 ? 1 : totalRevenue;
+
+    final breakdownData = {
+      'Product Sales': {
+        'amount': breakdown.productSales,
+        'percentage': (breakdown.productSales / safeTotalRevenue) * 100,
+        'color': 0xFF2196F3,
+      },
+      'Product Rentals': {
+        'amount': breakdown.productRentals,
+        'percentage': (breakdown.productRentals / safeTotalRevenue) * 100,
+        'color': 0xFF4CAF50,
+      },
+      'Maintenance Services': {
+        'amount': breakdown.maintenanceServices,
+        'percentage': (breakdown.maintenanceServices / safeTotalRevenue) * 100,
+        'color': 0xFFFF9800,
+      },
+    };
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(
+          Text(
             'Revenue Breakdown',
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: 24),
           Expanded(
             child: Column(
-              children: sampleData.revenueBreakdown.entries.map((entry) {
+              children: breakdownData.entries.map((entry) {
                 final data = entry.value;
                 final isHovered = hoveredItem == entry.key;
-                final baseColor = Color(data['color']);
+                final baseColor = Color(data['color'] as int);
                 final displayColor = isHovered
                     ? Color.fromRGBO(
                   (baseColor.red * 0.8).round(),
@@ -34,6 +67,12 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
                   1.0,
                 )
                     : baseColor;
+
+                // ✅✅✅ تم حذف الشرط من هنا ✅✅✅
+                // if (data['amount'] == 0.0) {
+                //   return const SizedBox.shrink();
+                // }
+
                 return MouseRegion(
                   onEnter: (_) => setState(() => hoveredItem = entry.key),
                   onExit: (_) => setState(() => hoveredItem = null),
@@ -70,7 +109,7 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                '${data['percentage']}%',
+                                '${(data['percentage'] as double).toStringAsFixed(1)}%',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Color(0xFF718096),
@@ -87,13 +126,13 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
                             color: isHovered
                                 ? Theme.of(context).brightness == Brightness.dark
                                 ? AppColors.cardColorlight
-                                :Color(0xFF1A202C)
+                                : const Color(0xFF1A202C)
                                 : Theme.of(context).brightness == Brightness.dark
                                 ? AppColors.cardColorlight
-                                : Color(0xFF2D3748),
+                                : const Color(0xFF2D3748),
                           ),
                           child: Text(
-                            '\$${_formatNumber(data['amount'])}',
+                            _formatCurrency(data['amount'] as double),
                           ),
                         ),
                       ],
@@ -107,11 +146,8 @@ class _RevenueBreakdownChartState extends State<RevenueBreakdownChart> {
       ),
     );
   }
-  String _formatNumber(int number) {
-    if (number >= 1000) {
-      return '${(number / 1000).toStringAsFixed(0)},${(number % 1000).toString().padLeft(3, '0')}';
-    }
-    return number.toString();
+
+  String _formatCurrency(double number) {
+    return NumberFormat.currency(locale: 'en_US', symbol: '\$', decimalDigits: 2).format(number);
   }
 }
-

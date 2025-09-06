@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/widgets/CustomImageNetwork.dart';
 
@@ -13,6 +15,8 @@ class RightSideProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("qrcode");
+    log(productEntity.qrCode);
     return Column(
       children: [
         Padding(

@@ -1,89 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/utils/app_colors.dart';
+import '../cubits/cubit.dart';
+import '../cubits/state.dart';
 
 
-
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return
-       Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Company Offers',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'View All Offers',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-
-            // Offers List
-            Expanded(
-              child: ListView(
-                children: [
-                  OfferCard(
-                    title: 'X-Ray Machine Digital',
-                    description: 'High-resolution digital X-ray system',
-                    price: '\$540,000',
-                    growth: '+15%',
-                    imagePath: 'assets/images/1.jpg',
-                  ),
-                  const SizedBox(height: 16),
-                  OfferCard(
-                    title: 'Ultrasound Scanner',
-                    description: 'Advanced ultrasound imaging device',
-                    price: '\$280,000',
-                    growth: '+8%',
-                    imagePath: 'assets/images/2.jpg',
-                  ),
-                  const SizedBox(height: 16),
-                  OfferCard(
-                    title: 'Patient Monitor',
-                    description: 'Multi-parameter patient monitoring system',
-                    price: '\$200,000',
-                    growth: '+22%',
-                    imagePath: 'assets/images/3.png',
-                  ),
-                  const SizedBox(height: 16),
-                  OfferCard(
-                    title: 'Ventilator ICU',
-                    description: 'Intensive care ventilation system',
-                    price: '\$150,000',
-                    growth: '+5%',
-                    imagePath: 'assets/images/4.jpg',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-
-  }
-}
 
 class OfferCard extends StatelessWidget {
   final String title;
@@ -104,10 +26,12 @@ class OfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      width: 600,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -122,17 +46,17 @@ class OfferCard extends StatelessWidget {
         children: [
           // Product Image
           Container(
-            width: 90,
-            height: 90,
+            width: 200,
+            height: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Colors.blue[50],
+
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
 

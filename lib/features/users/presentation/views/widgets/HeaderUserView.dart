@@ -5,7 +5,7 @@ import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
 import '../../../../../core/widgets/show_err_dialog.dart';
 import '../../../../../core/widgets/showsuccessDialog.dart';
 import '../../../domain/entities/entity.dart';
-import '../../cubits/user_cubit.dart';
+import '../../cubits/user_cubit.dart' hide showerrorDialog;
 
 class HeaderUsersView extends StatelessWidget {
   const HeaderUsersView({super.key});

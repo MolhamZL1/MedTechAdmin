@@ -23,6 +23,7 @@ class ProductModel {
   final String qrCode;
   final List<String> imagesUrl;
   final num rate;
+final num costPrice;
   final List<VedioModel> videos;
 
   ProductModel({
@@ -44,6 +45,7 @@ class ProductModel {
     required this.qrCode,
     required this.imagesUrl,
     required this.rate,
+    required this.costPrice,
     required this.videos,
   });
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -59,6 +61,8 @@ class ProductModel {
     rate: json["rate"] ?? 0,
     rentalPrice: json["rentPrice"] ?? 0,
     salePrice: json["sellPrice"] ?? 0,
+    costPrice: json["costPrice"] ?? 0,
+
     availableForRent: json["availableForRent"] ?? false,
     availableForSale: json["availableForSale"] ?? false,
     rentStock: json["rentStock"] ?? 0,
@@ -86,6 +90,7 @@ class ProductModel {
     rate: entity.rate,
     rentalPrice: entity.rentalPrice,
     salePrice: entity.salePrice,
+    costPrice: entity.costPrice,
     availableForRent: entity.availableForRent,
     availableForSale: entity.availableForSale,
     rentStock: entity.rentStock,
@@ -117,6 +122,7 @@ class ProductModel {
     "images": List<dynamic>.from(imagesUrl.map((x) => x)),
     "videos": List<dynamic>.from(videos.map((x) => x)),
   };
+
   toEntity() => ProductEntity(
     id: id,
     nameEn: nameEn,
@@ -129,13 +135,15 @@ class ProductModel {
     descriptionAr: descriptionAr,
     rate: rate,
     rentalPrice: rentalPrice,
+    costPrice: costPrice,
     salePrice: salePrice,
     availableForRent: availableForRent,
     availableForSale: availableForSale,
     rentStock: rentStock,
     saleStock: saleStock,
-    qrCode: qrCode,
+    qrCode: "${BackendEndpoints.url}$qrCode",
     imagesUrl: imagesUrl.map((url) => "${BackendEndpoints.url}$url").toList(),
     vedios: List<VedioEntity>.from(videos.map((x) => x.toEntity())),
   );
+
 }

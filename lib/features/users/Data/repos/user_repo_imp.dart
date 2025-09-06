@@ -8,6 +8,8 @@ import 'package:med_tech_admin/features/auth/data/models/user_model.dart';
 import 'package:med_tech_admin/features/auth/domain/entities/user_entity.dart';
 
 import '../../../../core/utils/backend_endpoints.dart';
+import '../../../orders/data/model/order_model.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 import '../../domain/entities/entity.dart';
 import '../../domain/entities/user-entity.dart';
 import '../../domain/repos/user_repo.dart';
@@ -107,6 +109,30 @@ class UserRepoImp extends UserRepo {
 
     } catch (e) {
       log(e.toString());
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+  @override
+  Future<Either<Failure, List<OrderEntity>>> getUserOrders(String userId) async {
+    try {
+      final response = await databaseService.getData(
+        endpoint: "${BackendEndpoints.getUserOrders}/$userId",
+      );
+
+      if (response is! List) {
+        return Left(ServerFailure(
+            errMessage: "Expected list of orders but got ${response.runtimeType}"));
+      }
+
+      final orders = response
+          .map((e) => OrderModel.fromJson(e as Map<String, dynamic>).toEntity())
+          .toList();
+
+      return Right(orders);
+    } catch (e) {
       if (e is DioException) {
         return Left(ServerFailure.fromDioError(e));
       }

@@ -1,3 +1,5 @@
+// انسخ هذا الكود بالكامل والصقه في ملف order_model.dart
+
 import '../../domain/entities/order_entity.dart';
 
 class OrderModel extends OrderEntity {
@@ -6,7 +8,8 @@ class OrderModel extends OrderEntity {
     required super.userId,
     required super.status,
     required super.totalAmount,
-    required super.shippingAddress,
+    // --- ✅ التعديل الأول: السماح بأن يكون العنوان null في الكونستركتور ---
+    super.shippingAddress,
     required super.createdAt,
     required super.updatedAt,
     required super.user,
@@ -19,12 +22,19 @@ class OrderModel extends OrderEntity {
       userId: json['userId'],
       status: json['status'],
       totalAmount: (json['totalAmount'] as num).toDouble(),
+      // --- ✅ التعديل الرئيسي والحاسم هنا ---
+      // هذا السطر سيقرأ القيمة كما هي من الـ JSON.
+      // إذا كانت "some address"، سيتم إسنادها.
+      // إذا كانت null، سيتم إسناد null. وهذا أصبح ممكناً بفضل تعديل OrderEntity.
       shippingAddress: json['shippingAddress'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      user: OrderUserModel.fromJson(json['user']),
+      user: json['user'] != null
+          ? OrderUserModel.fromJson(json['user'] as Map<String, dynamic>)
+          : OrderUserModel(id: 0, username: "Unknown", email: ""),
       items: (json['items'] as List<dynamic>?)
-          ?.map((e) => OrderItemModel.fromJson(e))
+          ?.where((e) => e != null)
+          .map((e) => OrderItemModel.fromJson(e as Map<String, dynamic>))
           .toList() ??
           [],
     );
@@ -45,6 +55,7 @@ class OrderModel extends OrderEntity {
   OrderEntity toEntity() => this;
 }
 
+// باقي الكلاسات في هذا الملف لا تحتاج تعديل
 class OrderUserModel extends OrderUserEntity {
   OrderUserModel({
     required super.id,
@@ -90,11 +101,20 @@ class OrderItemModel extends OrderItemEntity {
       productId: json['productId'],
       quantity: json['quantity'],
       transactionType: json['transactionType'],
-      priceAtTimeOfTransaction: (json['priceAtTimeOfTransaction'] as num).toDouble(),
-      rentalStartDate: json['rentalStartDate'] != null ? DateTime.parse(json['rentalStartDate']) : null,
-      rentalEndDate: json['rentalEndDate'] != null ? DateTime.parse(json['rentalEndDate']) : null,
-      returnDate: json['returnDate'] != null ? DateTime.parse(json['returnDate']) : null,
-      product: OrderProductModel.fromJson(json['product']),
+      priceAtTimeOfTransaction:
+      (json['priceAtTimeOfTransaction'] as num).toDouble(),
+      rentalStartDate: json['rentalStartDate'] != null
+          ? DateTime.parse(json['rentalStartDate'])
+          : null,
+      rentalEndDate: json['rentalEndDate'] != null
+          ? DateTime.parse(json['rentalEndDate'])
+          : null,
+      returnDate:
+      json['returnDate'] != null ? DateTime.parse(json['returnDate']) : null,
+      product: json['product'] != null
+          ? OrderProductModel.fromJson(json['product'] as Map<String, dynamic>)
+          : OrderProductModel(
+          nameEn: "Unknown", nameAr: "غير معروف", imageUrl: null),
     );
   }
 

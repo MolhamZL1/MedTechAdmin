@@ -9,7 +9,7 @@ class ApiService implements DatabaseService {
       baseUrl: BackendEndpoints.url,
       headers: {
         "Authorization":
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NTUzOTE4NSwiZXhwIjoxNzU2MTQzOTg1fQ.LcTN7OMF9lJS2yJf3BCZG-B6HsrZrEmfkOz2wx4QTIE",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NjkyNDg5OSwiZXhwIjoxNzg4NDYwODk5fQ.pQiXmnIk_gMDqwgvQ77gZvih8BQyEeQkSJsycOHbRPE",
       },
     ),
   );
@@ -62,5 +62,13 @@ class ApiService implements DatabaseService {
     Map<String, dynamic>? data,
   }) async {
     return await dio.put(endpoint + (rowid ?? ""), data: data);
+  }
+  @override
+  Future patchData({
+    required String endpoint,
+    required Map<String, dynamic> data,
+  }) async {
+    Response response = await dio.patch(endpoint, data: data);
+    return response.data;
   }
 }

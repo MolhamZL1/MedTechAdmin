@@ -1,27 +1,57 @@
+// انسخ هذا الكود بالكامل والصقه في ملف order_entity.dart
+
 class OrderEntity {
   final int id;
   final int userId;
   final String status;
   final double totalAmount;
-  final String shippingAddress;
+  // --- ✅ التعديل الأول: السماح بأن يكون العنوان null ---
+  final String? shippingAddress;
   final DateTime createdAt;
   final DateTime updatedAt;
   final OrderUserEntity user;
-  final List<OrderItemEntity> items; // ← أضفنا items
+  final List<OrderItemEntity> items;
 
   OrderEntity({
     required this.id,
     required this.userId,
     required this.status,
     required this.totalAmount,
-    required this.shippingAddress,
+    this.shippingAddress, // <-- جعله اختيارياً في الكونستركتور
     required this.createdAt,
     required this.updatedAt,
     required this.user,
-    this.items = const [], // default empty list
+    this.items = const [],
   });
+
+  // --- ✅ التعديل الثاني: تحديث دالة copyWith ---
+  OrderEntity copyWith({
+    int? id,
+    int? userId,
+    String? status,
+    double? totalAmount,
+    String? shippingAddress,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    OrderUserEntity? user,
+    List<OrderItemEntity>? items,
+  }) {
+    return OrderEntity(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      status: status ?? this.status,
+      totalAmount: totalAmount ?? this.totalAmount,
+      // هنا نستخدم this.shippingAddress للسماح بإعادة القيمة الحالية (سواء كانت نصاً أو null)
+      shippingAddress: shippingAddress ?? this.shippingAddress,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      user: user ?? this.user,
+      items: items ?? this.items,
+    );
+  }
 }
 
+// باقي الكلاسات في هذا الملف لا تحتاج تعديل
 class OrderUserEntity {
   final int id;
   final String username;

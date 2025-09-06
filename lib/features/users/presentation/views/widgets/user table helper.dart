@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_tech_admin/features/users/domain/entities/user-entity.dart';
-import 'package:med_tech_admin/main.dart'; // مهم فقط لو بتستخدم navigatorKey في أماكن تانية
+import 'package:med_tech_admin/main.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
@@ -14,12 +14,13 @@ import '../../../../rentaling/presentaion/widgets/status_badge.dart';
 import '../../../../rentaling/utils/constants.dart';
 import '../../../Data/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/user_cubit.dart';
+import '../../cubits/user_cubit.dart' hide showerrorDialog;
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class UserTableHelper {
 
-  static TableData fromUserList(List<GetUserEntity> users, UserCubit cubit,BuildContext context) {
+  static TableData fromUserList(List<GetUserEntity> users, UserCubit cubit, BuildContext context) {
     final columns = [
       TableColumn(
         key: 'user',
@@ -32,22 +33,34 @@ class UserTableHelper {
           return Row(
             children: [
               CircleAvatar(
-                backgroundColor: AppColors.primary,
+                backgroundColor: _getUserAvatarColor(user.role),
                 child: Text(
                     user.username.substring(0, 1).toUpperCase(),
-                    style: const TextStyle(color: Colors.white)
-
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
                 ),
               ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       user.username,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      _getRoleDisplayName(user.role),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: _getRoleColor(user.role),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           );
@@ -55,59 +68,84 @@ class UserTableHelper {
       ),
       TableColumn(
         key: 'contact',
-        title: 'Contact',
+        title: 'Contact Information',
         type: ColumnType.custom,
-        width: 220,
+        width: 250,
         customBuilder: (value) {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(user.email),
-              Text(_formatDate(user.createdAt),
-                  style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              Row(
+                children: [
+                  Icon(Icons.email, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      user.email,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Joined on ${_formatDate(user.createdAt)}',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             ],
           );
         },
       ),
       TableColumn(
         key: 'role',
-        title: 'Role',
+        title: 'Role and Permissions',
         type: ColumnType.custom,
-        width: 180,
+        width: 200,
         customBuilder: (value) {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
           final icon = _getRoleIcon(user.role);
           final color = _getRoleColor(user.role);
-          return Row(
-            children: [
-              Icon(icon, color: color, size: 18),
-              const SizedBox(width: 4),
-              Text(user.role),
-            ],
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: color.withOpacity(0.3)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, color: color, size: 18),
+                const SizedBox(width: 6),
+                Text(
+                  _getRoleDisplayName(user.role),
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
-      TableColumn(
-        key: 'status',
-        title: 'Status',
-        type: ColumnType.custom,
-        width: 160,
-        customBuilder: (value) {
-          final entity = value as GetUserEntity;
-          final user = GetUserModel.fromEntity(entity);
-          return StatusBadge(
-            status: user.isBanned ? StatusType.pending : StatusType.active,
-          );
-        },
-      ),
+
       TableColumn(
         key: 'actions',
         title: 'Actions',
         type: ColumnType.action,
-        width: 250,
+        width: 200,
         customBuilder: (value) {
           final entity = value as GetUserEntity;
           final user = GetUserModel.fromEntity(entity);
@@ -116,8 +154,13 @@ class UserTableHelper {
             buttons: [
               ActionButton(
                 icon: Icons.visibility,
-                onPressed: () => print('View ${user.username}'),
+                onPressed: () => cubit.fetchUserOrders(
+                  context,
+                  user.id.toString(),
+                  user.username,
+                ),
                 text: '',
+                tooltip: 'View Orders',
               ),
 
               ActionButton(
@@ -154,8 +197,8 @@ class UserTableHelper {
                     },
                   );
                 },
-
                 text: '',
+                tooltip: user.isBanned ? 'Unban User' : 'Ban User',
               ),
 
               ActionButton(
@@ -165,7 +208,7 @@ class UserTableHelper {
                   showQuestionDialog(
                     context: context,
                     title: "Delete User",
-                    description: "Are you sure you want to delete this user?",
+                    description: "Are you sure you want to delete this user? This action cannot be undone.",
                     btnOkOnPress: () async {
                       await cubit.deleteUser(user.id.toString());
 
@@ -187,13 +230,12 @@ class UserTableHelper {
                   );
                 },
                 text: '',
+                tooltip: 'Delete User',
               ),
-
             ],
           );
         },
       ),
-
     ];
 
     final rows = users
@@ -225,9 +267,9 @@ class UserTableHelper {
       case 'USER':
         return Icons.person;
       case 'ACCOUNTANT':
-        return Icons.request_quote;
+        return Icons.account_balance;
       case 'MAINTENANCE':
-        return Icons.build;
+        return Icons.build_circle;
       default:
         return Icons.help_outline;
     }
@@ -236,15 +278,46 @@ class UserTableHelper {
   static Color _getRoleColor(String role) {
     switch (role.toUpperCase()) {
       case 'ADMIN':
-        return Colors.deepPurple;
-      case 'CUSTOMER':
-        return Colors.green;
+        return const Color(0xFF8B5CF6); // Purple
+      case 'USER':
+        return const Color(0xFF3B82F6); // Blue
       case 'ACCOUNTANT':
-        return Color(0xFFF59E0B);
+        return const Color(0xFFF59E0B); // Amber
       case 'MAINTENANCE':
-        return Color(0xFFEF4444);
+        return const Color(0xFFEF4444); // Red
       default:
         return Colors.grey;
     }
   }
+
+  static Color _getUserAvatarColor(String role) {
+    switch (role.toUpperCase()) {
+      case 'ADMIN':
+        return const Color(0xFF8B5CF6);
+      case 'USER':
+        return const Color(0xFF3B82F6);
+      case 'ACCOUNTANT':
+        return const Color(0xFFF59E0B);
+      case 'MAINTENANCE':
+        return const Color(0xFFEF4444);
+      default:
+        return Colors.grey;
+    }
+  }
+
+  static String _getRoleDisplayName(String role) {
+    switch (role.toUpperCase()) {
+      case 'ADMIN':
+        return 'Admin';
+      case 'USER':
+        return 'Regular User';
+      case 'ACCOUNTANT':
+        return 'Accountant';
+      case 'MAINTENANCE':
+        return 'Technician';
+      default:
+        return role;
+    }
+  }
 }
+

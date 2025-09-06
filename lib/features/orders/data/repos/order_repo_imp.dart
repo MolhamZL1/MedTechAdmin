@@ -39,4 +39,26 @@ class OrderRepoImp extends OrderRepo {
       return Left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> setOrderStatus(int orderId, String status) async {
+    try {
+      final response = await databaseService.patchData(
+        endpoint: "${BackendEndpoints.setOrderStatus}/$orderId/set-status",
+        data: {"status": status},
+      );
+
+      if (response is Map && response.containsKey("error")) {
+        return Left(ServerFailure(errMessage: response["error"]));
+      }
+
+      return const Right(unit);
+    } catch (e) {
+      log("setOrderStatus error: $e");
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

@@ -43,6 +43,8 @@ dependencies:
   image_picker: ^1.1.2
   shared_preferences: ^2.5.3
   video_player: ^2.10.0
+  syncfusion_flutter_pdfviewer: ^24.1.41
+  badges: ^3.1.2
 
 
 dev_dependencies:

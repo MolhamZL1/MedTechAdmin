@@ -11,10 +11,11 @@ import '../../rentaling/rental_view.dart';
 import '../../users/presentation/views/users_view.dart';
 
 List pages = [DashboardView(), ProductsView(), OrdersView(), RentalView(),MaintenanceView(),UsersView(),FinancialView(),
+  SettingsView(),
    Container(
      width:200
      ,height: 400,
-     child: AiChatView(),),SettingsView()
+     child: AiChatView(),)
 ];
 
 List<Map> items = [
@@ -26,6 +27,6 @@ List<Map> items = [
    {'icon': Icons.people_alt_outlined, 'title': 'Users'},
   {'icon': Icons.attach_money_outlined, 'title': 'Financial'},
   {'icon': Icons.settings_outlined, 'title': 'Settings'},
-  {'icon': Icons.settings_outlined, 'title': 'Chat'},
+  {'icon': Icons.chat_bubble_outline, 'title': 'Chat'},
 
 ];
