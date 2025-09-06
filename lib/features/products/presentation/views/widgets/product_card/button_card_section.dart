@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:med_tech_admin/core/widgets/show_question_dialog.dart';
+import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart'; // ✅ 1. استيراد Cubit الإضافة/التعديل
 import 'package:med_tech_admin/features/products/presentation/cubits/delete%20product/delete_product_cubit.dart';
-
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../domain/entities/product_entity.dart';
+import '../add_product_dialog/edit.dart';
 import '../product_details_dialog.dart/ProductDetailsDialog.dart';
 
 class ButtonsProductCardSection extends StatelessWidget {
@@ -21,8 +22,7 @@ class ButtonsProductCardSection extends StatelessWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                builder:
-                    (context) => ProductDetailsDialog(product: productEntity),
+                builder: (context) => ProductDetailsDialog(product: productEntity),
               );
             },
             icon: const Icon(Icons.remove_red_eye_outlined),
@@ -31,7 +31,17 @@ class ButtonsProductCardSection extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            // ✅ 3. إظهار ديالوغ التعديل عند الضغط
+            showDialog(
+              context: context,
+              builder: (_) => BlocProvider.value(
+                // ✅ 4. توفير الـ Cubit للديالوغ
+                value: context.read<AddProductCubit>(),
+                child: ProductEditDialog(product: productEntity),
+              ),
+            );
+          },
           icon: const Icon(
             FontAwesomeIcons.edit,
             size: 15,

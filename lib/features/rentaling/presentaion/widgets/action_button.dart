@@ -15,7 +15,7 @@ class ActionButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.color,
-    this.isOutlined = true,
+    this.isOutlined = true, required String tooltip,
   }) : super(key: key);
 
   @override

@@ -15,4 +15,8 @@ abstract class DatabaseService {
     String? rowid,
     Map<String, dynamic>? data,
   });
+  Future<dynamic> patchData({
+    required String endpoint,
+    required Map<String, dynamic> data,
+  });
 }

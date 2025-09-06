@@ -62,10 +62,7 @@ class SigninviewBody extends StatelessWidget {
     return DecorationImage(
       image: AssetImage(AppImages.imagesLogin),
       fit: BoxFit.cover,
-      colorFilter: ColorFilter.mode(
-        Colors.black.withOpacity(0.5),
-        BlendMode.dstATop,
-      ),
+
     );
   }
 }

@@ -90,4 +90,13 @@ class ApiService implements DatabaseService {
   }) async {
     return await dio.put(endpoint + (rowid ?? ""), data: data);
   }
+
+  @override
+  Future patchData({
+    required String endpoint,
+    required Map<String, dynamic> data,
+  }) async {
+    Response response = await dio.patch(endpoint, data: data);
+    return response.data;
+  }
 }

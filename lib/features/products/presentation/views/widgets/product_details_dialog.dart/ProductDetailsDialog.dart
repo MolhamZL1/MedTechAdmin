@@ -15,7 +15,7 @@ class ProductDetailsDialog extends StatelessWidget {
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(16),right:Radius.circular(16) ),
       ),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * .8,

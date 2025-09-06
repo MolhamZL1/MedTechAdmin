@@ -162,7 +162,7 @@ class SampleDataa {
           onPressed: () {
             // Handle view action
             print('View rental: ${order.id}');
-          },
+          }, tooltip: '',
         ),
       };
     }).toList();

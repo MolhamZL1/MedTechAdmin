@@ -14,10 +14,8 @@ class ProductAddDialog extends StatefulWidget {
   @override
   State<ProductAddDialog> createState() => _ProductAddDialogState();
 }
-
 class _ProductAddDialogState extends State<ProductAddDialog> {
   final _formKey = GlobalKey<FormState>();
-
   final nameEnController = TextEditingController();
   final nameArController = TextEditingController();
   final categoryEnController = TextEditingController();
@@ -29,6 +27,8 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
   final rentStockController = TextEditingController();
   final saleStockController = TextEditingController();
   final salePriceController = TextEditingController();
+  final costPriceController = TextEditingController();
+
   final rentalPriceController = TextEditingController();
 
   bool availableForRent = false;
@@ -38,7 +38,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(16),right:Radius.circular(16) ),
       ),
       title: const Text(
         "Add New Product",
@@ -137,6 +137,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
                   rentalPrice: double.parse(rentalPriceController.text),
                   availableForRent: availableForRent,
                   availableForSale: availableForSale,
+                  costPrice: double.parse(costPriceController.text) ,
                   images: context.read<AddMediaCubit>().imageFiles,
                   videos: context.read<AddMediaCubit>().videoFiles,
                 );
@@ -161,6 +162,8 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
       _buildTextField(saleStockController, "Sale Stock", isNumber: true),
       _buildTextField(salePriceController, "Sale Price", isNumber: true),
       _buildTextField(rentalPriceController, "Rental Price", isNumber: true),
+      _buildTextField(costPriceController, "cost Price", isNumber: true),
+
     ];
   }
 

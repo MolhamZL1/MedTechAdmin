@@ -186,7 +186,7 @@ class SampleData {
           icon: Icons.visibility_outlined,
           onPressed: () {
             RentalDetailsDialog.show(context, rental);
-          },
+          }, tooltip: '',
         ),
       };
     }).toList();

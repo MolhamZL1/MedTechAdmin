@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_tech_admin/core/utils/const_variable.dart';
 import 'package:med_tech_admin/core/widgets/show_err_dialog.dart';
 import 'package:med_tech_admin/features/main/presentation/views/main_view.dart';
 
@@ -20,6 +21,8 @@ class SignInBlocConsumer extends StatelessWidget {
             description: state.errMessage,
           );
         } else if (state is AuthSuccess) {
+          myName=state.userEntity.name;
+          myRlole=state.userEntity.role;
           Navigator.pushReplacementNamed(context, MainView.routeName);
         }
       },

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/functions/infoContainerDcoration.dart';
@@ -13,6 +15,8 @@ class LeftSideProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("image");
+    log(product.imagesUrl[0]);
     return Column(
       children: [
         Stack(

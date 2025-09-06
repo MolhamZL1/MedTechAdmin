@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:med_tech_admin/core/entities/InfoCardEntity.dart';
 
 import '../../../../../core/functions/Container_decoration.dart';
+import '../../../../../core/utils/app_colors.dart';
 
 class CustomInformCard extends StatefulWidget {
   const CustomInformCard({super.key, required this.infoCardEntity});
@@ -51,8 +52,25 @@ class _CustomInformCardState extends State<CustomInformCard>
           return Transform.translate(
             offset: Offset(0, -_animation.value),
             child: Container(
-              decoration: containerDecoration(context),
-              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+              //decoration: containerDecoration(context),
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.cardColorDark
+                    : AppColors.cardColorlight,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.cardColorDark
+                        : Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: ListTile(
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 8),
