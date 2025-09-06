@@ -1,18 +1,45 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/backend_endpoints.dart';
 import 'database_service.dart';
 
 class ApiService implements DatabaseService {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: BackendEndpoints.url,
-      headers: {
-        "Authorization":
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlc3JhYXNoYW1tb3V0Nzg4QGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDU1OTQ3NSwiZXhwIjoxNzU1MTY0Mjc1fQ.yHnVViBxIrf4WDM5MjP5yhSXf5Pv5sIO9K7QHk74HKU",
-      },
-    ),
-  );
+  final Dio dio;
+
+  ApiService()
+    : dio = Dio(
+        BaseOptions(
+          baseUrl: BackendEndpoints.url,
+          connectTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 30),
+        ),
+      ) {
+    // يحقن التوكن قبل كل طلب
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+
+          // ما نضيف الهيدر لطلبات الأثنتيكেশন (اختياري)
+          final p = options.path;
+          final isAuthCall =
+              p.contains('/auth/login') ||
+              p.contains('/auth/register') ||
+              p.contains('/auth/refresh');
+
+          if (!isAuthCall &&
+              token != null &&
+              token.isNotEmpty &&
+              options.headers['Authorization'] == null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          handler.next(options);
+        },
+      ),
+    );
+  }
 
   @override
   Future<dynamic> addData({

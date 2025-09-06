@@ -34,7 +34,7 @@ class _PersonalInfoSettingsState extends State<PersonalInfoSettings> {
   getuser() async {
     user = getIt<UserService>().user;
     nameController.text = user?.name ?? '';
-    phoneController.text = user?.name ?? '';
+    phoneController.text = user?.phoneNumber ?? '';
     emailController.text = user?.email ?? '';
     jobController.text = user?.name ?? '';
     bioController.text = user?.name ?? '';
