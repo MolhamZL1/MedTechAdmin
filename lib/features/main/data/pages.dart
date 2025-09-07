@@ -31,8 +31,9 @@ List accountantPages = [
 List maintenancePages = [
   DashboardView(),
   RentalView(),
+  ProductsView(),
   MaintenanceView(),
-  FinancialView(),
+ 
   SettingsView(),
   Container(width: 200, height: 400, child: AiChatView()),
 ];
