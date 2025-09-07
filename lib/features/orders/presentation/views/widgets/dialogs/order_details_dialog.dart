@@ -86,7 +86,9 @@ class OrderDetailsDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
         width: MediaQuery.of(context).size.width * 0.6,
         height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
@@ -107,8 +109,10 @@ class OrderDetailsDialog extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration:  BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12.0),
           topRight: Radius.circular(12.0),
@@ -122,11 +126,7 @@ class OrderDetailsDialog extends StatelessWidget {
               children: [
                 Text(
                   'Order Details',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textColor,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 4.0),
                 Text(

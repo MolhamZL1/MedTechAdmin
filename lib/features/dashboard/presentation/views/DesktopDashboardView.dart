@@ -83,7 +83,10 @@ class _DesktopDashboardViewState extends State<DesktopDashboardView> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color:Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.black.withOpacity(0.5)
+                                      : Colors.grey.withOpacity(0.5),
+
                                   spreadRadius: 5,
                                   blurRadius: 7,
                                   offset: Offset(0, 3), // changes position of shadow
@@ -98,20 +101,7 @@ class _DesktopDashboardViewState extends State<DesktopDashboardView> {
                           child: Container(
                             width: double.infinity,
                             height: 350,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).brightness == Brightness.dark
-                                  ? AppColors.cardColorDark
-                                  : AppColors.cardColorlight,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
+                            color: Colors.transparent,
                             child: SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +170,9 @@ class _DesktopDashboardViewState extends State<DesktopDashboardView> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.black.withOpacity(0.5)
+                                : Colors.grey.shade300,
                             spreadRadius: 5,
                             blurRadius: 7,
                             offset: Offset(0, 3), // changes position of shadow

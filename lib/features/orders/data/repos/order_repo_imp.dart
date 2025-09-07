@@ -61,4 +61,28 @@ class OrderRepoImp extends OrderRepo {
       return Left(ServerFailure(errMessage: e.toString()));
     }
   }
+  Future<Either<Failure, Unit>> confirmPayment(int orderId, double amount) async {
+    try {
+      final data = {
+        "paymentMethod": "Cash on Delivery",
+        "amountPaid": amount,
+        // إنشاء ID فريد لكل عملية
+        "transactionId": "COD-REF-${orderId}-${DateTime.now().millisecondsSinceEpoch}"
+      };
+
+      // بناء الرابط الكامل
+      final endpoint = "${BackendEndpoints.confirmOrderPayment}/$orderId/confirm-payment";
+
+      // استخدام addData لأنه يرسل طلب POST
+      await databaseService.addData(endpoint: endpoint, data: data);
+
+      return const Right(unit);
+    } catch (e) {
+      log("confirmPayment error: $e");
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

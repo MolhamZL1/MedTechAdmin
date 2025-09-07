@@ -66,7 +66,9 @@ class _ContractsViewLayoutState extends State<ContractsViewLayout> {
             children: [
               Container(
                 width: 300,
-                color: const Color(0xFFF8F9FA), // لون خلفية خفيف
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.cardColorDark
+                    : AppColors.cardColorlight, // لون خلفية خفيف
                 child: _buildUserList(userState),
               ),
 

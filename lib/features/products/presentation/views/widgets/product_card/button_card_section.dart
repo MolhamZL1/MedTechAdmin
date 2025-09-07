@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:med_tech_admin/core/widgets/show_question_dialog.dart';
-import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart'; // ✅ 1. استيراد Cubit الإضافة/التعديل
+// تأكد من استيراد AddMediaCubit
+import 'package:med_tech_admin/features/products/presentation/cubits/cubit/add_media_cubit.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/delete%20product/delete_product_cubit.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../domain/entities/product_entity.dart';
@@ -32,12 +33,11 @@ class ButtonsProductCardSection extends StatelessWidget {
         const SizedBox(width: 8),
         IconButton(
           onPressed: () {
-            // ✅ 3. إظهار ديالوغ التعديل عند الضغط
             showDialog(
               context: context,
-              builder: (_) => BlocProvider.value(
-                // ✅ 4. توفير الـ Cubit للديالوغ
-                value: context.read<AddProductCubit>(),
+              // ✨✨ الحل هنا: تغليف الـ Dialog بـ BlocProvider ✨✨
+              builder: (_) => BlocProvider(
+                create: (context) => AddMediaCubit(), // إنشاء نسخة جديدة من الـ Cubit
                 child: ProductEditDialog(product: productEntity),
               ),
             );

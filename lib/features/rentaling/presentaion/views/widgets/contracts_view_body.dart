@@ -68,7 +68,9 @@ class ContractsViewBody extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.cardColorDark
+                          : AppColors.cardColorlight,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 2))],
                     ),
@@ -83,7 +85,8 @@ class ContractsViewBody extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 'Contracts Overview',
-                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                                style:
+                                Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold,),
                               ),
                             ],
                           ),

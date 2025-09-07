@@ -17,10 +17,13 @@ class ContractTableHelper {
         key: 'contract',
         title: 'Contract Details',
         type: ColumnType.custom,
+        flex: 3, // تم التعديل: استخدام flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
+          // الواجهة الأصلية كما هي
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center, // إضافة لتوسيط المحتوى عمودياً
             children: [
               Row(
                 children: [
@@ -30,6 +33,7 @@ class ContractTableHelper {
                     child: Text(
                       contract.contractNumber,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: Colors.blue),
+                      overflow: TextOverflow.ellipsis, // إضافة لمنع التجاوز
                     ),
                   ),
                 ],
@@ -38,6 +42,7 @@ class ContractTableHelper {
               Text(
                 'Order Item: ${contract.orderItemId}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                overflow: TextOverflow.ellipsis, // إضافة لمنع التجاوز
               ),
             ],
           );
@@ -47,16 +52,17 @@ class ContractTableHelper {
         key: 'customer',
         title: 'Customer',
         type: ColumnType.custom,
-        width: 200,
+        flex: 3, // تم التعديل: width -> flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
+          // الواجهة الأصلية كما هي
           return Row(
             children: [
               CircleAvatar(
                 backgroundColor: Colors.green,
                 radius: 16,
                 child: Text(
-                  contract.user.username.substring(0, 1).toUpperCase(),
+                  contract.user.username.isNotEmpty ? contract.user.username.substring(0, 1).toUpperCase() : '?',
                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
@@ -64,6 +70,7 @@ class ContractTableHelper {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center, // إضافة لتوسيط المحتوى عمودياً
                   children: [
                     Text(
                       contract.user.username,
@@ -86,29 +93,32 @@ class ContractTableHelper {
         key: 'product',
         title: 'Product',
         type: ColumnType.custom,
-        width: 180,
+        flex: 2, // تم التعديل: width -> flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.orange.withOpacity(0.3)),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.inventory, color: Colors.orange, size: 16),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    contract.product.nameEn,
-                    style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600, fontSize: 13),
-                    overflow: TextOverflow.ellipsis,
+          // الواجهة الأصلية كما هي
+          return Center( // إضافة Center لضمان التوسيط
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.orange.withOpacity(0.3)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.inventory, color: Colors.orange, size: 16),
+                  const SizedBox(width: 6),
+                  Flexible( // استخدام Flexible بدلاً من Expanded
+                    child: Text(
+                      contract.product.nameEn,
+                      style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600, fontSize: 13),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -117,17 +127,19 @@ class ContractTableHelper {
         key: 'dates',
         title: 'Rental Period',
         type: ColumnType.custom,
-        width: 200,
+        flex: 2, // تم التعديل: width -> flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
+          // الواجهة الأصلية كما هي
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center, // إضافة لتوسيط المحتوى عمودياً
             children: [
               Row(
                 children: [
                   Icon(Icons.calendar_today, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 4),
-                  Text('Start: ${_formatDate(contract.startDate)}', style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+                  Flexible(child: Text('Start: ${_formatDate(contract.startDate)}', style: TextStyle(fontSize: 12, color: Colors.grey[700]), overflow: TextOverflow.ellipsis)),
                 ],
               ),
               const SizedBox(height: 2),
@@ -135,7 +147,7 @@ class ContractTableHelper {
                 children: [
                   Icon(Icons.event, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 4),
-                  Text('End: ${_formatDate(contract.endDate)}', style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+                  Flexible(child: Text('End: ${_formatDate(contract.endDate)}', style: TextStyle(fontSize: 12, color: Colors.grey[700]), overflow: TextOverflow.ellipsis)),
                 ],
               ),
               const SizedBox(height: 2),
@@ -151,21 +163,27 @@ class ContractTableHelper {
         key: 'status',
         title: 'Status',
         type: ColumnType.custom,
-        width: 120,
+        flex: 1, // تم التعديل: width -> flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
-          return StatusBadge(status: _getStatusType(contract.status));
+          // الواجهة الأصلية كما هي
+          return Center(child: StatusBadge(status: _getStatusType(contract.status)));
         },
       ),
       TableColumn(
         key: 'actions',
         title: 'Actions',
         type: ColumnType.action,
-        width: 200,
+        flex: 2, // تم التعديل: width -> flex
         customBuilder: (value) {
           final contract = value as ContractEntity;
-          return ActionButtonGroup(
-            buttons: [
+          final status = contract.status.toUpperCase();
+          // استخدام Wrap لجعل الأزرار تتكيف مع حجم الشاشة
+          return Wrap(
+            spacing: 4.0,
+            runSpacing: 4.0,
+            alignment: WrapAlignment.start,
+            children: [
               ActionButton(
                 icon: Icons.picture_as_pdf,
                 color: Colors.red,
@@ -180,7 +198,6 @@ class ContractTableHelper {
                 text: '',
                 tooltip: 'Contract Details',
               ),
-              // ✅✅✅ زر التعديل الجديد ✅✅✅
               ActionButton(
                 icon: Icons.edit_note,
                 color: Colors.purple,
@@ -188,6 +205,14 @@ class ContractTableHelper {
                 text: '',
                 tooltip: 'Update Status',
               ),
+              if (status == 'ACTIVE' || status == 'OVERDUE')
+                ActionButton(
+                  icon: Icons.keyboard_return,
+                  color: Colors.orange,
+                  onPressed: () => _showReturnItemDialog(context, contract),
+                  text: '',
+                  tooltip: 'Return Rented Item',
+                ),
             ],
           );
         },
@@ -213,10 +238,11 @@ class ContractTableHelper {
     );
   }
 
-  // ✅✅✅ الدالة الجديدة لعرض ديالوغ التحديث ✅✅✅
+  // --- باقي الدوال المساعدة تبقى كما هي بدون أي تغيير ---
+
   static void _showUpdateStatusDialog(BuildContext context, ContractEntity contract) {
     final cubit = context.read<ContractCubit>();
-    String? selectedStatus = contract.status; // القيمة الأولية هي الحالة الحالية
+    String? selectedStatus = contract.status;
     final availableStatuses = ['ACTIVE', 'COMPLETED', 'CANCELLED', 'OVERDUE', 'UPCOMING'];
 
     showDialog(
@@ -290,7 +316,7 @@ class ContractTableHelper {
 
   static void _downloadPdf(ContractEntity contract) async {
     final url = 'http://localhost:8383${contract.contractDocumentUrl}';
-    _launchUrl(url );
+    _launchUrl(url  );
   }
 
   static void _launchUrl(String url) async {
@@ -346,6 +372,84 @@ class ContractTableHelper {
           Expanded(child: Text(value)),
         ],
       ),
+    );
+  }
+  static void _showReturnItemDialog(BuildContext context, ContractEntity contract) {
+    final cubit = context.read<ContractCubit>();
+    String? selectedCondition;
+    final notesController = TextEditingController();
+    final conditions = ["NEW", "GOOD", "FAIR", "DAMAGED"];
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Return Item for Order #${contract.orderItemId}'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: selectedCondition,
+                      hint: const Text('Select Condition on Return'),
+                      items: conditions.map((condition) {
+                        return DropdownMenuItem(
+                          value: condition,
+                          child: Text(condition),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCondition = value;
+                        });
+                      },
+                      validator: (value) => value == null ? 'Please select a condition' : null,
+                      decoration: const InputDecoration(border: OutlineInputBorder()),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: notesController,
+                      decoration: const InputDecoration(
+                        labelText: 'Notes (Optional)',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (selectedCondition != null) {
+                      cubit.returnRentedItem(
+                        orderItemId: contract.id,
+                        condition: selectedCondition!,
+                        notes: notesController.text.trim(),
+                      );
+                      Navigator.of(dialogContext).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select a condition.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Confirm Return'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

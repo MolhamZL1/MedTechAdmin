@@ -40,4 +40,27 @@ class ContractCubit extends Cubit<ContractState> {
       },
     );
   }
+  Future<void> returnRentedItem({
+    required int orderItemId,
+    required String condition,
+    String? notes,
+  }) async {
+    emit(ReturnItemLoading());
+    final result = await contractRepo.returnRentedItem(
+      orderItemId: orderItemId,
+      condition: condition,
+      notes: notes,
+    );
+
+    result.fold(
+          (failure) => emit(ReturnItemFailure(failure.errMessage)),
+          (successMessage) {
+        emit(ReturnItemSuccess(successMessage));
+        // إعادة جلب العقود لتحديث الواجهة
+        if (_currentUserId != null) {
+          fetchContracts(userId: _currentUserId!);
+        }
+      },
+    );
+  }
 }

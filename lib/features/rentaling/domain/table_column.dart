@@ -18,6 +18,7 @@ class TableColumn {
   final double? width;
   final bool sortable;
   final TextAlign alignment;
+  final int? flex;
   final Widget Function(dynamic value)? customBuilder;
 
   const TableColumn({
@@ -28,6 +29,7 @@ class TableColumn {
     this.sortable = false,
     this.alignment = TextAlign.left,
     this.customBuilder,
+this.flex,
   });
 
   TableColumn copyWith({

@@ -19,4 +19,9 @@ abstract class DatabaseService {
     required String endpoint,
     required Map<String, dynamic> data,
   });
+  Future<dynamic> updateDataa({
+    required String endpoint,
+    dynamic data,
+
+  });
 }

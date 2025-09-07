@@ -13,7 +13,8 @@ class ContractRepoImpl implements ContractRepo {
   ContractRepoImpl({required this.databaseService});
 
   @override
-  Future<Either<Failure, List<ContractEntity>>> getContracts({required int userId}) async {
+  Future<Either<Failure, List<ContractEntity>>> getContracts(
+      {required int userId}) async {
     try {
       final response = await databaseService.getData(
         endpoint: BackendEndpoints.getContracts,
@@ -22,11 +23,13 @@ class ContractRepoImpl implements ContractRepo {
 
       if (response is! List) {
         return Left(ServerFailure(
-            errMessage: "Expected list of contracts but got ${response.runtimeType}"));
+            errMessage: "Expected list of contracts but got ${response
+                .runtimeType}"));
       }
 
       final contracts = response
-          .map((e) => ContractModel.fromJson(e as Map<String, dynamic>).toEntity())
+          .map((e) =>
+          ContractModel.fromJson(e as Map<String, dynamic>).toEntity())
           .toList();
 
       return Right(contracts);
@@ -45,7 +48,8 @@ class ContractRepoImpl implements ContractRepo {
     required String newStatus,
   }) async {
     try {
-      final endpoint = "${BackendEndpoints.updateContractStatus}/$orderItemId/update-contract-status";
+      final endpoint = "${BackendEndpoints
+          .updateContractStatus}/$orderItemId/update-contract-status";
       final response = await databaseService.patchData(
         endpoint: endpoint,
         data: {'status': newStatus},
@@ -54,7 +58,39 @@ class ContractRepoImpl implements ContractRepo {
       if (response is Map && response.containsKey('message')) {
         return Right(response['message'] as String);
       } else {
-        return Left(ServerFailure(errMessage: "Unexpected response from server."));
+        return Left(
+            ServerFailure(errMessage: "Unexpected response from server."));
+      }
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> returnRentedItem({
+    required int orderItemId,
+    required String condition,
+    String? notes,
+  }) async {
+    try {
+      final endpoint = "${BackendEndpoints
+          .returnRentedItem}/$orderItemId/return-rented";
+      final response = await databaseService.addData(
+        endpoint: endpoint,
+        data: {
+          'conditionOnReturn': condition,
+          'notes': notes,
+        },
+      );
+
+      if (response is Map && response.containsKey('message')) {
+        return Right(response['message'] as String);
+      } else {
+        return Left(
+            ServerFailure(errMessage: "Unexpected response from server."));
       }
     } catch (e) {
       if (e is DioException) {

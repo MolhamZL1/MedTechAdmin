@@ -14,11 +14,11 @@ class ProductAddDialog extends StatefulWidget {
   @override
   State<ProductAddDialog> createState() => _ProductAddDialogState();
 }
+
 class _ProductAddDialogState extends State<ProductAddDialog> {
   final _formKey = GlobalKey<FormState>();
   final nameEnController = TextEditingController();
   final nameArController = TextEditingController();
-  final categoryEnController = TextEditingController();
   final categoryArController = TextEditingController();
   final companyEnController = TextEditingController();
   final companyArController = TextEditingController();
@@ -28,17 +28,27 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
   final saleStockController = TextEditingController();
   final salePriceController = TextEditingController();
   final costPriceController = TextEditingController();
-
   final rentalPriceController = TextEditingController();
 
   bool availableForRent = false;
   bool availableForSale = false;
 
+  // --- 1. تعريف قائمة التصنيفات ومتغير الحالة ---
+  final List<String> _categories = [
+    "Urology",
+    "Gynecology",
+    "General Surgery",
+    "Orthopedics",
+    "Pulmonology",
+    "ENT (Ear, Nose, Throat)",
+  ];
+  String? _selectedCategory; // لتخزين التصنيف المختار
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(left: Radius.circular(16),right:Radius.circular(16) ),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(16), right: Radius.circular(16)),
       ),
       title: const Text(
         "Add New Product",
@@ -55,7 +65,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
                   spacing: 16,
                   runSpacing: 16,
                   children: [
-                    ..._buildTextFields(),
+                    ..._buildFormFields(), // تم تغيير اسم الدالة للوضوح
                     _buildAvailabilityCheckboxes(),
                     MediaUploadSection(
                       title: "Upload Images",
@@ -88,15 +98,10 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
             if (state is AddProductLoading) {
               showDialog(
                 context: context,
-                builder:
-                    (context) =>
-                        const Center(child: CircularProgressIndicator()),
+                builder: (context) => const Center(child: CircularProgressIndicator()),
               );
             } else if (state is AddProductError) {
-              Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pop(); // Dismiss loading
+              Navigator.of(context, rootNavigator: true).pop(); // Dismiss loading
               showerrorDialog(
                 context: context,
                 title: "Error",
@@ -104,16 +109,12 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
               );
             } else if (state is AddProductSuccess) {
               Navigator.of(context).pop(); // Dismiss loading
-
               showsuccessDialog(
                 context: context,
                 title: "Success",
-                description:
-                    "Product Added Successfully \n Refresh Page Please",
+                description: "Product Added Successfully \n Refresh Page Please",
                 btnOkOnPress: () {
-                  Navigator.of(
-                    context,
-                  ).popUntil((route) => route.isFirst); // Dismiss Dialog
+                  Navigator.of(context).popUntil((route) => route.isFirst); // Dismiss Dialog
                 },
               );
             }
@@ -126,7 +127,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
                 final productUploadModel = ProductUploadModel(
                   nameEn: nameEnController.text,
                   nameAr: nameArController.text,
-                  categoryEn: categoryEnController.text,
+                  categoryEn: _selectedCategory!, // --- 4. استخدام القيمة المختارة
                   categoryAr: categoryArController.text,
                   companyEn: companyEnController.text,
                   companyAr: companyArController.text,
@@ -137,7 +138,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
                   rentalPrice: double.parse(rentalPriceController.text),
                   availableForRent: availableForRent,
                   availableForSale: availableForSale,
-                  costPrice: double.parse(costPriceController.text) ,
+                  costPrice: double.parse(costPriceController.text),
                   images: context.read<AddMediaCubit>().imageFiles,
                   videos: context.read<AddMediaCubit>().videoFiles,
                 );
@@ -151,28 +152,52 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
     );
   }
 
-  List<Widget> _buildTextFields() {
+  List<Widget> _buildFormFields() {
     return [
       _buildTextField(nameEnController, "Name (EN)"),
       _buildTextField(nameArController, "Name (AR)"),
-      _buildTextField(categoryEnController, "Category (EN)"),
+      // --- 2. استدعاء دالة بناء القائمة المنسدلة ---
+      _buildCategoryDropdown(),
       _buildTextField(companyEnController, "Company (EN)"),
       _buildTextField(descEnController, "Description (EN)", maxLines: 2),
       _buildTextField(rentStockController, "Rent Stock", isNumber: true),
       _buildTextField(saleStockController, "Sale Stock", isNumber: true),
       _buildTextField(salePriceController, "Sale Price", isNumber: true),
       _buildTextField(rentalPriceController, "Rental Price", isNumber: true),
-      _buildTextField(costPriceController, "cost Price", isNumber: true),
-
+      _buildTextField(costPriceController, "Cost Price", isNumber: true),
     ];
   }
 
+  // --- 3. دالة بناء ويدجت القائمة المنسدلة ---
+  Widget _buildCategoryDropdown() {
+    return SizedBox(
+      width: 350,
+      child: DropdownButtonFormField<String>(
+        decoration: const InputDecoration(labelText: "Category (EN)"),
+        value: _selectedCategory,
+        hint: const Text('Select a category'),
+        items: _categories.map((String category) {
+          return DropdownMenuItem<String>(
+            value: category,
+            child: Text(category),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          setState(() {
+            _selectedCategory = newValue;
+          });
+        },
+        validator: (value) => value == null ? 'Category is required' : null,
+      ),
+    );
+  }
+
   Widget _buildTextField(
-    TextEditingController controller,
-    String label, {
-    bool isNumber = false,
-    int maxLines = 1,
-  }) {
+      TextEditingController controller,
+      String label, {
+        bool isNumber = false,
+        int maxLines = 1,
+      }) {
     return SizedBox(
       width: 350,
       child: TextFormField(
@@ -180,8 +205,7 @@ class _ProductAddDialogState extends State<ProductAddDialog> {
         maxLines: maxLines,
         keyboardType: isNumber ? TextInputType.number : null,
         decoration: InputDecoration(labelText: label),
-        validator:
-            (value) => value == null || value.isEmpty ? "Required" : null,
+        validator: (value) => value == null || value.isEmpty ? "Required" : null,
       ),
     );
   }

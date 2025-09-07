@@ -10,4 +10,9 @@ abstract class ContractRepo {
     required int orderItemId,
     required String newStatus,
   });
+  Future<Either<Failure, String>> returnRentedItem({
+    required int orderItemId,
+    required String condition,
+    String? notes,
+  });
 }

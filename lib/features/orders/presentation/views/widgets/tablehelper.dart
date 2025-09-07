@@ -26,7 +26,7 @@ class OrderTableHelper {
       case 'PENDING':
         return StatusType.pending;
       case 'PAID':
-        return StatusType.confirmed;
+        return StatusType.paid;
       case 'SHIPPED':
         return StatusType.shipped;
       case 'DELIVERED':
@@ -42,12 +42,7 @@ class OrderTableHelper {
 
   static TableData fromOrderList(List<OrderEntity> orders, BuildContext context) {
     final columns = [
-      TableColumn(
-        key: 'id',
-        title: 'Order ID',
-        type: ColumnType.text,
-        width: 100,
-      ),
+
       TableColumn(
         key: 'user',
         title: 'User',
@@ -58,10 +53,14 @@ class OrderTableHelper {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(order.user.username ?? 'Unknown User',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(order.user.email ?? 'No Email',
-                  style: const TextStyle(color: Colors.grey, fontSize: 12)),
+              Text(
+                order.user.username ?? 'Unknown User',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Text(
+                order.user.email ?? 'No Email',
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ],
           );
         },
@@ -112,20 +111,44 @@ class OrderTableHelper {
       TableColumn(
         key: 'total',
         title: 'Total',
-        type: ColumnType.text,
+        type: ColumnType.custom, // تغيير النوع إلى custom
         width: 120,
+        customBuilder: (value) { // إضافة customBuilder
+          final order = value as OrderEntity;
+          return Text(
+            order.totalAmount.toString(),
+            // تطبيق النمط على الإجمالي
+            style: Theme.of(context).textTheme.bodySmall,
+          );
+        },
       ),
       TableColumn(
         key: 'date',
         title: 'Date',
-        type: ColumnType.text,
+        type: ColumnType.custom,
         width: 180,
+        customBuilder: (value) {
+          final order = value as OrderEntity;
+          final dateText = "${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}";
+          return Text(
+            dateText,
+            style: Theme.of(context).textTheme.bodySmall,
+          );
+        },
       ),
       TableColumn(
         key: 'address',
         title: 'Address',
-        type: ColumnType.text,
+        type: ColumnType.custom,
         width: 300,
+        customBuilder: (value) {
+          final order = value as OrderEntity;
+          return Text(
+            order.shippingAddress ?? 'No Address Provided',
+            style: Theme.of(context).textTheme.bodySmall,
+            overflow: TextOverflow.ellipsis,
+          );
+        },
       ),
       TableColumn(
         key: 'details',
@@ -145,6 +168,39 @@ class OrderTableHelper {
           );
         },
       ),
+      TableColumn(
+        key: 'actions',
+        title: 'Actions',
+        type: ColumnType.custom,
+        width: 200,
+        flex: 2,
+        customBuilder: (value) {
+          final order = value as OrderEntity;
+
+          if (order.status?.toUpperCase() == 'PENDING') {
+            return Wrap(
+                spacing: 4.0,
+                runSpacing: 4.0,
+                alignment: WrapAlignment.start,
+                children:[ ElevatedButton.icon(
+                  onPressed: () {
+                    context.read<OrderCubit>().confirmOrderPayment(order.id, order.totalAmount);
+                  },
+                  icon: const Icon(Icons.check_circle_outline, size: 16),
+                  label: const Text("Confirm Payment"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                ]
+            );
+          }
+          return
+            Text("NOthingToDo");
+
+        },
+      ),
     ];
 
     final rows = orders
@@ -152,12 +208,11 @@ class OrderTableHelper {
       'id': 'ORD-${order.id.toString().padLeft(3, '0')}',
       'user': order,
       'status': order,
-      'total': order.totalAmount.toString(),
-      'date':
-      "${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}",
-      // --- تعديل رقم 3: إضافة قيمة افتراضية لعنوان الشحن ---
-      'address': order.shippingAddress ?? 'No Address Provided',
+      'total': order, // تمرير الكائن order بالكامل
+      'date': order,
+      'address': order,
       'details': order,
+      'actions': order,
     })
         .toList();
 

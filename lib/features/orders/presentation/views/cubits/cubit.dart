@@ -57,4 +57,30 @@ class OrderCubit extends Cubit<OrderState> {
       },
     );
   }
+  Future<void> confirmOrderPayment(int orderId, double amount) async {
+    // يمكنك إظهار حالة تحميل إذا أردت
+    // emit(OrderLoading());
+
+    final result = await orderRepo.confirmPayment(orderId, amount);
+
+    result.fold(
+          (failure) {
+        // عرض رسالة الخطأ
+        emit(OrderFailure(errMessage: failure.errMessage));
+        // إعادة عرض القائمة الأصلية
+        emit(OrderSuccess(ordersEntity: _currentOrders));
+      },
+          (_) {
+        // عند النجاح، قم بتحديث حالة الطلب محلياً إلى "PAID"
+        final orderIndex = _currentOrders.indexWhere((order) => order.id == orderId);
+        if (orderIndex != -1) {
+          _currentOrders[orderIndex] = _currentOrders[orderIndex].copyWith(status: 'PAID');
+        }
+
+        // عرض رسالة النجاح وتحديث الواجهة
+        emit(OrderStatusChanged(message: "Payment confirmed successfully!"));
+        emit(OrderSuccess(ordersEntity: List.from(_currentOrders)));
+      },
+    );
+  }
 }

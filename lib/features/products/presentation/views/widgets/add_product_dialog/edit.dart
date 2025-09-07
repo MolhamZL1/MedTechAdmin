@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_tech_admin/core/widgets/show_err_dialog.dart';
-import 'package:med_tech_admin/core/widgets/showsuccessDialog.dart';
-import 'package:med_tech_admin/features/products/data/models/product_model.dart'; // ✅ استيراد ProductModel
+import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
 import 'package:med_tech_admin/features/products/presentation/cubits/add%20product/add_product_cubit.dart';
+import 'package:med_tech_admin/features/products/presentation/cubits/cubit/add_media_cubit.dart';
+
+import '../../../../../../core/widgets/show_err_dialog.dart';
+import '../../../../../../core/widgets/showsuccessDialog.dart';
+import '../../../../data/models/product_edit_model.dart';
+import 'MediaUploadSection.dart'; // تأكد من صحة هذا المسار
 
 class ProductEditDialog extends StatefulWidget {
   final ProductEntity product;
@@ -16,18 +20,19 @@ class ProductEditDialog extends StatefulWidget {
 
 class _ProductEditDialogState extends State<ProductEditDialog> {
   final _formKey = GlobalKey<FormState>();
-
-  // 1. تعريف الـ Controllers
   late TextEditingController nameEnController;
   late TextEditingController nameArController;
   late TextEditingController categoryEnController;
+  late TextEditingController categoryArController;
   late TextEditingController companyEnController;
+  late TextEditingController companyArController;
   late TextEditingController descEnController;
+  late TextEditingController descArController;
   late TextEditingController rentStockController;
   late TextEditingController saleStockController;
   late TextEditingController salePriceController;
-  late TextEditingController rentalPriceController;
   late TextEditingController costPriceController;
+  late TextEditingController rentalPriceController;
 
   late bool availableForRent;
   late bool availableForSale;
@@ -35,62 +40,69 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   @override
   void initState() {
     super.initState();
-    // 2. ملء الـ Controllers بالبيانات الحالية للمنتج
-    final product = widget.product;
-    nameEnController = TextEditingController(text: product.nameEn);
-    nameArController = TextEditingController(text: product.nameAr);
-    categoryEnController = TextEditingController(text: product.categoryEn);
-    companyEnController = TextEditingController(text: product.companyEn);
-    descEnController = TextEditingController(text: product.descriptionEn);
-    rentStockController = TextEditingController(text: product.rentStock.toString());
-    saleStockController = TextEditingController(text: product.saleStock.toString());
-    salePriceController = TextEditingController(text: product.salePrice.toString());
-    rentalPriceController = TextEditingController(text: product.rentalPrice.toString());
-    costPriceController = TextEditingController(text: product.costPrice.toString());
-    availableForRent = product.availableForRent;
-    availableForSale = product.availableForSale;
-  }
+    final p = widget.product;
+    nameEnController = TextEditingController(text: p.nameEn);
+    nameArController = TextEditingController(text: p.nameAr);
+    categoryEnController = TextEditingController(text: p.categoryEn);
+    categoryArController = TextEditingController(text: p.categoryAr);
+    companyEnController = TextEditingController(text: p.companyEn);
+    companyArController = TextEditingController(text: p.companyAr);
+    descEnController = TextEditingController(text: p.descriptionEn);
+    descArController = TextEditingController(text: p.descriptionAr);
+    rentStockController = TextEditingController(text: p.rentStock.toString());
+    saleStockController = TextEditingController(text: p.saleStock.toString());
+    salePriceController = TextEditingController(text: p.salePrice.toString());
+  //  costPriceController = TextEditingController(text: p.costPrice.toString());
+    rentalPriceController = TextEditingController(text: p.rentalPrice.toString());
 
-  @override
-  void dispose() {
-    // 3. التخلص من كل الـ Controllers
-    nameEnController.dispose();
-    nameArController.dispose();
-    categoryEnController.dispose();
-    companyEnController.dispose();
-    descEnController.dispose();
-    rentStockController.dispose();
-    saleStockController.dispose();
-    salePriceController.dispose();
-    rentalPriceController.dispose();
-    costPriceController.dispose();
-    super.dispose();
+    availableForRent = p.availableForRent;
+    availableForSale = p.availableForSale;
+
+    // ملاحظة: لا يمكن تعديل الصور والفيديوهات الحالية هنا، فقط إضافة جديد
+    // يمكنك مسح الوسائط القديمة عند البدء إذا أردت
+    context.read<AddMediaCubit>().clearMedia();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(16), right: Radius.circular(16)),
       ),
-      title: Text(
-        "Edit Product: ${widget.product.nameEn}",
-        style: const TextStyle(fontWeight: FontWeight.bold),
-        overflow: TextOverflow.ellipsis,
+      title: const Text(
+        "Edit Product", // تغيير العنوان
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       content: SizedBox(
-        width: 800, // نفس عرض ديالوغ الإضافة
+        width: 800,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                ..._buildTextFields(),
-                _buildAvailabilityCheckboxes(),
-                // تم حذف قسم رفع الوسائط لأنه غير مدعوم في Cubit التعديل الحالي
-              ],
+            child: BlocBuilder<AddMediaCubit, AddMediaState>(
+              builder: (context, state) {
+                return Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: [
+                    ..._buildTextFields(),
+                    _buildAvailabilityCheckboxes(),
+                    MediaUploadSection(
+                      title: "Upload New Images (Optional)",
+                      files: context.watch<AddMediaCubit>().imageFiles,
+                      onUpload: context.read<AddMediaCubit>().addImage,
+                      onDelete: context.read<AddMediaCubit>().removeImage,
+                      isImage: true,
+                    ),
+                    MediaUploadSection(
+                      title: "Upload New Videos (Optional)",
+                      files: context.watch<AddMediaCubit>().videoFiles,
+                      onUpload: context.read<AddMediaCubit>().addVideo,
+                      onDelete: context.read<AddMediaCubit>().removeVideo,
+                      isImage: false,
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -102,77 +114,91 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         ),
         BlocListener<AddProductCubit, AddProductState>(
           listener: (context, state) {
-            if (state is AddProductError) {
-              Navigator.of(context).pop(); // إغلاق ديالوغ التعديل
+            if (state is AddProductLoading) {
+              showDialog(
+                context: context,
+                builder: (context) => const Center(child: CircularProgressIndicator()),
+              );
+            }
+            else if (state is AddProductError) {
+              Navigator.of(context, rootNavigator: true).pop(); // Dismiss loading
+              showerrorDialog(
+                context: context,
+                title: "Error",
+                // ✨✨ هذه هي الرسالة التي تأتي من الخادم ✨✨
+                description: state.errMessage,
+              );
+            }
+            else if (state is AddProductError) {
+              Navigator.of(context, rootNavigator: true).pop();
               showerrorDialog(
                 context: context,
                 title: "Error",
                 description: state.errMessage,
               );
             } else if (state is AddProductSuccess) {
-              Navigator.of(context).pop(); // إغلاق ديالوغ التعديل
+              Navigator.of(context).pop();
               showsuccessDialog(
                 context: context,
                 title: "Success",
-                description: "Product updated successfully.",
+                description: "Product Updated Successfully\nRefresh Page Please",
+                btnOkOnPress: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
               );
             }
           },
           child: ElevatedButton.icon(
-            icon: const Icon(Icons.save), // تغيير الأيقونة
+            icon: const Icon(Icons.check),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // ✅ 4. إنشاء ProductModel بالبيانات المحدثة
-                final updatedProduct = ProductModel(
-                  id: widget.product.id, // استخدام الـ ID الأصلي
-                  nameEn: nameEnController.text,
-                  nameAr: nameArController.text,
-                  categoryEn: categoryEnController.text,
-                  categoryAr: widget.product.categoryAr, // استخدام القيمة الأصلية
-                  companyEn: companyEnController.text,
-                  companyAr: widget.product.companyAr, // استخدام القيمة الأصلية
-                  descriptionEn: descEnController.text,
-                  descriptionAr: widget.product.descriptionAr, // استخدام القيمة الأصلية
-                  rentStock: int.parse(rentStockController.text),
-                  saleStock: int.parse(saleStockController.text),
-                  salePrice: double.parse(salePriceController.text),
-                  rentalPrice: double.parse(rentalPriceController.text),
-                  costPrice: double.parse(costPriceController.text),
-                  availableForRent: availableForRent,
-                  availableForSale: availableForSale,
-                  imagesUrl: [], // قائمة فارغة لأننا لا نعدل الوسائط
-                  videos: [],
-                  qrCode: '',
-                  rate:int.parse(saleStockController.text),// قائمة فارغة
-                );
-
-                // ✅ 5. استدعاء دالة التحديث من الـ Cubit
-                context.read<AddProductCubit>().updateProduct(
-                  widget.product.id.toString(),
-                  updatedProduct,
-                );
-              }
+              // لا نستخدم validator هنا لأن بعض الحقول قد تكون فارغة عمدًا
+              // if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final productUploadModel = ProductEditeModel(
+                nameEn: nameEnController.text,
+                nameAr: nameArController.text,
+                categoryEn: categoryEnController.text,
+                categoryAr: categoryArController.text,
+                companyEn: companyEnController.text,
+                companyAr: companyArController.text,
+                descriptionEn: descEnController.text,
+                descriptionAr: descArController.text,
+                rentStock: int.tryParse(rentStockController.text),
+                saleStock: int.tryParse(saleStockController.text),
+                salePrice: double.tryParse(salePriceController.text),
+                rentalPrice: double.tryParse(rentalPriceController.text),
+                availableForRent: availableForRent,
+                availableForSale: availableForSale,
+               // costPrice: double.tryParse(costPriceController.text),
+                images: context.read<AddMediaCubit>().imageFiles,
+                videos: context.read<AddMediaCubit>().videoFiles,
+              );
+              // استدعاء دالة التعديل
+              context.read<AddProductCubit>().editProduct(widget.product.id.toString(), productUploadModel);
+              // }
             },
             label: const Text("Save Changes"), // تغيير النص
           ),
         ),
       ],
     );
+
   }
 
-  // ✅ نفس دوال بناء الحقول الموجودة في ديالوغ الإضافة
   List<Widget> _buildTextFields() {
     return [
       _buildTextField(nameEnController, "Name (EN)"),
       _buildTextField(nameArController, "Name (AR)"),
       _buildTextField(categoryEnController, "Category (EN)"),
+      _buildTextField(categoryArController, "Category (AR)"),
       _buildTextField(companyEnController, "Company (EN)"),
+      _buildTextField(companyArController, "Company (AR)"),
       _buildTextField(descEnController, "Description (EN)", maxLines: 2),
+      _buildTextField(descArController, "Description (AR)", maxLines: 2),
       _buildTextField(rentStockController, "Rent Stock", isNumber: true),
       _buildTextField(saleStockController, "Sale Stock", isNumber: true),
       _buildTextField(salePriceController, "Sale Price", isNumber: true),
       _buildTextField(rentalPriceController, "Rental Price", isNumber: true),
-      _buildTextField(costPriceController, "Cost Price", isNumber: true),
     ];
   }
 
@@ -183,14 +209,14 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         int maxLines = 1,
       }) {
     return SizedBox(
-      width: 350, // نفس العرض
+      width: 350,
       child: TextFormField(
         controller: controller,
         maxLines: maxLines,
         keyboardType: isNumber ? TextInputType.number : null,
         decoration: InputDecoration(labelText: label),
-        // ✅ جعل التحقق من الصحة إجباريًا للحفاظ على نفس سلوك الإضافة
-        validator: (value) => value == null || value.isEmpty ? "Required" : null,
+        // في التعديل، لا نجبر المستخدم على ملء كل الحقول
+        // validator: (value) => value == null || value.isEmpty ? "Required" : null,
       ),
     );
   }

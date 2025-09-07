@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:med_tech_admin/core/services/database_service.dart';
 import 'package:med_tech_admin/core/utils/backend_endpoints.dart';
+import 'package:med_tech_admin/features/products/data/models/product_edit_model.dart';
 import 'package:med_tech_admin/features/products/data/models/product_model.dart';
 import 'package:med_tech_admin/features/products/data/models/product_upload_model.dart';
 import 'package:med_tech_admin/features/products/domain/entities/product_entity.dart';
@@ -69,22 +70,28 @@ class ProductsRepoImp implements ProductsRepo {
     }
   }
 
+  // في ملف products_repo_imp.dart
   @override
-  Future<Either<Failure, void>> updateProduct(
-    String id,
-    ProductModel product,
-  ) async {
+  Future<Either<Failure, void>> editProduct(String id, ProductEditeModel product) async {
     try {
-      await databaseService.updateData(
-        endpoint: BackendEndpoints.updateProduct,
-        rowid: id,
+      await databaseService.updateDataa(
+        endpoint: '${BackendEndpoints.updateProduct}/$id',
+        data: await product.toFormData(isEdit: true),
       );
-      return right(null);
+
+      return right(null); // لم نصل إلى هنا
     } catch (e) {
+      log('--- EDIT PRODUCT API FAILED ---');
+      log('Error: $e');
       if (e is DioException) {
-        return left(ServerFailure.fromDioError(e));
+        log('Dio Error Response Data: ${e.response?.data}');
       }
-      return left(ServerFailure(errMessage: e.toString()));
+      // 👈 تم التقاط الخطأ هنا
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e)); // على الأغلب هذا ما حدث
+      }
+      return left(ServerFailure(errMessage: e.toString())); // أو هذا
     }
   }
+
 }

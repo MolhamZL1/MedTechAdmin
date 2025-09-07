@@ -7,4 +7,6 @@ abstract class OrderRepo {
 
   /// ✅ تابع جديد
   Future<Either<Failure, Unit>> setOrderStatus(int orderId, String status);
+  Future<Either<Failure, Unit>> confirmPayment(int orderId, double amount);
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../../domain/entities/contract-entity.dart';
 import 'pdf_viewer_widget.dart';
 
@@ -20,7 +21,9 @@ class GoogleDrivePdfViewer extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.3,
         height: MediaQuery.of(context).size.height * 0.8,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.cardColorDark
+              : AppColors.cardColorlight,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -53,7 +56,9 @@ class GoogleDrivePdfViewer extends StatelessWidget {
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(12),
           topRight: Radius.circular(12),
@@ -68,7 +73,9 @@ class GoogleDrivePdfViewer extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.red[50],
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.cardColorDark
+                  : AppColors.cardColorlight,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -127,7 +134,9 @@ class GoogleDrivePdfViewer extends StatelessWidget {
           Container(
             width: 1,
             height: 32,
-            color: Colors.grey[300],
+            color:Theme.of(context).brightness == Brightness.dark
+                ? AppColors.cardColorDark
+                : AppColors.cardColorlight,
           ),
           const SizedBox(width: 8),
           _buildActionButton(
@@ -192,7 +201,9 @@ class GoogleDrivePdfViewer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.cardColorDark
+                    : AppColors.cardColorlight,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: SelectableText(
@@ -232,17 +243,17 @@ class GoogleDrivePdfViewer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildDetailItem('Contract Number', contract.contractNumber),
-              _buildDetailItem('Customer', contract.user.username),
-              _buildDetailItem('Email', contract.user.email),
-              _buildDetailItem('Product', contract.product.nameEn),
-              _buildDetailItem('Status', contract.status),
-              _buildDetailItem('Start Date', _formatDate(contract.startDate)),
-              _buildDetailItem('End Date', _formatDate(contract.endDate)),
-              _buildDetailItem('Created', _formatDate(contract.createdAt)),
-              _buildDetailItem('Last Updated', _formatDate(contract.updatedAt)),
+              _buildDetailItem(context,'Contract Number', contract.contractNumber),
+              _buildDetailItem(context,'Customer', contract.user.username),
+              _buildDetailItem(context,'Email', contract.user.email),
+              _buildDetailItem(context,'Product', contract.product.nameEn),
+              _buildDetailItem(context,'Status', contract.status),
+              _buildDetailItem(context,'Start Date', _formatDate(contract.startDate)),
+              _buildDetailItem(context,'End Date', _formatDate(contract.endDate)),
+              _buildDetailItem(context,'Created', _formatDate(contract.createdAt)),
+              _buildDetailItem(context,'Last Updated', _formatDate(contract.updatedAt)),
               if (contract.notes != null && contract.notes!.isNotEmpty)
-                _buildDetailItem('Notes', contract.notes!),
+                _buildDetailItem(context,'Notes', contract.notes!),
             ],
           ),
         ),
@@ -256,7 +267,7 @@ class GoogleDrivePdfViewer extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailItem(String label, String value) {
+  Widget _buildDetailItem(BuildContext context,String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -266,10 +277,8 @@ class GoogleDrivePdfViewer extends StatelessWidget {
             width: 100,
             child: Text(
               '$label:',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.grey,
-              ),
+              style:  Theme.of(context).textTheme.headlineLarge,
+
             ),
           ),
           Expanded(

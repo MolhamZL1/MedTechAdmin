@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,5 +100,28 @@ class ApiService implements DatabaseService {
   }) async {
     Response response = await dio.patch(endpoint, data: data);
     return response.data;
+  }
+
+  @override
+  Future<dynamic> updateDataa({
+    required String endpoint,
+    String? rowid,
+    dynamic data,
+  }) async {
+    try {
+      // ✨✨ تم تغيير .post إلى .patch ✨✨
+      final response = await dio.patch( // 👈 تم التصحيح هنا
+        endpoint,
+        data: data,
+      );
+      return response.data;
+    } catch (e) {
+      // يمكنك إضافة طباعة للخطأ هنا لتسهيل التشخيص مستقبلاً
+      log("Error in updateData: $e");
+      if (e is DioException) {
+        log("Dio Response: ${e.response}");
+      }
+      rethrow;
+    }
   }
 }

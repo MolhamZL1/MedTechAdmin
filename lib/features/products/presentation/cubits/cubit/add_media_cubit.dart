@@ -39,4 +39,9 @@ class AddMediaCubit extends Cubit<AddMediaState> {
     videoFiles.removeAt(index);
     emit(VideoUpdated());
   }
+  void clearMedia() {
+    imageFiles.clear(); // مسح قائمة الصور
+    videoFiles.clear(); // مسح قائمة الفيديوهات
+    emit(AddMediaInitial()); // إصدار حالة جديدة لإعادة بناء الواجهة إذا لزم الأمر
+  }
 }

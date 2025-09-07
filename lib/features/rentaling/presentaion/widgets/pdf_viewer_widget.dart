@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:html' as html;
 
+import '../../../../core/utils/app_colors.dart';
+
 class PdfViewerWidget extends StatefulWidget {
   final String pdfUrl;
   final String contractNumber;
@@ -43,7 +45,9 @@ class _PdfViewerWidgetState extends State<PdfViewerWidget> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.cardColorDark
+            : AppColors.cardColorlight,
         borderRadius: BorderRadius.circular(8),
       ),
       child: _isLoading
@@ -137,7 +141,9 @@ class _PdfViewerWidgetState extends State<PdfViewerWidget> {
           height: 56,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.cardColorDark
+                : AppColors.cardColorlight,
             border: Border(
               bottom: BorderSide(color: Colors.grey[300]!),
             ),
@@ -179,13 +185,17 @@ class _PdfViewerWidgetState extends State<PdfViewerWidget> {
         Expanded(
           child: Container(
             width: double.infinity,
-            color: Colors.grey[200],
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.cardColorDark
+                : AppColors.cardColorlight,
             child: Center(
               child: Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.cardColorDark
+                      : AppColors.cardColorlight,
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
