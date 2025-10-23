@@ -1,7 +1,7 @@
 import '../../features/orders/domain/entities/order_entity.dart';
 
 abstract class BackendEndpoints {
-  static const String url = "https://b0447a0dbff4.ngrok-free.app:8383/";
+  static const String url = "http://localhost:8383/";
   static const String signIn = "api/auth/login";
   static const String signOut = "api/auth/signout";
   static const String forgetPassword = "api/auth/forgot-password";

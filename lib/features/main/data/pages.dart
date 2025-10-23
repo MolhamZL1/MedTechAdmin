@@ -33,7 +33,7 @@ List maintenancePages = [
   RentalView(),
   ProductsView(),
   MaintenanceView(),
- 
+
   SettingsView(),
   Container(width: 200, height: 400, child: AiChatView()),
 ];
